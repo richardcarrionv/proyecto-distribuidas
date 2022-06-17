@@ -1,23 +1,29 @@
 import React from "react";
-import { Text, View, StyleSheet, TextInput } from "react-native";
-import { Input } from "@rneui/themed";
+import { Text, View, StyleSheet, TextInput, Image } from "react-native";
+import { Icon, Input } from "@rneui/themed";
 import { Button } from "@rneui/base";
 
 const Login = () => {
 	return (
-		<View style={styles.container}> 
-			<View style={styles.loginHeader}> 
-				<Text>Seguridad a todas horas</Text>
-			</View>
+		<View style={styles.container}>
+			<View style={styles.loginHeader}></View>
 			<View style={styles.loginBody}>
-				<Text style={styles.title}>Código de Sucursal</Text>
-				<Input
-					placeholder="Ingrese un código"
-					leftIcon={{ type: "font-awesome", name: "building" }}
-					containerStyle={styles.input}
-					inputContainerStyle={styles.inputText}
-				/>
-				<Button buttonStyle={styles.button}> Iniciar Sesión </Button>
+				<View style={styles.imageContainer}>
+					<Image
+						source={require("../../../assets/logo.png")}
+						style={styles.image}
+					></Image>
+				</View>
+				<View style={styles.loginForm}>
+					<Text style={styles.title}>Código de Sucursal</Text>
+					<Input
+						placeholder="Ingrese un código"
+						leftIcon={{ type: "font-awesome", name: "building" }}
+						containerStyle={styles.input}
+						inputContainerStyle={styles.inputText}
+					/>
+					<Button buttonStyle={styles.button}>Iniciar Sesión</Button>
+				</View>
 			</View>
 		</View>
 	);
@@ -31,13 +37,13 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 	},
-	loginHeader: { 
+	loginHeader: {
 		display: "flex",
-		alignItems: "center", 
+		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: "#f75151",
 		width: "100%",
-		height: "55%",
+		height: "40%",
 	},
 	loginBody: {
 		flex: 1,
@@ -45,15 +51,29 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		width: "100%",
 	},
+	image: {
+		height: 150,
+		width: 150,
+	},
+	imageContainer: {
+		marginTop: -325,
+		backgroundColor: "white",
+		borderStyle: "solid",
+		borderRadius: 100,
+		position: "relative",
+	},
+	loginForm: {
+		alignItems: "center",
+		justifyContent: "center",
+		marginTop: 25,
+	},
 	title: {
 		margin: 20,
 	},
-
 	input: {
 		width: 300,
 	},
-
-	inputText: { 
+	inputText: {
 		borderStyle: "solid",
 		borderWidth: 1,
 		borderRadius: 50,
