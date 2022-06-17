@@ -22,7 +22,7 @@ const Login = () => {
 						containerStyle={styles.input}
 						inputContainerStyle={styles.inputText}
 					/>
-					<Button buttonStyle={styles.button}>Iniciar Sesión</Button>
+					<Button buttonStyle={styles.button}>Envíar</Button>
 				</View>
 			</View>
 		</View>
