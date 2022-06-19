@@ -1,0 +1,9 @@
+com\sauriosoft\server\models\dtos\BranchOfficeDTO$BranchOfficeDTOBuilder.class
+com\sauriosoft\server\models\entities\BranchOfficeEntity$BranchOfficeEntityBuilder.class
+com\sauriosoft\server\models\exceptions\BranchOfficeException.class
+com\sauriosoft\server\models\repositories\BranchOfficeRepository.class
+com\sauriosoft\server\models\dtos\BranchOfficeDTO.class
+com\sauriosoft\server\models\services\BranchOfficeImpl.class
+com\sauriosoft\server\models\services\IBrancheOfficeService.class
+com\sauriosoft\server\ServerApplication.class
+com\sauriosoft\server\models\entities\BranchOfficeEntity.class
