@@ -25,6 +25,8 @@ public class BranchOfficeDTO implements Serializable {
 
     private String phone;
 
+    private String verificationCode;
+
     public static BranchOfficeDTO from (BranchOfficeEntity branchOffice){
         return BranchOfficeDTO.builder()
                 .id(branchOffice.getId())
@@ -33,6 +35,7 @@ public class BranchOfficeDTO implements Serializable {
                 .latitude(branchOffice.getLatitude())
                 .longitude(branchOffice.getLongitude())
                 .phone(branchOffice.getPhone())
+                .verificationCode(branchOffice.getVerificationCode())
                 .build();
     }
 
