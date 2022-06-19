@@ -1,19 +1,39 @@
-import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
-import { Box } from "@mui/system";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 
+import TreeView from "@mui/lab/TreeView";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import TreeItem from "@mui/lab/TreeItem";
+import {Button} from "@mui/material";
+
 const Sidebar = () => {
+  let navigate = useNavigate();
+
+  const handleClick = (path) => (event) => {
+    navigate(path);
+  };
+
   return (
-    <Box sx={{bgcolor: "background.paper" }}>
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemText primary="Nodos" />
-          </ListItemButton>
-        </ListItem>
-      </List>
-    </Box>
+    <>
+    <TreeView
+      aria-label="file system navigator"
+      defaultCollapseIcon={<ExpandMoreIcon />}
+      defaultExpandIcon={<ChevronRightIcon />}
+      sx={{ height: "80vh", flexGrow: 1, maxWidth: 400, overflowY: "auto", padding: 0}}
+    >
+      <TreeItem
+        nodeId="1"
+        label="Nodos/Sucursales"
+        onClick={handleClick("/home/nodes")}
+      ></TreeItem>
+      <TreeItem nodeId="5" label="Historial">
+        <TreeItem label="Todo" onClick={handleClick("/home/history")}></TreeItem>
+        <TreeItem label="Por Nodo" onClick={handleClick("/home/history/node")}></TreeItem>
+      </TreeItem>
+    </TreeView>
+    </>
   );
 };
 

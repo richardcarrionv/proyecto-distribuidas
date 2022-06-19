@@ -1,25 +1,30 @@
+import { Box, Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
-import DialogContainer from "../../components/dialog/dialogContainer";
-import BranchForm from "../../components/forms/branch/branchForm";
+import { HashRouter, Link, Route, Routes, Outlet, useNavigate } from "react-router-dom";
+import Sidebar from "../../components/sidebar/Sidebar";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import Nodes from "../nodes/Nodes";
+import "./home.css";
 
 const Home = () => {
-  const [open, setOpen] = useState(false);
 
-  const handleClickToOpen = () => {
-    setOpen(true);
-  };
+  let navigate = useNavigate(); 
 
-  const handleClickToClose = () => {
-    setOpen(false);
-  };
+  const handleClick = (event) => { 
+   navigate("/"); 
+  }
+
   return (
-    <>
-      <Button onClick={handleClickToOpen}>Abrir</Button>
-      <DialogContainer title="Dialogo" open={open} onClose={handleClickToClose}>
-        <BranchForm onSave={handleClickToClose}></BranchForm>
-      </DialogContainer>
-    </>
+    <Box className="grid-box">
+      <Box className="sidebar">
+        <Sidebar />
+        <Button variant="contained" onClick={handleClick}>Cerrar Sesión</Button>
+      </Box>
+      <Box className="content">
+        <Outlet />
+      </Box>
+    </Box>
   );
 };
 
