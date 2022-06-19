@@ -4,6 +4,7 @@ import com.sauriosoft.server.models.dtos.BranchOfficeDTO;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Getter
@@ -18,6 +19,7 @@ public class BranchOfficeEntity {
     @Column(name = "branch_id", length = 11)
     private Long id;
 
+    @NotEmpty(message = "El nombre no puede esta vacio")
     @Column(name = "branch_name", length = 50, nullable = false, unique = true)
     private String name;
 
@@ -36,7 +38,7 @@ public class BranchOfficeEntity {
     @Column(name = "verification_code", length = 6, nullable = false)
     private String verificationCode;
 
-    public static BranchOfficeEntity from (BranchOfficeDTO branchOfficeDTO){
+    public static BranchOfficeEntity from(BranchOfficeDTO branchOfficeDTO) {
         return BranchOfficeEntity.builder()
                 .name(branchOfficeDTO.getName())
                 .city(branchOfficeDTO.getCity())
