@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState, useEffect } from "react";
+import Main from "./views/main/Main";
+import Login from "./views/login/Login";
+import Sidebar from "./components/sidebar/Sidebar";
+import DialogContainer from "./components/dialog/dialogContainer"; 
+import BranchForm from "./components/forms/branch/branchForm"; 
+import { Button } from "@mui/material";
 
 function App() {
+  const [open, setOpen] = useState(false);
+
+  const handleClickToOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClickToClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Button onClick={handleClickToOpen}>Abrir</Button>
+      <DialogContainer title="Dialogo" open={open} onClose={handleClickToClose}>
+
+        <BranchForm onSave={handleClickToClose}></BranchForm> 
+
+      </DialogContainer>
+    </>
   );
 }
 

@@ -7,6 +7,10 @@
   "main": "public/electron.js",
   "homepage": "./",
   "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.8.4",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -46,8 +50,8 @@
     ]
   },
   "devDependencies": {
-    "electron": "^19.0.4",
     "concurrently": "^7.2.2",
+    "electron": "^19.0.4",
     "electron-builder": "^23.0.3",
     "wait-on": "^6.0.1"
   },

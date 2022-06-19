@@ -1,0 +1,21 @@
+.box{ 
+  display: flex; 
+  flex-direction: column; 
+  background-color: whitesmoke; 
+  width: auto; 
+  height: 100vh;
+  justify-content: center; 
+  align-items: center; 
+}
+
+.login-card{ 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+.button{ 
+  background-color: var(--primary-red);
+  margin: 10px 0 10px 0 ; 
+}
