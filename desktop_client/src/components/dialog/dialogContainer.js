@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import Container from "@mui/material/Container";
 
 const DialogContainer = (props) => {
   const { title, open, onClose } = props;
@@ -13,8 +14,23 @@ const DialogContainer = (props) => {
   return (
     <Dialog open={open}>
       <DialogTitle>{title}</DialogTitle>
-      {props.children}
-      <Button onClick={handleClose}> Cerrar</Button>
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          paddingBottom: 2,
+        }}
+      >
+        {props.children}
+        <Button
+          className="button"
+          variant="contained"
+          color="error"
+          onClick={handleClose}
+        >
+          Cerrar
+        </Button>
+      </Container>
     </Dialog>
   );
 };

@@ -4,6 +4,8 @@ import { useState } from "react";
 import DialogContainer from "../../dialog/dialogContainer";
 import BasicInput from "../../inputs/basic/basicInput";
 import Maps from "../../maps/Maps";
+import Container from "@mui/material/Container";
+import "./branchform.css"; 
 
 const BranchForm = ({ onSave }) => {
   const [branch, setBranch] = useState({
@@ -35,6 +37,7 @@ const BranchForm = ({ onSave }) => {
 
   return (
     <>
+    
       <BasicInput
         value={branch.name}
         name="Nombre"
@@ -63,18 +66,13 @@ const BranchForm = ({ onSave }) => {
         Seleccionar Coordenadas
       </Button>
 
-      <Button className="button" variant="contained" onClick={handleSave}>
+      <Button className="button" color="success" variant="contained" onClick={handleSave}>
         Guardar
       </Button>
-      <Dialog
-        fullScreen
-        open={displayMap}
-        onClose={handleMapClose}
-      >
-        <Button onClick={handleMapClose}>Salir</Button>
+      <Dialog fullScreen open={displayMap} onClose={handleMapClose}>
+        <Button className="button" onClick={handleMapClose}>Salir</Button>
         <Maps />
       </Dialog>
-      
     </>
   );
 };
