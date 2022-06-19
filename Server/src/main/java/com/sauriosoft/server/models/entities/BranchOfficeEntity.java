@@ -33,6 +33,9 @@ public class BranchOfficeEntity {
     @Column(name = "branch_phone", length = 10, nullable = false)
     private String phone;
 
+    @ManyToOne
+    private CompanyEntity company;
+
     public static BranchOfficeEntity from (BranchOfficeDTO branchOfficeDTO){
         return BranchOfficeEntity.builder()
                 .name(branchOfficeDTO.getName())

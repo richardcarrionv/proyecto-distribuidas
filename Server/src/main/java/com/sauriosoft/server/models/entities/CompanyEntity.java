@@ -4,6 +4,7 @@ import com.sauriosoft.server.models.dtos.CompanyDTO;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -41,6 +42,13 @@ public class CompanyEntity {
     )
     @JoinColumn(name = "company_id" )
     private Set<BranchOfficeEntity> branchOfficeEntitySet;
+
+    public void addBranchOffice(BranchOfficeEntity branchOffice){
+        branchOfficeEntitySet.add(branchOffice);
+    }
+    public void removeBranchOffice(BranchOfficeEntity branchOffice){
+        branchOfficeEntitySet.remove(branchOffice);
+    }
 
     public static CompanyEntity from (CompanyDTO companyDTO){
         return CompanyEntity.builder()
