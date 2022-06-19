@@ -33,8 +33,8 @@ public class BranchOfficeEntity {
     @Column(name = "branch_phone", length = 10, nullable = false)
     private String phone;
 
-    @ManyToOne
-    private CompanyEntity company;
+    @Column(name = "verification_code", length = 6, nullable = false)
+    private String verificationCode;
 
     public static BranchOfficeEntity from (BranchOfficeDTO branchOfficeDTO){
         return BranchOfficeEntity.builder()
@@ -42,6 +42,8 @@ public class BranchOfficeEntity {
                 .city(branchOfficeDTO.getCity())
                 .latitude(branchOfficeDTO.getLatitude())
                 .longitude(branchOfficeDTO.getLongitude())
-                .phone(branchOfficeDTO.getPhone()).build();
+                .phone(branchOfficeDTO.getPhone())
+                .verificationCode(branchOfficeDTO.getVerificationCode())
+                .build();
     }
 }

@@ -1,38 +1,29 @@
 package com.sauriosoft.server.models.services;
 
 import com.sauriosoft.server.models.entities.BranchOfficeEntity;
-import com.sauriosoft.server.models.entities.CompanyEntity;
 import com.sauriosoft.server.models.exceptions.BranchOfficeException;
 import com.sauriosoft.server.models.repositories.BranchOfficeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+
 import java.util.List;
 
 @Service
 
-public class BranchOfficeImpl implements IBrancheOfficeService {
+public class BranchOfficeImpl implements IBranchOfficeService {
 
     @Autowired
-    private BranchOfficeRepository branchOfficeRepository ;
+    private BranchOfficeRepository branchOfficeRepository;
 
     @Override
     public List<BranchOfficeEntity> getAll() {
-        return  branchOfficeRepository.findAll();
+        return branchOfficeRepository.findAll();
     }
 
     @Override
     public BranchOfficeEntity getById(Long idBranchOffice) {
-        return branchOfficeRepository.findById(idBranchOffice).orElseThrow(()->{
-            return new BranchOfficeException("Not found Branch_Office with id: ".concat(idBranchOffice.toString()) );
-        } );
-    }
-
-    @Override
-    @Transactional
-    public List<BranchOfficeEntity> getAllByIdCompany(CompanyEntity company){
-        return branchOfficeRepository.findAllByCompany(company);
+        return branchOfficeRepository.findById(idBranchOffice).orElseThrow(() -> new BranchOfficeException("Not found Branch_Office with id: ".concat(idBranchOffice.toString())));
     }
 
     @Override
