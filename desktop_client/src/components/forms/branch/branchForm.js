@@ -1,16 +1,20 @@
-import { Button } from "@mui/material";
+import { Button, Dialog } from "@mui/material";
 import React from "react";
 import { useState } from "react";
+import DialogContainer from "../../dialog/dialogContainer";
 import BasicInput from "../../inputs/basic/basicInput";
+import Maps from "../../maps/Maps";
 
 const BranchForm = ({ onSave }) => {
   const [branch, setBranch] = useState({
     name: "",
     code: "",
-    city: "", 
+    city: "",
     direction: "",
     coordinates: "",
   });
+
+  const [displayMap, setDisplayMap] = useState(false);
 
   const handleChange = (key) => (event) => {
     console.log(branch);
@@ -19,6 +23,14 @@ const BranchForm = ({ onSave }) => {
 
   const handleSave = () => {
     onSave();
+  };
+
+  const handleMapOpen = () => {
+    setDisplayMap(true);
+  };
+
+  const handleMapClose = () => {
+    setDisplayMap(false);
   };
 
   return (
@@ -47,15 +59,22 @@ const BranchForm = ({ onSave }) => {
         onChange={handleChange("direction")}
       ></BasicInput>
 
-      <BasicInput
-        value={branch.coordinates}
-        name="Coordenadas"
-        onChange={handleChange("coordinates")}
-      ></BasicInput>
+      <Button className="button" variant="contained" onClick={handleMapOpen}>
+        Seleccionar Coordenadas
+      </Button>
 
       <Button className="button" variant="contained" onClick={handleSave}>
         Guardar
       </Button>
+      <Dialog
+        fullScreen
+        open={displayMap}
+        onClose={handleMapClose}
+      >
+        <Button onClick={handleMapClose}>Salir</Button>
+        <Maps />
+      </Dialog>
+      
     </>
   );
 };
