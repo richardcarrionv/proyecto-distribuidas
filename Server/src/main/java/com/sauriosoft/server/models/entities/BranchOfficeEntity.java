@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
+
 @Entity
 @Getter
 @Setter
@@ -36,7 +37,7 @@ public class BranchOfficeEntity {
     @Column(name = "verification_code", length = 6, nullable = false)
     private String verificationCode;
 
-    public static BranchOfficeEntity from (BranchOfficeDTO branchOfficeDTO){
+    public static BranchOfficeEntity from(BranchOfficeDTO branchOfficeDTO) {
         return BranchOfficeEntity.builder()
                 .name(branchOfficeDTO.getName())
                 .city(branchOfficeDTO.getCity())
