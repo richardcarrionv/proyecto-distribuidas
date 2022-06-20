@@ -10,7 +10,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const PasswordInput = ({ password, onPasswordChange }) => {
   const [showPassword, setShowPasswd] = useState(false);
-  var password = password;
 
   const handleChange = (event) => {
     onPasswordChange(event.target.value);

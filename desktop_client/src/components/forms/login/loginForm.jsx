@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import { Button } from "@mui/material";
@@ -9,6 +11,9 @@ import "./loginform.css";
 
 
 const LoginForm = () => {
+
+  let navigate = useNavigate(); 
+
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
 
@@ -19,6 +24,10 @@ const LoginForm = () => {
   const handleUsernameChange = (event) => {
     setUsername(event);
   };
+
+  const handleLogin = (event) => { 
+    navigate("/home")
+  }
 
   return (
     <Box className="box">
@@ -33,7 +42,7 @@ const LoginForm = () => {
           onPasswordChange={handlePasswordChange}
         />
 
-        <Button className="button" variant="contained">Iniciar Sesión</Button>
+        <Button className="button" variant="contained" onClick={handleLogin}>Iniciar Sesión</Button>
       </Card>
     </Box>
   );
