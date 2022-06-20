@@ -8,13 +8,12 @@ import CRUDTable from "./table/crudTable";
 import DialogContainer from "../dialog/dialogContainer";
 import AlertDialog from "../alerts/delete/deleteAlert";
 
-const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCreate, children }) => {
+const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCreate, children, rows }) => {
 
   const [alert, setAlert] = useState(false); 
   const [deleteId, setDeleteId] = useState(null); 
   const [toast, setToast] = useState(false); 
 
-  const rows = service.list();
   const headers = service.headers();
 
   const handleDialogCloseClick = (event) => {
