@@ -13,6 +13,7 @@ public class ServerApplication {
         SpringApplication.run(ServerApplication.class, args);
     }
 
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -22,8 +23,8 @@ public class ServerApplication {
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
                                 "Access-Control-Request-Headers");
-
             }
         };
     }
+
 }
