@@ -1,12 +1,11 @@
 import { Box, Button } from "@mui/material";
 import React, { useState } from "react";
-import CRUD from "../../components/crud/CRUD";
-import BasicTable from "../../components/table/basicTable";
-import DialogContainer from "../../components/dialog/dialogContainer";
-import BranchForm from "../../components/forms/branch/branchForm";
-import BranchService from "../../services/branch/branchService";
 
-const Nodes = () => {
+import BranchForm from "../../forms/branch/branchForm";
+import BranchService from "../../../services/branch/branchService";
+import CRUD from "../CRUD"; 
+
+const BranchCRUD = () => {
   let service = new BranchService();
   const [display, setDisplay] = useState(false);
   const [branch, setBranch] = useState({
@@ -69,4 +68,4 @@ const Nodes = () => {
   );
 };
 
-export default Nodes;
+export default BranchCRUD;

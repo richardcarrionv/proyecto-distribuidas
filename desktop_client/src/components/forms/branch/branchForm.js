@@ -7,20 +7,12 @@ import Maps from "../../maps/Maps";
 import Container from "@mui/material/Container";
 import "./branchform.css"; 
 
-const BranchForm = ({ onSave }) => {
-  const [branch, setBranch] = useState({
-    name: "",
-    code: "",
-    city: "",
-    direction: "",
-    coordinates: "",
-  });
+const BranchForm = ({ branch, onSave, onBranchChange }) => {
 
   const [displayMap, setDisplayMap] = useState(false);
 
   const handleChange = (key) => (event) => {
-    console.log(branch);
-    setBranch({ ...branch, [key]: event });
+    onBranchChange(key)(event);
   };
 
   const handleSave = () => {

@@ -5,6 +5,7 @@ import Home from "./views/home/Home";
 import Login from "./views/login/Login";
 import Nodes from "./views/nodes/Nodes";
 import Sidebar from "./components/sidebar/Sidebar";
+import BranchCRUDView from "./views/branch/Branch";
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
         <Routes>
           <Route index element={<Login />} />
           <Route path="home" element={<Home />}>
-            <Route path="nodes" element={<Nodes />} />
+            <Route path="node" element={<Nodes />} />
+            <Route path="branch" element={<BranchCRUDView />} />
             <Route path="history" element ={ "Hola Historial" } />
             <Route path="history/node" element ={ "Hola Historial por Nodo" } />
           </Route>

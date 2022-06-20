@@ -6,7 +6,7 @@ import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import TreeItem from "@mui/lab/TreeItem";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 
 const Sidebar = () => {
   let navigate = useNavigate();
@@ -17,22 +17,39 @@ const Sidebar = () => {
 
   return (
     <>
-    <TreeView
-      aria-label="file system navigator"
-      defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpandIcon={<ChevronRightIcon />}
-      sx={{ height: "80vh", flexGrow: 1, maxWidth: 400, overflowY: "auto", padding: 0}}
-    >
-      <TreeItem
-        nodeId="1"
-        label="Nodos/Sucursales"
-        onClick={handleClick("/home/nodes")}
-      ></TreeItem>
-      <TreeItem nodeId="5" label="Historial">
-        <TreeItem label="Todo" onClick={handleClick("/home/history")}></TreeItem>
-        <TreeItem label="Por Nodo" onClick={handleClick("/home/history/node")}></TreeItem>
-      </TreeItem>
-    </TreeView>
+      <TreeView
+        aria-label="file system navigator"
+        defaultCollapseIcon={<ExpandMoreIcon />}
+        defaultExpandIcon={<ChevronRightIcon />}
+        sx={{
+          height: "80vh",
+          flexGrow: 1,
+          maxWidth: 400,
+          overflowY: "auto",
+          padding: 0,
+        }}
+      >
+        <TreeItem
+          nodeId="1"
+          label="Nodos/Sucursales"
+          onClick={handleClick("/home/branch")}
+        ></TreeItem>
+        <TreeItem nodeId="5" label="Historial">
+          <TreeItem
+            label="Todo"
+            onClick={handleClick("/home/history")}
+          ></TreeItem>
+          <TreeItem
+            label="Por Nodo"
+            onClick={handleClick("/home/history/node")}
+          ></TreeItem>
+        </TreeItem>
+        <TreeItem
+          nodeId="10"
+          label="CRUD"
+          onClick={handleClick("/home/node")}
+        ></TreeItem>
+      </TreeView>
     </>
   );
 };

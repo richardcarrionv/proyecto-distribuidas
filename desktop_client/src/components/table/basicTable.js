@@ -10,30 +10,47 @@ import { Box, Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const BasicTable = ({ rows, columns }) => {
+const BasicTable = ({ rows, headers, onDelete, onEdit }) => {
+
+  const handleDeleteClick = (id) => (event) => {
+    onDelete(id)(event);
+  };
+
+  const handleEditClick = (row) => (event) => {
+    onEdit(row)(event);
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            {columns.map((column) => (
-              <TableCell>{column.label}</TableCell>
+            {headers.map((header) => (
+              <TableCell>{header.label}</TableCell>
             ))}
-              <TableCell></TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.name}>
-              {columns.map((column) => (
-                <TableCell>{row[column.key]}</TableCell>
+              {headers.map((header) => (
+                <TableCell>{row[header.key]}</TableCell>
               ))}
               <TableCell>
                 <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-                  <Button variant="contained" color="secondary">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleEditClick(row)}
+                  >
                     <EditIcon />
                   </Button>
-                  <Button variant="contained" color="error">
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={handleDeleteClick(row[Object.keys(row)[0]])}
+                  >
                     <DeleteIcon />
                   </Button>
                 </Box>
