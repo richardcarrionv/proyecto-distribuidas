@@ -22,6 +22,7 @@ public class ServerApplication {
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
                                 "Access-Control-Request-Headers");
+
             }
         };
     }
