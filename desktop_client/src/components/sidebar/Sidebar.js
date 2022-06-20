@@ -34,6 +34,11 @@ const Sidebar = () => {
           label="Nodos/Sucursales"
           onClick={handleClick("/home/branch")}
         ></TreeItem>
+        <TreeItem
+          nodeId="2"
+          label="Contactos"
+          onClick={handleClick("/home/contact")}
+        ></TreeItem>
         <TreeItem nodeId="5" label="Historial">
           <TreeItem
             label="Todo"
@@ -44,11 +49,6 @@ const Sidebar = () => {
             onClick={handleClick("/home/history/node")}
           ></TreeItem>
         </TreeItem>
-        <TreeItem
-          nodeId="10"
-          label="CRUD"
-          onClick={handleClick("/home/node")}
-        ></TreeItem>
       </TreeView>
     </>
   );

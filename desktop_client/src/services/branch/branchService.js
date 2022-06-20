@@ -38,10 +38,10 @@ export default class BranchService {
   headers() {
     return [
       { key: "name", label: "Nombre" },
-      { key: "code", label: "Nombre" },
-      { key: "city", label: "Nombre" },
-      { key: "direction", label: "Nombre" },
-      { key: "coordinates", label: "Nombre" },
+      { key: "code", label: "Codigo" },
+      { key: "city", label: "Ciudad" },
+      { key: "direction", label: "Direccion" },
+      { key: "coordinates", label: "Coordenadas" },
     ];
   }
 }

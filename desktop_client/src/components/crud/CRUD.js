@@ -1,13 +1,21 @@
-import React from "react";
+import React, {useState} from "react";
 
 import { Box, Button } from "@mui/material";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 import BasicTable from "../table/basicTable";
 import DialogContainer from "../dialog/dialogContainer";
+import AlertDialog from "../alerts/delete/deleteAlert";
 
 const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCreate, children }) => {
-  const rows = service.list();
 
+  const [alert, setAlert] = useState(false); 
+  const [deleteId, setDeleteId] = useState(null); 
+  const [toast, setToast] = useState(false); 
+
+  const rows = service.list();
   const headers = service.headers();
 
   const handleDialogCloseClick = (event) => {
@@ -15,7 +23,8 @@ const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCr
   };
 
   const handleOnDelete = (id) => (event) => {
-    onDelete(id)(event); 
+    setDeleteId(id); 
+    setAlert(true); 
   };
 
   const handleOnEdit = (row) => (event) => {
@@ -24,6 +33,12 @@ const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCr
 
   const handleCreate = (event) => { 
     onCreate(event); 
+  }
+
+  const handleAgree = (id) => (event) => { 
+    onDelete(id)(event); 
+    setAlert(false); 
+    setToast(true); 
   }
 
   return (
@@ -58,6 +73,18 @@ const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCr
       >
         {children}
       </DialogContainer>
+
+      <AlertDialog id={deleteId} display={alert} onAgree={handleAgree} onDecline={
+        () => { setAlert(false) }
+      }/>
+
+      <Snackbar open={toast} autoHideDuration={4000} onClose={() => setToast(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert onClose={() => setToast(false)} severity="success" sx={{ width: '100%' }}>
+          ¡Se eliminó el registro con ID: {deleteId} !
+        </Alert>
+      </Snackbar>
     </>
   );
 };

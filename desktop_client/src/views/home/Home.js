@@ -4,7 +4,6 @@ import { HashRouter, Link, Route, Routes, Outlet, useNavigate } from "react-rout
 import Sidebar from "../../components/sidebar/Sidebar";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import Nodes from "../nodes/Nodes";
 import "./home.css";
 
 const Home = () => {

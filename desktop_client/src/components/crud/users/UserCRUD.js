@@ -1,15 +1,14 @@
 import { Box, Button } from "@mui/material";
 import React, { useState } from "react";
-import CRUD from "../../components/crud/CRUD";
-import BasicTable from "../../components/table/basicTable";
-import DialogContainer from "../../components/dialog/dialogContainer";
-import BranchForm from "../../components/forms/branch/branchForm";
-import BranchService from "../../services/branch/branchService";
 
-const Nodes = () => {
-  let service = new BranchService();
+import UserForm from "../../forms/user/userForm";
+import UserService from "../../../services/user/userService";
+import CRUD from "../CRUD"; 
+
+const UserCRUD = () => {
+  let service = new UserService();
   const [display, setDisplay] = useState(false);
-  const [branch, setBranch] = useState({
+  const [user, setUser] = useState({
     name: "",
     code: "",
     city: "",
@@ -18,7 +17,7 @@ const Nodes = () => {
   });
 
   const handleChange = (key) => (event) => {
-    setBranch({ ...branch, [key]: event });
+    setUser({ ...user, [key]: event });
   };
 
   const handleSave = (event) => {
@@ -26,14 +25,14 @@ const Nodes = () => {
   };
 
   const handleEdit = (row) => (event) => {
-    setBranch(row);
+    setUser(row);
     setDisplay(true);
   };
 
   const handleDelete = (id) => (event) => {};
 
   const handleCreate = (event) => {
-    setBranch({
+    setUser({
       name: "",
       code: "",
       city: "",
@@ -49,7 +48,7 @@ const Nodes = () => {
 
   return (
     <CRUD
-      init={branch}
+      init={user}
       title="Sucursales"
 
       display={display}
@@ -60,13 +59,13 @@ const Nodes = () => {
       onDelete={handleDelete}
       onCreate={handleCreate}
     >
-      <BranchForm
-        branch={branch}
+      <UserForm
+        user={user}
         onSave={handleSave}
-        onBranchChange={handleChange}
+        onUserChange={handleChange}
       />
     </CRUD>
   );
 };
 
-export default Nodes;
+export default UserCRUD;
