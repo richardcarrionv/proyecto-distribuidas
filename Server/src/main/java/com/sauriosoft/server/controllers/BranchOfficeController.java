@@ -27,7 +27,7 @@ public class BranchOfficeController {
 
     @Operation(summary = "Get all Branch Offices", responses = {
             @ApiResponse(description = "Succesful Operation", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
-            @ApiResponse(description = "Is empty", responseCode = "404")
+            @ApiResponse(description = "Server Error", responseCode = "503")
     })
     @GetMapping
     public ResponseEntity<?> getAll() {
@@ -36,7 +36,7 @@ public class BranchOfficeController {
             List<BranchOfficeEntity> listOfBranchOffices = branchOfficeService.getAll();
             if (listOfBranchOffices.isEmpty()) {
                 response.put("message", "No hay Sucursales para mostrar");
-                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(response, HttpStatus.OK);
             }
             List<BranchOfficeDTO> listOfBranchOfficeDTOS = listOfBranchOffices
                     .stream()
