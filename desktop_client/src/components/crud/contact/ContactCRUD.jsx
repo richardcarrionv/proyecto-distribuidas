@@ -1,23 +1,22 @@
-import { Box, Button } from "@mui/material";
 import React, { useState } from "react";
 
-import BranchForm from "../../forms/branch/branchForm";
-import BranchService from "../../../services/branch/branchService";
+import ContactForm from "../../forms/contact/contactForm";
+import ContactService from "../../../services/contact/contactService";
 import CRUD from "../CRUD"; 
 
-const BranchCRUD = () => {
-  let service = new BranchService();
-  const [display, setDisplay] = useState(false);
-  const [branch, setBranch] = useState({
+const ContactCRUD = () => {
+  let service = new ContactService();
+  const voidContact = { 
     name: "",
-    code: "",
-    city: "",
-    direction: "",
-    coordinates: "",
-  });
+    surname: "",
+    branch: "",
+    phone: "",
+  }
+  const [display, setDisplay] = useState(false);
+  const [contact, setContact] = useState({...voidContact});
 
   const handleChange = (key) => (event) => {
-    setBranch({ ...branch, [key]: event });
+    setContact({ ...contact, [key]: event });
   };
 
   const handleSave = (event) => {
@@ -25,20 +24,14 @@ const BranchCRUD = () => {
   };
 
   const handleEdit = (row) => (event) => {
-    setBranch(row);
+    setContact(row);
     setDisplay(true);
   };
 
   const handleDelete = (id) => (event) => {};
 
   const handleCreate = (event) => {
-    setBranch({
-      name: "",
-      code: "",
-      city: "",
-      direction: "",
-      coordinates: "",
-    });
+    setContact({...voidContact});
     setDisplay(true);
   };
 
@@ -48,8 +41,8 @@ const BranchCRUD = () => {
 
   return (
     <CRUD
-      init={branch}
-      title="Sucursales"
+      init={contact}
+      title="Contactos"
 
       display={display}
       onToggleDisplay={handleDialogDisplay}
@@ -59,13 +52,13 @@ const BranchCRUD = () => {
       onDelete={handleDelete}
       onCreate={handleCreate}
     >
-      <BranchForm
-        branch={branch}
+      <ContactForm
+        contact={contact}
         onSave={handleSave}
-        onBranchChange={handleChange}
+        onContactChange={handleChange}
       />
     </CRUD>
   );
 };
 
-export default BranchCRUD;
+export default ContactCRUD;

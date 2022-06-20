@@ -1,23 +1,22 @@
-import { Box, Button } from "@mui/material";
 import React, { useState } from "react";
 
-import ContactForm from "../../forms/contact/contactForm";
-import ContactService from "../../../services/contact/contactService";
+import BranchForm from "../../forms/branch/branchForm";
+import BranchService from "../../../services/branch/branchService";
 import CRUD from "../CRUD"; 
 
-const ContactCRUD = () => {
-  let service = new ContactService();
-  const voidContact = { 
-    name: "",
-    surname: "",
-    branch: "",
-    phone: "",
-  }
+const BranchCRUD = () => {
+  let service = new BranchService();
   const [display, setDisplay] = useState(false);
-  const [contact, setContact] = useState({...voidContact});
+  const [branch, setBranch] = useState({
+    name: "",
+    code: "",
+    city: "",
+    direction: "",
+    coordinates: "",
+  });
 
   const handleChange = (key) => (event) => {
-    setContact({ ...contact, [key]: event });
+    setBranch({ ...branch, [key]: event });
   };
 
   const handleSave = (event) => {
@@ -25,14 +24,20 @@ const ContactCRUD = () => {
   };
 
   const handleEdit = (row) => (event) => {
-    setContact(row);
+    setBranch(row);
     setDisplay(true);
   };
 
   const handleDelete = (id) => (event) => {};
 
   const handleCreate = (event) => {
-    setContact({...voidContact});
+    setBranch({
+      name: "",
+      code: "",
+      city: "",
+      direction: "",
+      coordinates: "",
+    });
     setDisplay(true);
   };
 
@@ -42,8 +47,8 @@ const ContactCRUD = () => {
 
   return (
     <CRUD
-      init={contact}
-      title="Contactos"
+      init={branch}
+      title="Sucursales"
 
       display={display}
       onToggleDisplay={handleDialogDisplay}
@@ -53,13 +58,13 @@ const ContactCRUD = () => {
       onDelete={handleDelete}
       onCreate={handleCreate}
     >
-      <ContactForm
-        contact={contact}
+      <BranchForm
+        branch={branch}
         onSave={handleSave}
-        onContactChange={handleChange}
+        onBranchChange={handleChange}
       />
     </CRUD>
   );
 };
 
-export default ContactCRUD;
+export default BranchCRUD;

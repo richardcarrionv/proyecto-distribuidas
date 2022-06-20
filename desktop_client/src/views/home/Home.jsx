@@ -1,9 +1,7 @@
 import { Box, Button } from "@mui/material";
-import React, { useState, useEffect } from "react";
-import { HashRouter, Link, Route, Routes, Outlet, useNavigate } from "react-router-dom";
+import React from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import "./home.css";
 
 const Home = () => {

@@ -1,19 +1,18 @@
-import React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import React from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
-export default function DeleteAlert({display, id, onAgree, onDecline}) {
-
-  const handleAgree = (event) => { 
-    onAgree(id)(event); 
-  }
+export default function DeleteAlert({ display, id, onAgree, onDecline }) {
+  const handleAgree = (event) => {
+    onAgree(id)(event);
+  };
 
   const handleDecline = () => {
-    onDecline(); 
+    onDecline();
   };
 
   return (
@@ -24,9 +23,7 @@ export default function DeleteAlert({display, id, onAgree, onDecline}) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Confirmación"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Confirmación"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             ¿Está seguro de eliminar el registro con id: {id} ?

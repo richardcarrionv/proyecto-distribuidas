@@ -3,9 +3,8 @@ import React, {useState} from "react";
 import { Box, Button } from "@mui/material";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 
-import BasicTable from "../table/basicTable";
+import CRUDTable from "./table/crudTable";
 import DialogContainer from "../dialog/dialogContainer";
 import AlertDialog from "../alerts/delete/deleteAlert";
 
@@ -22,12 +21,12 @@ const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCr
     onToggleDisplay(false)(event);
   };
 
-  const handleOnDelete = (id) => (event) => {
+  const handleDelete = (id) => (event) => {
     setDeleteId(id); 
     setAlert(true); 
   };
 
-  const handleOnEdit = (row) => (event) => {
+  const handleEdit = (row) => (event) => {
     onEdit(row)(event);
   };
 
@@ -60,11 +59,11 @@ const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCr
           Crear {title}
         </Button>
       </Box>
-      <BasicTable
+      <CRUDTable
         rows={rows}
         headers={headers}
-        onDelete={handleOnDelete}
-        onEdit={handleOnEdit}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
       />
       <DialogContainer
         title={title}

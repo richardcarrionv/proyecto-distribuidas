@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import Container from "@mui/material/Container";
 
 const DialogContainer = (props) => {

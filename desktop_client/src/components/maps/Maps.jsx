@@ -1,8 +1,6 @@
-import { useMemo } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 
 import "./maps.css";
-import { Box, Button } from "@mui/material";
 
 export default function Maps() {
   const { isLoaded } = useLoadScript({

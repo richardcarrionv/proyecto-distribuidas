@@ -8,7 +8,6 @@ import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 
 const UsernameInput = ({ username, onUsernameChange }) => {
-  var username = username;
 
   const handleChange = (event) => {
     onUsernameChange(event.target.value);
