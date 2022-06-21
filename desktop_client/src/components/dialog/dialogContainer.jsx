@@ -1,36 +1,52 @@
 import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Button } from "@mui/material";
+import { Button, DialogActions, DialogContent } from "@mui/material";
 import Container from "@mui/material/Container";
 
 const DialogContainer = (props) => {
-  const { title, open, onClose } = props;
+  const { title, open, onClose, onSave } = props;
 
   const handleClose = () => {
     onClose();
   };
 
+  const handleSave = () => {
+    onSave();
+  };
+
   return (
     <Dialog open={open}>
       <DialogTitle>{title}</DialogTitle>
-      <Container
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          paddingBottom: 2,
-        }}
-      >
-        {props.children}
+      <DialogContent>
+        <Container
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            paddingBottom: 2,
+          }}
+        >
+          {props.children}
+        </Container>
+      </DialogContent>
+      <DialogActions>
         <Button
           className="button"
-          variant="contained"
+          variant="outlined"
           color="error"
           onClick={handleClose}
         >
           Cerrar
         </Button>
-      </Container>
+        <Button
+          className="button"
+          variant="contained"
+          color="success"
+          onClick={handleSave}
+        >
+          Guardar
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

@@ -1,18 +1,27 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import { Box, Button } from "@mui/material";
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 import CRUDTable from "./table/crudTable";
 import DialogContainer from "../dialog/dialogContainer";
 import AlertDialog from "../alerts/delete/deleteAlert";
 
-const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCreate, children, rows }) => {
-
-  const [alert, setAlert] = useState(false); 
-  const [deleteId, setDeleteId] = useState(null); 
-  const [toast, setToast] = useState(false); 
+const CRUD = ({
+  display,
+  service,
+  title,
+  onToggleDisplay,
+  onEdit,
+  onDelete,
+  onCreate,
+  children,
+  rows,
+}) => {
+  const [alert, setAlert] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [toast, setToast] = useState(false);
 
   const headers = service.headers();
 
@@ -21,23 +30,23 @@ const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCr
   };
 
   const handleDelete = (id) => (event) => {
-    setDeleteId(id); 
-    setAlert(true); 
+    setDeleteId(id);
+    setAlert(true);
   };
 
   const handleEdit = (row) => (event) => {
     onEdit(row)(event);
   };
 
-  const handleCreate = (event) => { 
-    onCreate(event); 
-  }
+  const handleCreate = (event) => {
+    onCreate(event);
+  };
 
-  const handleAgree = (id) => (event) => { 
-    onDelete(id)(event); 
-    setAlert(false); 
-    setToast(true); 
-  }
+  const handleAgree = (id) => (event) => {
+    onDelete(id)(event);
+    setAlert(false);
+    setToast(true);
+  };
 
   return (
     <>
@@ -72,14 +81,26 @@ const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCr
         {children}
       </DialogContainer>
 
-      <AlertDialog id={deleteId} display={alert} onAgree={handleAgree} onDecline={
-        () => { setAlert(false) }
-      }/>
+      <AlertDialog
+        id={deleteId}
+        display={alert}
+        onAgree={handleAgree}
+        onDecline={() => {
+          setAlert(false);
+        }}
+      />
 
-      <Snackbar open={toast} autoHideDuration={4000} onClose={() => setToast(false)}
+      <Snackbar
+        open={toast}
+        autoHideDuration={4000}
+        onClose={() => setToast(false)}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <Alert onClose={() => setToast(false)} severity="success" sx={{ width: '100%' }}>
+        <Alert
+          onClose={() => setToast(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           ¡Se eliminó el registro con ID: {deleteId} !
         </Alert>
       </Snackbar>
