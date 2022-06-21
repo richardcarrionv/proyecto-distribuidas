@@ -7,22 +7,25 @@ import BranchService from "../../../services/branch/branchService";
 import CRUD from "../CRUD";
 
 const BranchCRUD = () => {
+
   let service = new BranchService();
-  const [rows, setRows] = useState([]);
-  const [display, setDisplay] = useState(false);
-  const [branch, setBranch] = useState({
+  const voidBranch = {
     name: "",
     code: "",
     city: "",
     direction: "",
     coordinates: "",
-  });
+  }
+  const tableHeaders = service.headers(); 
+  const [tableRows, setTableRows] = useState([]);
+  const [display, setDisplay] = useState(false);
+  const [branch, setBranch] = useState({...voidBranch});
 
   useEffect(() => {
-    api.get("/branchOffices").then((response) => {
+    api.get("/branchOffices/").then((response) => {
       console.log(response);
       if (!response.data.message) {
-        setRows(response.data); 
+        setTableRows(response.data); 
       }
     });
   });
@@ -31,29 +34,26 @@ const BranchCRUD = () => {
     setBranch({ ...branch, [key]: event });
   };
 
-  const handleSave = (event) => {
+  const handleSave = () => {
+    console.log("Saving"); 
     setDisplay(false);
   };
 
-  const handleEdit = (row) => (event) => {
+  const handleEdit = (row) => () => {
     setBranch(row);
     setDisplay(true);
   };
 
-  const handleDelete = (id) => (event) => {};
+  const handleDelete = (id) => () => {
+    console.log("Deleting")
+  };
 
-  const handleCreate = (event) => {
-    setBranch({
-      name: "",
-      code: "",
-      city: "",
-      direction: "",
-      coordinates: "",
-    });
+  const handleCreate = () => {
+    setBranch({...voidBranch});
     setDisplay(true);
   };
 
-  const handleDialogDisplay = (value) => (event) => {
+  const handleDialogDisplay = (value) => () => {
     setDisplay(value);
   };
 
@@ -61,10 +61,12 @@ const BranchCRUD = () => {
     <CRUD
       init={branch}
       title="Sucursales"
-      rows={rows}
+      tableRows={tableRows}
+      tableHeaders={tableHeaders}
+
       display={display}
       onToggleDisplay={handleDialogDisplay}
-      service={service}
+      onSave={handleSave}
       onEdit={handleEdit}
       onDelete={handleDelete}
       onCreate={handleCreate}
@@ -72,7 +74,7 @@ const BranchCRUD = () => {
       <BranchForm
         branch={branch}
         onSave={handleSave}
-        onBranchChange={handleChange}
+        onChange={handleChange}
       />
     </CRUD>
   );

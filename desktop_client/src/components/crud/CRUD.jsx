@@ -5,41 +5,31 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
 import CRUDTable from "./table/crudTable";
-import DialogContainer from "../dialog/dialogContainer";
+import DialogFormContainer from "../dialog/dialogFormContainer";
 import AlertDialog from "../alerts/delete/deleteAlert";
 
 const CRUD = ({
   display,
-  service,
   title,
+  tableHeaders,
+  tableRows,
+
   onToggleDisplay,
   onEdit,
-  onDelete,
   onCreate,
+  onSave,
+
+  onDelete,
+
   children,
-  rows,
 }) => {
   const [alert, setAlert] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [toast, setToast] = useState(false);
 
-  const headers = service.headers();
-
-  const handleDialogCloseClick = (event) => {
-    onToggleDisplay(false)(event);
-  };
-
   const handleDelete = (id) => (event) => {
     setDeleteId(id);
     setAlert(true);
-  };
-
-  const handleEdit = (row) => (event) => {
-    onEdit(row)(event);
-  };
-
-  const handleCreate = (event) => {
-    onCreate(event);
   };
 
   const handleAgree = (id) => (event) => {
@@ -62,24 +52,25 @@ const CRUD = ({
           variant="contained"
           color="success"
           sx={{ height: 40 }}
-          onClick={handleCreate}
+          onClick={onCreate}
         >
           Crear {title}
         </Button>
       </Box>
       <CRUDTable
-        rows={rows}
-        headers={headers}
+        rows={tableRows}
+        headers={tableHeaders}
         onDelete={handleDelete}
-        onEdit={handleEdit}
+        onEdit={onEdit}
       />
-      <DialogContainer
+      <DialogFormContainer
         title={title}
         open={display}
-        onClose={handleDialogCloseClick}
+        onClose={onToggleDisplay(false)}
+        onSave={onSave}
       >
         {children}
-      </DialogContainer>
+      </DialogFormContainer>
 
       <AlertDialog
         id={deleteId}

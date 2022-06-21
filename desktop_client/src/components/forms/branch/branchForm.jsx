@@ -5,16 +5,8 @@ import BasicInput from "../../inputs/basic/basicInput";
 import Maps from "../../maps/Maps";
 import "../forms.css";
 
-const BranchForm = ({ branch, onSave, onBranchChange }) => {
+const BranchForm = ({ branch, onChange }) => {
   const [displayMap, setDisplayMap] = useState(false);
-
-  const handleChange = (key) => (event) => {
-    onBranchChange(key)(event);
-  };
-
-  const handleSave = () => {
-    onSave();
-  };
 
   const handleMapOpen = () => {
     setDisplayMap(true);
@@ -29,25 +21,25 @@ const BranchForm = ({ branch, onSave, onBranchChange }) => {
         <BasicInput
           value={branch.name}
           name="Nombre"
-          onChange={handleChange("name")}
+          onChange={onChange("name")}
         ></BasicInput>
 
         <BasicInput
           value={branch.code}
           name="Codigo"
-          onChange={handleChange("code")}
+          onChange={onChange("code")}
         ></BasicInput>
 
         <BasicInput
           value={branch.city}
           name="Ciudad"
-          onChange={handleChange("city")}
+          onChange={onChange("city")}
         ></BasicInput>
 
         <BasicInput
           value={branch.direction}
           name="Direccion"
-          onChange={handleChange("direction")}
+          onChange={onChange("direction")}
         ></BasicInput>
 
         <Button className="button" variant="contained" onClick={handleMapOpen}>

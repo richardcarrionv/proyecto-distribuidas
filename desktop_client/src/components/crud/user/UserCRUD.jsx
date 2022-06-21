@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-import ContactForm from "../../forms/contact/contactForm";
-import ContactService from "../../../services/contact/contactService";
+import UserForm from "../../forms/user/userForm";
+import UserService from "../../../services/user/userService";
 import CRUD from "../CRUD"; 
 
-const ContactCRUD = () => {
-  let service = new ContactService();
-  const voidContact = { 
+const UserCRUD = () => {
+  let service = new UserService();
+  const voidUser = { 
     name: "",
     surname: "",
     branch: "",
@@ -23,10 +23,10 @@ const ContactCRUD = () => {
     //])
   //})
 
-  const [contact, setContact] = useState({...voidContact});
+  const [user, setUser] = useState({...voidUser});
 
   const handleChange = (key) => (event) => {
-    setContact({ ...contact, [key]: event });
+    setUser({ ...user, [key]: event });
   };
 
   const handleSave = () => {
@@ -35,7 +35,7 @@ const ContactCRUD = () => {
   };
 
   const handleEdit = (row) => () => {
-    setContact(row);
+    setUser(row);
     setDisplay(true);
   };
 
@@ -44,7 +44,7 @@ const ContactCRUD = () => {
   };
 
   const handleCreate = () => {
-    setContact({...voidContact});
+    setUser({...voidUser});
     setDisplay(true);
   };
 
@@ -54,8 +54,8 @@ const ContactCRUD = () => {
 
   return (
     <CRUD
-      init={contact}
-      title="Contactos"
+      init={user}
+      title="Usuarios"
       tableRows={tableRows}
       tableHeaders={tableHeaders}
 
@@ -66,8 +66,8 @@ const ContactCRUD = () => {
       onDelete={handleDelete}
       onCreate={handleCreate}
     >
-      <ContactForm
-        contact={contact}
+      <UserForm
+        user={user}
         onSave={handleSave}
         onChange={handleChange}
       />
@@ -75,4 +75,5 @@ const ContactCRUD = () => {
   );
 };
 
-export default ContactCRUD;
+export default UserCRUD;
+

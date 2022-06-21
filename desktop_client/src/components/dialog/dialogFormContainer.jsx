@@ -4,7 +4,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Button, DialogActions, DialogContent } from "@mui/material";
 import Container from "@mui/material/Container";
 
-const DialogContainer = (props) => {
+const DialogFormContainer = (props) => {
   const { title, open, onClose, onSave } = props;
 
   const handleClose = () => {
@@ -51,4 +51,4 @@ const DialogContainer = (props) => {
   );
 };
 
-export default DialogContainer;
+export default DialogFormContainer;
