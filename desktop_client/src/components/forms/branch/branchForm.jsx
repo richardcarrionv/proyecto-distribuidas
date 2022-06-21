@@ -59,8 +59,9 @@ const BranchForm = ({ branch, onSave, onBranchChange }) => {
       <Button className="button" color="success" variant="contained" onClick={handleSave}>
         Guardar
       </Button>
+
       <Dialog fullScreen open={displayMap} onClose={handleMapClose}>
-        <Button className="button" onClick={handleMapClose}>Salir</Button>
+        <Button className="button" variant="contained" color="error" onClick={handleMapClose}>Salir</Button>
         <Maps />
       </Dialog>
     </>

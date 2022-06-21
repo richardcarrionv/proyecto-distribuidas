@@ -19,6 +19,10 @@ const ContactCRUD = () => {
     setContact({ ...contact, [key]: event });
   };
 
+  const rows=[
+    { name: "Richard", surname: "Carrion", branch: "Sucursal 1", phone: "123" }
+  ]
+
   const handleSave = (event) => {
     setDisplay(false);
   };
@@ -43,6 +47,7 @@ const ContactCRUD = () => {
     <CRUD
       init={contact}
       title="Contactos"
+      rows={rows}
 
       display={display}
       onToggleDisplay={handleDialogDisplay}
