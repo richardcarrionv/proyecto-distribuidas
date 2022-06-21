@@ -11,56 +11,62 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const CRUDTable = ({ rows, headers, onDelete, onEdit }) => {
+    const handleDeleteClick = (id) => (event) => {
+        onDelete(id)(event);
+    };
 
-  const handleDeleteClick = (id) => (event) => {
-    onDelete(id)(event);
-  };
+    const handleEditClick = (row) => (event) => {
+        onEdit(row)(event);
+    };
 
-  const handleEditClick = (row) => (event) => {
-    onEdit(row)(event);
-  };
-
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            {headers.map((header) => (
-              <TableCell>{header.label}</TableCell>
-            ))}
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              {headers.map((header) => (
-                <TableCell>{row[header.key]}</TableCell>
-              ))}
-              <TableCell>
-                <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleEditClick(row)}
-                  >
-                    <EditIcon />
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={handleDeleteClick(row[Object.keys(row)[0]])}
-                  >
-                    <DeleteIcon />
-                  </Button>
-                </Box>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+    return (
+        <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                    <TableRow key="1">
+                        {headers.map((header, i) => (
+                            <TableCell key={i}>{header.label}</TableCell>
+                        ))}
+                        <TableCell></TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {rows.map((row) => (
+                        <TableRow key={row.name}>
+                            {headers.map((header, i) => (
+                                <TableCell key={i}>{row[header.key]}</TableCell>
+                            ))}
+                            <TableCell>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "space-around",
+                                    }}
+                                >
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        onClick={handleEditClick(row)}
+                                    >
+                                        <EditIcon />
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="error"
+                                        onClick={handleDeleteClick(
+                                            row[Object.keys(row)[0]]
+                                        )}
+                                    >
+                                        <DeleteIcon />
+                                    </Button>
+                                </Box>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
 };
 
 export default CRUDTable;

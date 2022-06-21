@@ -9,8 +9,10 @@ import "../forms.css";
 
 const BranchForm = ({ branch, onChange, onCoordsChange }) => {
   const [displayMap, setDisplayMap] = useState(false);
+  const [address, setAddress] = useState("");
 
   const handleMapOpen = () => {
+    setAddress(branch.direction+","+branch.city)
     setDisplayMap(true);
   };
 
@@ -23,6 +25,10 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
     onCoordsChange(coords)();
     setDisplayMap(false);
   };
+
+  const handleAddressChange = (address) => () => { 
+    setAddress(address); 
+  }
 
   return (
     <>
@@ -44,11 +50,15 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
         onChange={onChange("city")}
       ></BasicInput>
 
-      <BasicInput
-        value={branch.direction}
-        name="Direccion"
-        onChange={onChange("direction")}
-      ></BasicInput>
+      <FormControl sx={{ m: 1, width: "25ch" }}>
+        <TextField
+          id="outlined-multiline-static"
+          value={branch.direction}
+          label="Direccion"
+          multiline
+          onChange={(event) => onChange("direction")(event.target.value)}
+        />
+      </FormControl>
 
       <FormControl sx={{ m: 1, width: "25ch" }}>
         <TextField
@@ -69,7 +79,7 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
       </Button>
 
       <Dialog fullScreen open={displayMap} onClose={handleMapClose}>
-        <Maps onClose={handleMapClose} onSave={handleMapSave} />
+        <Maps onAddressChange={handleAddressChange} address={address} onClose={handleMapClose} onSave={handleMapSave} />
       </Dialog>
     </>
   );

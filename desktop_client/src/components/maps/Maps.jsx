@@ -4,13 +4,13 @@ import { Box, Button } from "@mui/material";
 import Geocode from "react-geocode";
 
 import "./maps.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const { REACT_APP_MAPS_API_KEY } = process.env;
 
 Geocode.setApiKey(REACT_APP_MAPS_API_KEY);
 
-export default function Maps({ onClose, onSave }) {
+export default function Maps({ address, onClose, onSave, onAddressChange }) {
   const quitoCoordinates = {
     lat: -0.1824739406812052,
     lng: -78.46213540619937,
@@ -18,25 +18,32 @@ export default function Maps({ onClose, onSave }) {
 
   const [zoom, setZoom] = useState(8);
   const [center, setCenter] = useState(quitoCoordinates);
-  const [address, setAddress] = useState("");
   const [marker, setMarker] = useState(quitoCoordinates);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: REACT_APP_MAPS_API_KEY,
   });
 
-  const handleSearch = () => {
+  const search = () => {
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
         setMarker({ lat: lat, lng: lng });
         setCenter({ lat: lat, lng: lng });
-        setZoom(15);
+        setZoom(16);
       },
       (error) => {
-        console.log(error); 
+        console.log(error);
       }
     );
+  };
+
+  useEffect(() => { 
+    search(); 
+  }, [])
+
+  const handleSearch = () => {
+    search(); 
   };
 
   const handleMapClick = (t) => {
@@ -52,7 +59,7 @@ export default function Maps({ onClose, onSave }) {
   const handleClean = () => {
     setZoom(8);
     setCenter(quitoCoordinates);
-    setAddress("");
+    onAddressChange("")();
   };
 
   if (!isLoaded) return <div>Loading...</div>;
@@ -64,26 +71,30 @@ export default function Maps({ onClose, onSave }) {
           <TextField
             className="search-input"
             value={address}
-            onChange={(event) => setAddress(event.target.value)}
+            onChange={(event) => onAddressChange(event.target.value)}
             placeholder="Direccion, Ciudad, Provicia, Pais"
             id="standard-basic"
             variant="standard"
           />
 
-        <Box className="map-form-buttons">
-          <Button variant="contained" onClick={handleSearch}>
-            Buscar
-          </Button>
-          <Button variant="contained" color="info" onClick={handleClean}>
-            Limpiar
-          </Button>
-          <Button variant="contained" color="error" onClick={onClose}>
-            salir
-          </Button>
-          <Button variant="contained" color="success" onClick={onSave(marker)}>
-            Guardar
-          </Button>
-        </Box>
+          <Box className="map-form-buttons">
+            <Button variant="contained" onClick={handleSearch}>
+              Buscar
+            </Button>
+            <Button variant="contained" color="info" onClick={handleClean}>
+              Limpiar
+            </Button>
+            <Button variant="contained" color="error" onClick={onClose}>
+              salir
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={onSave(marker)}
+            >
+              Guardar
+            </Button>
+          </Box>
         </Box>
         <GoogleMap
           zoom={zoom}

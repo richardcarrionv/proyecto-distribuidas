@@ -28,7 +28,7 @@ const BranchCRUD = () => {
         setTableRows(response.data); 
       }
     });
-  });
+  },[]);
 
   const handleChange = (key) => (event) => {
     setBranch({ ...branch, [key]: event });
