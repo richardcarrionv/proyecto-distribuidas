@@ -12,6 +12,7 @@ const BranchCRUD = () => {
   const voidBranch = {
     name: "",
     code: "",
+    province: "", 
     city: "",
     direction: "",
     coordinates: "",

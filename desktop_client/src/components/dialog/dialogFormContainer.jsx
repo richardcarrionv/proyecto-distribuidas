@@ -16,18 +16,18 @@ const DialogFormContainer = (props) => {
   };
 
   return (
-    <Dialog open={open}>
-      <DialogTitle>{title}</DialogTitle>
-      <DialogContent>
-        <Container
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            paddingBottom: 2,
-          }}
-        >
-          {props.children}
-        </Container>
+    <Dialog open={open} maxWidth="100%">
+      <DialogTitle sx={{ backgroundColor: "whitesmoke", textAlign: "Center" }}>
+        {title}
+      </DialogTitle>
+      <DialogContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+        dividers
+      >
+        {props.children}
       </DialogContent>
       <DialogActions>
         <Button

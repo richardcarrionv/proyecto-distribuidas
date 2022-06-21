@@ -1,6 +1,5 @@
 import React from "react";
 import BasicInput from "../../inputs/basic/basicInput";
-import "../forms.css"; 
 
 const ContactForm = ({ contact, onChange }) => {
 
