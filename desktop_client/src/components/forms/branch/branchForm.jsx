@@ -1,21 +1,14 @@
-import { Button, Dialog } from "@mui/material";
+import { Button, Container, Dialog, TextField } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import BasicInput from "../../inputs/basic/basicInput";
 import Maps from "../../maps/Maps";
-import "../forms.css"; 
+import FormControl from "@mui/material/FormControl";
 
-const BranchForm = ({ branch, onSave, onBranchChange }) => {
+import "../forms.css";
 
+const BranchForm = ({ branch, onChange, onCoordsChange }) => {
   const [displayMap, setDisplayMap] = useState(false);
-
-  const handleChange = (key) => (event) => {
-    onBranchChange(key)(event);
-  };
-
-  const handleSave = () => {
-    onSave();
-  };
 
   const handleMapOpen = () => {
     setDisplayMap(true);
@@ -25,44 +18,58 @@ const BranchForm = ({ branch, onSave, onBranchChange }) => {
     setDisplayMap(false);
   };
 
+  const handleMapSave = (coords) => () => {
+    console.log("From form", coords);
+    onCoordsChange(coords)();
+    setDisplayMap(false);
+  };
+
   return (
     <>
-    
       <BasicInput
         value={branch.name}
         name="Nombre"
-        onChange={handleChange("name")}
+        onChange={onChange("name")}
       ></BasicInput>
 
       <BasicInput
         value={branch.code}
         name="Codigo"
-        onChange={handleChange("code")}
+        onChange={onChange("code")}
       ></BasicInput>
 
       <BasicInput
         value={branch.city}
         name="Ciudad"
-        onChange={handleChange("city")}
+        onChange={onChange("city")}
       ></BasicInput>
 
       <BasicInput
         value={branch.direction}
         name="Direccion"
-        onChange={handleChange("direction")}
+        onChange={onChange("direction")}
       ></BasicInput>
+
+      <FormControl sx={{ m: 1, width: "25ch" }}>
+        <TextField
+          id="outlined-multiline-static"
+          value={branch.coordinates}
+          label="Coordenadas"
+          multiline
+          rows={2}
+          onChange={onChange("coordinates")}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
+      </FormControl>
 
       <Button className="button" variant="contained" onClick={handleMapOpen}>
         Seleccionar Coordenadas
       </Button>
 
-      <Button className="button" color="success" variant="contained" onClick={handleSave}>
-        Guardar
-      </Button>
-
       <Dialog fullScreen open={displayMap} onClose={handleMapClose}>
-        <Button className="button" variant="contained" color="error" onClick={handleMapClose}>Salir</Button>
-        <Maps />
+        <Maps onClose={handleMapClose} onSave={handleMapSave} />
       </Dialog>
     </>
   );

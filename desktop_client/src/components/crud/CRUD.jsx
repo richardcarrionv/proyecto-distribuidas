@@ -1,43 +1,42 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import { Box, Button } from "@mui/material";
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 import CRUDTable from "./table/crudTable";
-import DialogContainer from "../dialog/dialogContainer";
+import DialogFormContainer from "../dialog/dialogFormContainer";
 import AlertDialog from "../alerts/delete/deleteAlert";
 
-const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCreate, children, rows }) => {
+const CRUD = ({
+  display,
+  title,
+  tableHeaders,
+  tableRows,
 
-  const [alert, setAlert] = useState(false); 
-  const [deleteId, setDeleteId] = useState(null); 
-  const [toast, setToast] = useState(false); 
+  onToggleDisplay,
+  onEdit,
+  onCreate,
+  onSave,
 
-  const headers = service.headers();
+  onDelete,
 
-  const handleDialogCloseClick = (event) => {
-    onToggleDisplay(false)(event);
-  };
+  children,
+}) => {
+  const [alert, setAlert] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [toast, setToast] = useState(false);
 
   const handleDelete = (id) => (event) => {
-    setDeleteId(id); 
-    setAlert(true); 
+    setDeleteId(id);
+    setAlert(true);
   };
 
-  const handleEdit = (row) => (event) => {
-    onEdit(row)(event);
+  const handleAgree = (id) => (event) => {
+    onDelete(id)(event);
+    setAlert(false);
+    setToast(true);
   };
-
-  const handleCreate = (event) => { 
-    onCreate(event); 
-  }
-
-  const handleAgree = (id) => (event) => { 
-    onDelete(id)(event); 
-    setAlert(false); 
-    setToast(true); 
-  }
 
   return (
     <>
@@ -53,33 +52,46 @@ const CRUD = ({ display, service, title, onToggleDisplay, onEdit, onDelete, onCr
           variant="contained"
           color="success"
           sx={{ height: 40 }}
-          onClick={handleCreate}
+          onClick={onCreate}
         >
           Crear {title}
         </Button>
       </Box>
       <CRUDTable
-        rows={rows}
-        headers={headers}
+        rows={tableRows}
+        headers={tableHeaders}
         onDelete={handleDelete}
-        onEdit={handleEdit}
+        onEdit={onEdit}
       />
-      <DialogContainer
+      <DialogFormContainer
         title={title}
         open={display}
-        onClose={handleDialogCloseClick}
+        onClose={onToggleDisplay(false)}
+        onSave={onSave}
       >
         {children}
-      </DialogContainer>
+      </DialogFormContainer>
 
-      <AlertDialog id={deleteId} display={alert} onAgree={handleAgree} onDecline={
-        () => { setAlert(false) }
-      }/>
+      <AlertDialog
+        id={deleteId}
+        display={alert}
+        onAgree={handleAgree}
+        onDecline={() => {
+          setAlert(false);
+        }}
+      />
 
-      <Snackbar open={toast} autoHideDuration={4000} onClose={() => setToast(false)}
+      <Snackbar
+        open={toast}
+        autoHideDuration={4000}
+        onClose={() => setToast(false)}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <Alert onClose={() => setToast(false)} severity="success" sx={{ width: '100%' }}>
+        <Alert
+          onClose={() => setToast(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           ¡Se eliminó el registro con ID: {deleteId} !
         </Alert>
       </Snackbar>

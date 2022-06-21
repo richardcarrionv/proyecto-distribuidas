@@ -10,15 +10,15 @@ const { REACT_APP_MAPS_API_KEY } = process.env;
 
 Geocode.setApiKey(REACT_APP_MAPS_API_KEY);
 
-export default function Maps() {
+export default function Maps({ onClose, onSave }) {
   const quitoCoordinates = {
     lat: -0.1824739406812052,
     lng: -78.46213540619937,
-  }
+  };
 
   const [zoom, setZoom] = useState(8);
-  const [center, setCenter] = useState(quitoCoordinates); 
-  const [address, setAddress] = useState("Quito, Pichincha, Ecuador");
+  const [center, setCenter] = useState(quitoCoordinates);
+  const [address, setAddress] = useState("");
   const [marker, setMarker] = useState(quitoCoordinates);
 
   const { isLoaded } = useLoadScript({
@@ -26,20 +26,20 @@ export default function Maps() {
   });
 
   const handleSearch = () => {
-    console.log(process.env);
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
-        setMarker({ lat: lat, lng: lng, });
-        setCenter({ lat: lat, lng: lng, });
+        setMarker({ lat: lat, lng: lng });
+        setCenter({ lat: lat, lng: lng });
         setZoom(15);
       },
-      (error) => {}
+      (error) => {
+        console.log(error); 
+      }
     );
   };
 
   const handleMapClick = (t) => {
-    console.log(t)
     const { latLng } = t;
     const lat = latLng.lat();
     const lng = latLng.lng();
@@ -52,37 +52,48 @@ export default function Maps() {
   const handleClean = () => {
     setZoom(8);
     setCenter(quitoCoordinates);
-    setAddress(""); 
+    setAddress("");
   };
 
   if (!isLoaded) return <div>Loading...</div>;
 
   return (
     <>
-      <Box>
-        <TextField
-          sx={{ width: "50%" }}
-          value={address}
-          onChange={(event) => setAddress(event.target.value)}
-          id="standard-basic"
-          variant="standard"
-        />
-        <Button variant="contained" onClick={handleSearch}>
-          Buscar
-        </Button>
-        <Button variant="contained" color="info" onClick={handleClean}>
-          Limpiar
-        </Button>
-        {}
+      <Box className="container">
+        <Box className="map-form">
+          <TextField
+            className="search-input"
+            value={address}
+            onChange={(event) => setAddress(event.target.value)}
+            placeholder="Direccion, Ciudad, Provicia, Pais"
+            id="standard-basic"
+            variant="standard"
+          />
+
+        <Box className="map-form-buttons">
+          <Button variant="contained" onClick={handleSearch}>
+            Buscar
+          </Button>
+          <Button variant="contained" color="info" onClick={handleClean}>
+            Limpiar
+          </Button>
+          <Button variant="contained" color="error" onClick={onClose}>
+            salir
+          </Button>
+          <Button variant="contained" color="success" onClick={onSave(marker)}>
+            Guardar
+          </Button>
+        </Box>
+        </Box>
+        <GoogleMap
+          zoom={zoom}
+          center={center}
+          onClick={handleMapClick}
+          mapContainerClassName="map-container"
+        >
+          <Marker position={marker} />
+        </GoogleMap>
       </Box>
-      <GoogleMap
-        zoom={zoom}
-        center={center}
-        onClick={handleMapClick}
-        mapContainerClassName="map-container"
-      >
-        <Marker position={marker} />
-      </GoogleMap>
     </>
   );
 }

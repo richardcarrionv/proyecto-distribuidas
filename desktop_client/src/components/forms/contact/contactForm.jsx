@@ -1,48 +1,34 @@
-import { Button } from "@mui/material";
 import React from "react";
 import BasicInput from "../../inputs/basic/basicInput";
 import "../forms.css"; 
 
-const ContactForm = ({ contact, onSave, onContactChange }) => {
-
-  const handleChange = (key) => (event) => {
-    onContactChange(key)(event);
-  };
-
-  const handleSave = () => {
-    onSave();
-  };
+const ContactForm = ({ contact, onChange }) => {
 
   return (
     <>
-    
       <BasicInput
         value={contact.name}
         name="Nombre"
-        onChange={handleChange("name")}
+        onChange={onChange("name")}
       ></BasicInput>
 
       <BasicInput
         value={contact.surname}
         name="Apellido"
-        onChange={handleChange("surname")}
+        onChange={onChange("surname")}
       ></BasicInput>
 
       <BasicInput
         value={contact.branch}
         name=""
-        onChange={handleChange("branch")}
+        onChange={onChange("branch")}
       ></BasicInput>
 
       <BasicInput
         value={contact.phone}
         name="Telefono"
-        onChange={handleChange("phone")}
+        onChange={onChange("phone")}
       ></BasicInput>
-
-      <Button className="button" color="success" variant="contained" onClick={handleSave}>
-        Guardar
-      </Button>
     </>
   );
 };
