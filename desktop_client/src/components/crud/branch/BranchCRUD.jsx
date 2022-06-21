@@ -34,6 +34,12 @@ const BranchCRUD = () => {
     setBranch({ ...branch, [key]: event });
   };
 
+  const handleCoordsChange = (coords) => () => { 
+    let coordinates = coords.lat + ",\n"+coords.lng; 
+    console.log("From crud", coordinates); 
+    setBranch({...branch, coordinates: coordinates })
+  }
+
   const handleSave = () => {
     console.log("Saving"); 
     setDisplay(false);
@@ -75,6 +81,7 @@ const BranchCRUD = () => {
         branch={branch}
         onSave={handleSave}
         onChange={handleChange}
+        onCoordsChange={handleCoordsChange}
       />
     </CRUD>
   );

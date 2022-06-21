@@ -12,11 +12,40 @@
 }
 
 .map-container {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
+}
+
+.map-form-buttons {
+  margin-left: 20px;
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-input {
+  width: 300px;
+}
+.map-form {
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 1rem;
+  display: flex;
+  padding: 10px;
+  height: fit-content;
+  width: fit-content;
+  position: absolute;
+  z-index: 2;
+  background-color: white;
 }
 
 .combobox-input {
   width: 100%;
   padding: 0.5rem;
+}
+
+.container {
+  background-color: orange;
+  display: flex;
+  justify-content: space-between;
 }
