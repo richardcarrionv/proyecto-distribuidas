@@ -12,22 +12,21 @@ const { REACT_APP_MAPS_API_KEY } = process.env;
 Geocode.setApiKey(REACT_APP_MAPS_API_KEY);
 
 const BranchForm = ({ branch, onChange, onCoordsChange }) => {
-  const initCoords = { lat: -0.1824739406812052, lng: -78.46213540619937 }
+  const initCoords = { lat: -0.1824739406812052, lng: -78.46213540619937 };
   const [mapZoom, setMapZoom] = useState(8);
-  const [mapCenter, setMapCoords] = useState({...initCoords});
-
+  const [mapCenter, setMapCoords] = useState({ ...initCoords });
 
   const searchDirection = () => {
-    var address = branch.direction + "," + branch.city + ","+branch.province;
+    var address = branch.direction + "," + branch.city + "," + branch.province;
     console.log(address);
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
-        const coords = {lat: lat, lng: lng}; 
-        console.log("Encontrado: ",lat, lng)
-        setMapZoom(16); 
+        const coords = { lat: lat, lng: lng };
+        console.log("Encontrado: ", lat, lng);
+        setMapZoom(16);
         setMapCoords(coords);
-        onCoordsChange(coords)(); 
+        onCoordsChange(coords)();
       },
       (error) => {
         console.log(error);
@@ -39,7 +38,6 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
     console.log("From form", coords);
     onCoordsChange(coords)();
   };
-
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -57,15 +55,15 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
         ></BasicInput>
 
         <BasicInput
-          value={branch.city}
-          name="Ciudad"
-          onChange={onChange("city")}
-        ></BasicInput>
-
-        <BasicInput
           value={branch.province}
           name="Provincia"
           onChange={onChange("province")}
+        ></BasicInput>
+
+        <BasicInput
+          value={branch.city}
+          name="Ciudad"
+          onChange={onChange("city")}
         ></BasicInput>
 
         <FormControl sx={{ m: 1, width: "25ch" }}>
@@ -103,11 +101,7 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
         </Button>
       </Container>
       <Box sx={{ width: "80%" }}>
-        <Maps
-          zoom={mapZoom}
-          center={mapCenter}
-          onSave={handleMapSave}
-        />
+        <Maps zoom={mapZoom} center={mapCenter} onSave={handleMapSave} />
       </Box>
     </Box>
   );
