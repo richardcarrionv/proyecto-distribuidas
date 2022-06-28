@@ -1,48 +1,53 @@
 import React, { useState, useEffect } from "react";
-import api from "../../../services/api"; 
-
+import api from "../../../services/api";
 
 import BranchForm from "../../forms/branch/branchForm";
-import BranchService from "../../../services/branch/branchService";
+import { headers, create, list } from "../../../services/branch/branchService";
 import CRUD from "../CRUD";
 
 const BranchCRUD = () => {
-
-  let service = new BranchService();
   const voidBranch = {
+    id: null,
     name: "",
     code: "",
-    province: "", 
+    province: "",
     city: "",
     direction: "",
+    latitude: "",
+    longitude: "",
+    phone: "",
+    verificationCode: "",
+    contactList: [],
     coordinates: "",
-  }
-  const tableHeaders = service.headers(); 
+  };
+  const tableHeaders = headers();
   const [tableRows, setTableRows] = useState([]);
   const [display, setDisplay] = useState(false);
-  const [branch, setBranch] = useState({...voidBranch});
+  const [branch, setBranch] = useState({ ...voidBranch });
 
   useEffect(() => {
-    api.get("/branchOffices/").then((response) => {
-      console.log(response);
-      if (!response.data.message) {
-        setTableRows(response.data); 
-      }
+    list().then((data) => {
+      console.log("Listado: ", data.response);
+      setTableRows(data.response);
     });
-  },[]);
+  }, []);
 
   const handleChange = (key) => (event) => {
     setBranch({ ...branch, [key]: event });
   };
 
-  const handleCoordsChange = (coords) => () => { 
-    let coordinates = coords.lat + ",\n"+coords.lng; 
-    console.log("From crud", coordinates); 
-    setBranch({...branch, coordinates: coordinates })
-  }
+  const handleCoordsChange = (coords) => () => {
+    let coordinates = coords.lat + ",\n" + coords.lng;
+    setBranch({
+      ...branch,
+      coordinates: coordinates,
+      latitude: coords.lat,
+      longitude: coords.lng,
+    });
+  };
 
   const handleSave = () => {
-    console.log("Saving"); 
+    create(branch).then((res) => console.log(res));
     setDisplay(false);
   };
 
@@ -52,11 +57,11 @@ const BranchCRUD = () => {
   };
 
   const handleDelete = (id) => () => {
-    console.log("Deleting")
+    console.log("Deleting");
   };
 
   const handleCreate = () => {
-    setBranch({...voidBranch});
+    setBranch({ ...voidBranch });
     setDisplay(true);
   };
 
@@ -70,7 +75,6 @@ const BranchCRUD = () => {
       title="Sucursales"
       tableRows={tableRows}
       tableHeaders={tableHeaders}
-
       display={display}
       onToggleDisplay={handleDialogDisplay}
       onSave={handleSave}

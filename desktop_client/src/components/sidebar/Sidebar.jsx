@@ -50,10 +50,9 @@ const Sidebar = () => {
               <ListItemButton
                 sx={{
                   "&.Mui-selected": {
-                    backgroundColor: "#ffd1a9"
+                    backgroundColor: "#dfdfdf"
                   },
                   "&.Mui-focusVisible": {
-                    backgroundColor: "#ffd1a9"
                   },
                   ":hover": {
                   },
