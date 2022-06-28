@@ -5,19 +5,15 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import "./home.css";
 
 const Home = () => {
+  let navigate = useNavigate();
 
-  let navigate = useNavigate(); 
-
-  const handleClick = (event) => { 
-   navigate("/"); 
-  }
+  const handleClick = (event) => {
+    navigate("/");
+  };
 
   return (
     <Box className="grid-box">
-      <Box className="sidebar">
-        <Sidebar />
-        <Button variant="contained" onClick={handleClick}>Cerrar Sesión</Button>
-      </Box>
+      <Sidebar />
       <Box className="content">
         <Outlet />
       </Box>

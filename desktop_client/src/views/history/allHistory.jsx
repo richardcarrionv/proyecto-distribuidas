@@ -1,7 +1,14 @@
 import { Box, Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
+import TopBar from "../../components/crud/topbar/TopBar";
 import BasicInput from "../../components/inputs/basic/basicInput";
 import BasicTable from "../../components/table/basic/basicTable";
+
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const AllHistory = () => {
   const [rows, setRows] = useState([]);
@@ -55,7 +62,7 @@ const AllHistory = () => {
         branch: "Sucursal 3",
       },
     ]);
-    setSearch({id: "", branch: ""})
+    setSearch({ id: "", branch: "" });
   };
 
   const onChange = (key) => (event) => {
@@ -64,38 +71,27 @@ const AllHistory = () => {
   };
   return (
     <>
-      <h1>Historial</h1>
-      <Box
-        sx={{
-          display: "flex",
-          backgroundColor: "white",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: 1,
-          borderRadius: 1,
-          boxShadow: 1,
-        }}
-      >
-        <Box
-          sx={{
-            backgroundColor: "white",
-          }}
-        >
-          <BasicInput value={search.id} name="Id" onChange={onChange("id")} />
-          <BasicInput
-            value={search.branch}
-            name="Sucursal"
-            onChange={onChange("branch")}
-          />
-        </Box>
-        <Box>
-          <Button sx={{ marginRight: 1 }} variant="contained" onClick={reset}>
-            Limpiar
-          </Button>
-        </Box>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ backgroundColor: "#d02f27" }}>
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Historial
+            </Typography>
+            <BasicInput value={search.id} name="Id" onChange={onChange("id")} />
+            <BasicInput
+              value={search.branch}
+              name="Sucursal"
+              onChange={onChange("branch")}
+            />
+            <Button onClick={reset} color="inherit">
+              Limpiar Busqueda
+            </Button>
+          </Toolbar>
+        </AppBar>
       </Box>
-
-      <BasicTable rows={rows} headers={headers}></BasicTable>
+      <Box sx={{ padding: 2 }}>
+        <BasicTable rows={rows} headers={headers}></BasicTable>
+      </Box>
     </>
   );
 };
