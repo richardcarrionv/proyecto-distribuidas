@@ -1,63 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
-import TreeView from "@mui/lab/TreeView";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import TreeItem from "@mui/lab/TreeItem";
-
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import { Divider, Toolbar } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import BusinessIcon from '@mui/icons-material/Business';
+import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HistoryIcon from '@mui/icons-material/History';
+import EmergencyShareIcon from '@mui/icons-material/EmergencyShare';
 
 const Sidebar = () => {
   let navigate = useNavigate();
+  const [selectedIndex, setSelectedIndex] = useState();
 
-  const handleClick = (path) => (event) => {
+  const handleClick = (path, index) => (event) => {
+    setSelectedIndex(index);
     navigate(path);
   };
 
+  const drawerWidth = 340;
+  const sections = [
+    { label: "Nodos/Sucursales", icon: <BusinessIcon />, link: "/home/branch" },
+    { label: "Contactos", icon: <ConnectWithoutContactIcon /> , link: "/home/contact" },
+    { label: "Usuarios", icon: <AccountCircleIcon />, link: "/home/user" },
+    { label: "Historial", icon: <HistoryIcon />, link: "/home/history" },
+  ];
+
   return (
-    <>
-      <TreeView
-        aria-label="file system navigator"
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpandIcon={<ChevronRightIcon />}
-        sx={{
-          height: "80vh",
-          flexGrow: 1,
-          maxWidth: 400,
-          overflowY: "auto",
-          padding: 0,
-        }}
-      >
-        <TreeItem
-          nodeId="1"
-          label="Nodos/Sucursales"
-          onClick={handleClick("/home/branch")}
-        ></TreeItem>
-        <TreeItem
-          nodeId="2"
-          label="Contactos"
-          onClick={handleClick("/home/contact")}
-        ></TreeItem>
-        <TreeItem
-          nodeId="6"
-          label="Usuarios"
-          onClick={handleClick("/home/user")}
-        ></TreeItem>
-        <TreeItem nodeId="3" label="Historial">
-          <TreeItem
-            nodeId="4"
-            label="Todo"
-            onClick={handleClick("/home/history")}
-          ></TreeItem>
-          <TreeItem
-            nodeId="5"
-            label="Por Nodo"
-            onClick={handleClick("/home/history/node")}
-          ></TreeItem>
-        </TreeItem>
-      </TreeView>
-    </>
+    <Drawer variant="permanent" anchor="left" sx={{ width: drawerWidth }}>
+      <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
+        <EmergencyShareIcon sx={{color: "#d02f27", fontSize: "x-large"}}/>
+        <Typography variant="h6" sx={{marginLeft: "10px"}}>
+            One Alarm
+          </Typography>
+      </Toolbar>
+      <Divider />
+      <Box sx={{ overflow: "auto" }}>
+        <List>
+          {sections.map((section, index) => (
+            <ListItem key={section.label} disablePadding>
+              <ListItemButton
+                sx={{
+                  "&.Mui-selected": {
+                    backgroundColor: "#ffd1a9"
+                  },
+                  "&.Mui-focusVisible": {
+                    backgroundColor: "#ffd1a9"
+                  },
+                  ":hover": {
+                  },
+                }}
+                selected={index == selectedIndex}
+                onClick={handleClick(section.link, index)}
+              >
+                <ListItemIcon>
+                  {section.icon}
+                </ListItemIcon>
+                <ListItemText primary={section.label} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    </Drawer>
   );
 };
 
