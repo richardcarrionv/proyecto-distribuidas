@@ -24,10 +24,12 @@ import java.util.stream.Collectors;
 public class BranchOfficeController {
     @Autowired
     private IBranchOfficeService branchOfficeService;
+    
 
     @Operation(summary = "Get all Branch Offices", responses = {
             @ApiResponse(description = "Succesful Operation", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
-            @ApiResponse(description = "Server Error", responseCode = "503")
+            @ApiResponse(description = "Server Error", responseCode = "503"),
+            @ApiResponse(description = "Empty", responseCode = "204")
     })
     @GetMapping
     public ResponseEntity<?> getAll() {
@@ -36,7 +38,7 @@ public class BranchOfficeController {
             List<BranchOfficeEntity> listOfBranchOffices = branchOfficeService.getAll();
             if (listOfBranchOffices.isEmpty()) {
                 response.put("message", "No hay Sucursales para mostrar");
-                return new ResponseEntity<>(response, HttpStatus.OK);
+                return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
             }
             List<BranchOfficeDTO> listOfBranchOfficeDTOS = listOfBranchOffices
                     .stream()
@@ -80,16 +82,13 @@ public class BranchOfficeController {
     public ResponseEntity<?> addBranchOffice(@RequestBody final BranchOfficeDTO branchOfficeDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
-            if (Objects.isNull(branchOfficeDTO.getId()) || Objects.isNull(branchOfficeService.getById(branchOfficeDTO.getId()))) {
+            if (Objects.isNull(branchOfficeDTO.getId())) {
                 BranchOfficeEntity branchOfficeToSave = BranchOfficeEntity.from(branchOfficeDTO);
+
                 response.put("response", BranchOfficeDTO.from(branchOfficeService.addBranchOffice(branchOfficeToSave)));
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             }
-            response.put("error", "Ya existe la Sucursal");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-
-        } catch (BranchOfficeException ex) {
-            response.put("error", ex.getMessage());
+            response.put("error", "La sucursal posee Identificador");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception ex) {
             response.put("error", ex.getMessage());

@@ -1,9 +1,14 @@
 package com.sauriosoft.server.models.entities;
 
 import com.sauriosoft.server.models.dtos.BranchOfficeDTO;
+import com.sauriosoft.server.models.dtos.BranchOfficeNoContactDTO;
+import com.sauriosoft.server.models.dtos.ContactNoBranchDTO;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -37,6 +42,13 @@ public class BranchOfficeEntity {
     @Column(name = "verification_code", length = 6, nullable = false)
     private String verificationCode;
 
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JoinColumn(name = "branch_id")
+    private Set<ContactEntity> contactEntityList;
+
     public static BranchOfficeEntity from(BranchOfficeDTO branchOfficeDTO) {
         return BranchOfficeEntity.builder()
                 .name(branchOfficeDTO.getName())
@@ -45,6 +57,28 @@ public class BranchOfficeEntity {
                 .longitude(branchOfficeDTO.getLongitude())
                 .phone(branchOfficeDTO.getPhone())
                 .verificationCode(branchOfficeDTO.getVerificationCode())
+                .contactEntityList(branchOfficeDTO.getContactList().stream()
+                        .map(ContactEntity::from).collect(Collectors.toSet()))
                 .build();
+    }
+
+    public static BranchOfficeEntity fromWithId(BranchOfficeNoContactDTO branchOfficeNoContactDTO) {
+        return BranchOfficeEntity.builder()
+                .id(branchOfficeNoContactDTO.getId())
+                .name(branchOfficeNoContactDTO.getName())
+                .city(branchOfficeNoContactDTO.getCity())
+                .latitude(branchOfficeNoContactDTO.getLatitude())
+                .longitude(branchOfficeNoContactDTO.getLongitude())
+                .phone(branchOfficeNoContactDTO.getPhone())
+                .verificationCode(branchOfficeNoContactDTO.getVerificationCode())
+                .build();
+    }
+
+    public void saveContact(ContactEntity contact) {
+        contactEntityList.add(contact);
+    }
+
+    public void deleteContact(ContactEntity contact) {
+        contactEntityList.remove(contact);
     }
 }
