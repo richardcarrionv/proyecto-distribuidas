@@ -1,16 +1,17 @@
 package com.sauriosoft.server.models.services;
 
 import com.sauriosoft.server.models.entities.BranchOfficeEntity;
+import com.sauriosoft.server.models.entities.ContactEntity;
 import com.sauriosoft.server.models.exceptions.BranchOfficeException;
 import com.sauriosoft.server.models.repositories.BranchOfficeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-
 public class BranchOfficeImpl implements IBranchOfficeService {
 
     @Autowired
@@ -46,4 +47,13 @@ public class BranchOfficeImpl implements IBranchOfficeService {
     public void deleteBranchOffice(Long idBranchOffice) {
         branchOfficeRepository.deleteById(idBranchOffice);
     }
+
+    @Transactional
+    @Override
+    public BranchOfficeEntity saveContact(Long idBranchOffice, ContactEntity contact) {
+        BranchOfficeEntity branchOffice = getById(idBranchOffice);
+        branchOffice.saveContact(contact);
+        return branchOffice;
+    }
+
 }

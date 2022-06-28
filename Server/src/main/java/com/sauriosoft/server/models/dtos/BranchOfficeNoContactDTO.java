@@ -1,11 +1,8 @@
 package com.sauriosoft.server.models.dtos;
 
 import com.sauriosoft.server.models.entities.BranchOfficeEntity;
-import com.sauriosoft.server.models.entities.ContactEntity;
 import lombok.*;
 
-import java.io.Serializable;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -13,7 +10,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BranchOfficeDTO implements Serializable {
+public class BranchOfficeNoContactDTO {
 
     private Long id;
 
@@ -29,10 +26,8 @@ public class BranchOfficeDTO implements Serializable {
 
     private String verificationCode;
 
-    private Set<ContactNoBranchDTO> contactList;
-
-    public static BranchOfficeDTO from(BranchOfficeEntity branchOffice) {
-        return BranchOfficeDTO.builder()
+    public static BranchOfficeNoContactDTO from(BranchOfficeEntity branchOffice) {
+        return BranchOfficeNoContactDTO.builder()
                 .id(branchOffice.getId())
                 .name(branchOffice.getName())
                 .city(branchOffice.getCity())
@@ -40,10 +35,6 @@ public class BranchOfficeDTO implements Serializable {
                 .longitude(branchOffice.getLongitude())
                 .phone(branchOffice.getPhone())
                 .verificationCode(branchOffice.getVerificationCode())
-                .contactList(branchOffice.getContactEntityList().stream()
-                        .map(ContactNoBranchDTO::from).collect(Collectors.toSet())
-                )
                 .build();
     }
-
 }
