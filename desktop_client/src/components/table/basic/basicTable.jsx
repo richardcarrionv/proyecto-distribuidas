@@ -36,15 +36,13 @@ const BasicTable = ({ rows, headers}) => {
                                     sx={{
                                         display: "flex",
                                         justifyContent: "space-around",
-                                    }}
-                                >
+                                    }} >
                                     <Button
                                         variant="contained"
                                         color="error"
                                         onClick={handleDeleteClick(
                                             row[Object.keys(row)[0]]
-                                        )}
-                                    >
+                                        )} >
                                         <VisibilityOffIcon />
                                     </Button>
                                 </Box>

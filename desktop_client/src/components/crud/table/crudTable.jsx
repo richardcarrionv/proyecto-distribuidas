@@ -36,27 +36,31 @@ const CRUDTable = ({ rows, headers, onDelete, onEdit }) => {
                             {headers.map((header, i) => (
                                 <TableCell key={i}>{row[header.key]}</TableCell>
                             ))}
-                            <TableCell>
+                            <TableCell align="right">
                                 <Box
                                     sx={{
                                         display: "flex",
-                                        justifyContent: "space-around",
-                                    }}
-                                >
+                                        justifyContent: "end"
+                                    }}>
                                     <Button
+                                        sx={{ 
+                                            borderRadius: 100,
+                                            marginRight: 5
+                                        }}
                                         variant="contained"
                                         color="secondary"
-                                        onClick={handleEditClick(row)}
-                                    >
+                                        onClick={handleEditClick(row)} >
                                         <EditIcon />
                                     </Button>
                                     <Button
+                                        sx={{ 
+                                            borderRadius: 100,
+                                        }}
                                         variant="contained"
                                         color="error"
                                         onClick={handleDeleteClick(
                                             row[Object.keys(row)[0]]
-                                        )}
-                                    >
+                                        )}>
                                         <DeleteIcon />
                                     </Button>
                                 </Box>
