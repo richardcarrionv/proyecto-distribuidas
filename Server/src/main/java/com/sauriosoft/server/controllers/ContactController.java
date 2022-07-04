@@ -97,7 +97,7 @@ public class ContactController {
                 response.put("response", contactDTOFromSave);
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             }
-            response.put("error", "El contacto posee Identificador");
+            response.put("error", "Sucursal con ID");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception ex) {
             response.put("error", ex.getCause().getMessage());
@@ -127,6 +127,11 @@ public class ContactController {
         }
     }
 
+    @Operation(summary = "Delete one Contact", responses = {
+            @ApiResponse(description = "Successfully delete", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
+            @ApiResponse(description = "Server error", responseCode = "503"),
+            @ApiResponse(description = "Contact not found", responseCode = "500")
+    })
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteContact(@PathVariable(name = "id") final Long contactId) {
         Map<String, Object> response = new HashMap<>();

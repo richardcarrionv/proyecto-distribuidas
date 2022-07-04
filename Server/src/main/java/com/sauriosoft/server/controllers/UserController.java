@@ -7,17 +7,16 @@ import com.sauriosoft.server.models.services.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -70,5 +69,76 @@ public class UserController {
             return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
+
+    @Operation(summary = "Save one User", responses = {
+            @ApiResponse(description = "Successfully created", responseCode = "201", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
+            @ApiResponse(description = "Server error", responseCode = "503"),
+            @ApiResponse(description = "Body with Id", responseCode = "500")
+    })
+    @PostMapping
+    public ResponseEntity<?> addUser(@RequestBody final UserDTO userDTO) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            if (Objects.isNull(userDTO.getId())) {
+                UserEntity userEntity = UserEntity.from(userDTO);
+                userEntity = userService.addUser(userEntity);
+                response.put("response", UserDTO.from(userEntity));
+                return new ResponseEntity<>(response, HttpStatus.CREATED);
+            }
+            response.put("error", "Contacto con ID");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        } catch (Exception ex) {
+            response.put("error", "Error en el servidor");
+            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+        }
+
+    }
+
+    @Operation(summary = "Update one User", responses = {
+            @ApiResponse(description = "Successfully updated", responseCode = "201", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
+            @ApiResponse(description = "Server error", responseCode = "503"),
+            @ApiResponse(description = "User not found", responseCode = "500")
+    })
+    @PutMapping("{id}")
+    public ResponseEntity<?> updateUser(@PathVariable(name = "id") final Long idUser,
+                                        @RequestBody final UserDTO userDTO) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            UserEntity userToUpdate = UserEntity.from(userDTO);
+            UserDTO userDTOFromUpdate = UserDTO.from(userService.updateUser(userToUpdate, idUser));
+            response.put("response", userDTOFromUpdate);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (UserException ex) {
+            response.put("error", ex.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            response.put("error", "Error en el servidor");
+            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @Operation(summary = "Delete one Contact", responses = {
+            @ApiResponse(description = "Successfully delete", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
+            @ApiResponse(description = "Server error", responseCode = "503"),
+            @ApiResponse(description = "User not found", responseCode = "500")
+    })
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable(name = "id") final Long idUser) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            userService.deleteUser(idUser);
+            response.put("response", "Usuario eliminado");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (UserException ex) {
+            response.put("error", ex.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            response.put("error", "Error en el servidor");
+            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
 
 }
