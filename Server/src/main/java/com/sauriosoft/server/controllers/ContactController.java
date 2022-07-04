@@ -32,7 +32,7 @@ public class ContactController {
 
 
     @Operation(summary = "Get all Contacts", responses = {
-            @ApiResponse(description = "Succesful Operation", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
+            @ApiResponse(description = "Successful Operation", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
             @ApiResponse(description = "Server Error", responseCode = "503"),
             @ApiResponse(description = "Empty", responseCode = "204")
     })
@@ -57,7 +57,7 @@ public class ContactController {
     }
 
     @Operation(summary = "Get one Contact by Id", responses = {
-            @ApiResponse(description = "Succesful Operation", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
+            @ApiResponse(description = "Successful Operation", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
             @ApiResponse(description = "Server Error", responseCode = "503"),
             @ApiResponse(description = "Contact not found", responseCode = "500")
     })
