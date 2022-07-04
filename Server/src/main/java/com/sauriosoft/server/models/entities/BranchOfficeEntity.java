@@ -42,6 +42,9 @@ public class BranchOfficeEntity {
     @Column(name = "verification_code", length = 6, nullable = false)
     private String verificationCode;
 
+    @Column(name = "branch_province", length = 20, nullable = false)
+    private String province;
+
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true
@@ -57,6 +60,7 @@ public class BranchOfficeEntity {
                 .longitude(branchOfficeDTO.getLongitude())
                 .phone(branchOfficeDTO.getPhone())
                 .verificationCode(branchOfficeDTO.getVerificationCode())
+                .province(branchOfficeDTO.getProvince())
                 .contactEntityList(branchOfficeDTO.getContactList().stream()
                         .map(ContactEntity::from).collect(Collectors.toSet()))
                 .build();
@@ -69,6 +73,7 @@ public class BranchOfficeEntity {
                 .city(branchOfficeNoContactDTO.getCity())
                 .latitude(branchOfficeNoContactDTO.getLatitude())
                 .longitude(branchOfficeNoContactDTO.getLongitude())
+                .province(branchOfficeNoContactDTO.getProvince())
                 .phone(branchOfficeNoContactDTO.getPhone())
                 .verificationCode(branchOfficeNoContactDTO.getVerificationCode())
                 .build();

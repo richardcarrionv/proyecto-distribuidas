@@ -29,6 +29,8 @@ public class BranchOfficeDTO implements Serializable {
 
     private String verificationCode;
 
+    private String province;
+
     private Set<ContactNoBranchDTO> contactList;
 
     public static BranchOfficeDTO from(BranchOfficeEntity branchOffice) {
@@ -39,6 +41,7 @@ public class BranchOfficeDTO implements Serializable {
                 .latitude(branchOffice.getLatitude())
                 .longitude(branchOffice.getLongitude())
                 .phone(branchOffice.getPhone())
+                .province(branchOffice.getProvince())
                 .verificationCode(branchOffice.getVerificationCode())
                 .contactList(branchOffice.getContactEntityList().stream()
                         .map(ContactNoBranchDTO::from).collect(Collectors.toSet())

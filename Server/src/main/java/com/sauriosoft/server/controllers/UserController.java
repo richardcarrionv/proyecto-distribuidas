@@ -1,14 +1,13 @@
 package com.sauriosoft.server.controllers;
 
-import com.sauriosoft.server.models.dtos.ContactDTO;
-import com.sauriosoft.server.models.entities.BranchOfficeEntity;
-import com.sauriosoft.server.models.entities.ContactEntity;
-import com.sauriosoft.server.models.exceptions.ContactException;
-import com.sauriosoft.server.models.services.IBranchOfficeService;
-import com.sauriosoft.server.models.services.IContactService;
+import com.sauriosoft.server.models.dtos.UserDTO;
+import com.sauriosoft.server.models.entities.UserEntity;
+import com.sauriosoft.server.models.exceptions.UserException;
+import com.sauriosoft.server.models.services.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,33 +20,27 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/contacts/")
-public class ContactController {
+@RequestMapping(value = "/users/")
+public class UserController {
 
     @Autowired
-    private IContactService contactService;
+    private IUserService userService;
 
-    @Autowired
-    private IBranchOfficeService branchOfficeService;
-
-
-    @Operation(summary = "Get all Contacts", responses = {
+    @Operation(summary = "Get all users", responses = {
             @ApiResponse(description = "Successful Operation", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
-            @ApiResponse(description = "Server Error", responseCode = "503"),
-            @ApiResponse(description = "Empty", responseCode = "204")
+            @ApiResponse(description = "Empty", responseCode = "204"),
+            @ApiResponse(description = "Server error", responseCode = "503")
     })
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<?> getAll() {
         Map<String, Object> response = new HashMap<>();
         try {
-            List<ContactEntity> contactList = contactService.getAll();
-            if (contactList.isEmpty()) {
+            List<UserEntity> userEntityList = userService.getAll();
+            if (userEntityList.isEmpty()) {
                 return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
             } else {
-                List<ContactDTO> contactDTOList = contactList.stream()
-                        .map(ContactDTO::from)
-                        .collect(Collectors.toList());
-                response.put("response", contactDTOList);
+                List<UserDTO> userDTOS = userEntityList.stream().map(UserDTO::from).collect(Collectors.toList());
+                response.put("response", userDTOS);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
         } catch (Exception ex) {
@@ -56,20 +49,19 @@ public class ContactController {
         }
     }
 
-    @Operation(summary = "Get one Contact by Id", responses = {
+    @Operation(summary = "Get one User by Id", responses = {
             @ApiResponse(description = "Successful Operation", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
             @ApiResponse(description = "Server Error", responseCode = "503"),
-            @ApiResponse(description = "Contact not found", responseCode = "500")
+            @ApiResponse(description = "User not found", responseCode = "500")
     })
     @GetMapping("{id}")
-    public ResponseEntity<?> getById(@PathVariable(name = "id") final Long contactId) {
+    public ResponseEntity<?> getById(@PathVariable(name = "id") final Long idUser) {
         Map<String, Object> response = new HashMap<>();
         try {
-            ContactEntity contact = contactService.getById(contactId);
-            ContactDTO contactDTO = ContactDTO.from(contact);
-            response.put("response", contactDTO);
+            UserEntity userEntity = userService.getById(idUser);
+            response.put("response", UserDTO.from(userEntity));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (ContactException ex) {
+        } catch (UserException ex) {
             response.put("error", ex.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception ex) {
@@ -78,47 +70,46 @@ public class ContactController {
         }
     }
 
-
-    @Operation(summary = "Save one Contact with Branch Office associated", responses = {
+    @Operation(summary = "Save one User", responses = {
             @ApiResponse(description = "Successfully created", responseCode = "201", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
             @ApiResponse(description = "Server error", responseCode = "503"),
             @ApiResponse(description = "Body with Id", responseCode = "500")
     })
     @PostMapping
-    public ResponseEntity<?> addContact(@RequestBody final ContactDTO contactDTO) {
+    public ResponseEntity<?> addUser(@RequestBody final UserDTO userDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
-            if (Objects.isNull(contactDTO.getId())) {
-                ContactEntity contactToSave = ContactEntity.from(contactDTO);
-                BranchOfficeEntity branchOffice = contactToSave.getBranchOffice();
-                contactToSave = contactService.addContact(contactToSave);
-                branchOfficeService.saveContact(branchOffice.getId(), contactToSave);
-                ContactDTO contactDTOFromSave = ContactDTO.from(contactToSave);
-                response.put("response", contactDTOFromSave);
+            if (Objects.isNull(userDTO.getId())) {
+                UserEntity userEntity = UserEntity.from(userDTO);
+                userEntity = userService.addUser(userEntity);
+                response.put("response", UserDTO.from(userEntity));
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             }
-            response.put("error", "Sucursal con ID");
+            response.put("error", "Contacto con ID");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
         } catch (Exception ex) {
-            response.put("error", ex.getCause().getMessage());
+            response.put("error", "Error en el servidor");
             return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
         }
+
     }
 
-    @Operation(summary = "Update one Contact", responses = {
+    @Operation(summary = "Update one User", responses = {
             @ApiResponse(description = "Successfully updated", responseCode = "201", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
             @ApiResponse(description = "Server error", responseCode = "503"),
-            @ApiResponse(description = "Contact not found", responseCode = "500")
+            @ApiResponse(description = "User not found", responseCode = "500")
     })
     @PutMapping("{id}")
-    public ResponseEntity<?> updateContact(@PathVariable(name = "id") final Long contactId, @RequestBody final ContactDTO contactDTO) {
+    public ResponseEntity<?> updateUser(@PathVariable(name = "id") final Long idUser,
+                                        @RequestBody final UserDTO userDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
-            ContactEntity contactToUpdate = ContactEntity.from(contactDTO);
-            ContactDTO contactDTOFromUpdate = ContactDTO.from(contactService.updateContact(contactId, contactToUpdate));
-            response.put("response", contactDTOFromUpdate);
+            UserEntity userToUpdate = UserEntity.from(userDTO);
+            UserDTO userDTOFromUpdate = UserDTO.from(userService.updateUser(userToUpdate, idUser));
+            response.put("response", userDTOFromUpdate);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (ContactException ex) {
+        } catch (UserException ex) {
             response.put("error", ex.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception ex) {
@@ -130,16 +121,17 @@ public class ContactController {
     @Operation(summary = "Delete one Contact", responses = {
             @ApiResponse(description = "Successfully delete", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
             @ApiResponse(description = "Server error", responseCode = "503"),
-            @ApiResponse(description = "Contact not found", responseCode = "500")
+            @ApiResponse(description = "User not found", responseCode = "500")
     })
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteContact(@PathVariable(name = "id") final Long contactId) {
+    public ResponseEntity<?> deleteUser(@PathVariable(name = "id") final Long idUser) {
         Map<String, Object> response = new HashMap<>();
         try {
-            contactService.deleteContact(contactId);
-            response.put("response", "Contacto eliminado con exito");
+            userService.deleteUser(idUser);
+            response.put("response", "Usuario eliminado");
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (ContactException ex) {
+
+        } catch (UserException ex) {
             response.put("error", ex.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception ex) {
@@ -147,4 +139,6 @@ public class ContactController {
             return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
+
+
 }
