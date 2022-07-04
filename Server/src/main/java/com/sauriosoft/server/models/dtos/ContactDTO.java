@@ -1,6 +1,5 @@
 package com.sauriosoft.server.models.dtos;
 
-import com.sauriosoft.server.models.entities.BranchOfficeEntity;
 import com.sauriosoft.server.models.entities.ContactEntity;
 import lombok.*;
 
