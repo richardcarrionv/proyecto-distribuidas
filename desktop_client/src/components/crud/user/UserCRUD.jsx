@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import UserForm from "../../forms/user/userForm";
-import UserService from "../../../services/user/userService";
+import UserService from "../../../services/userService";
 import CRUD from "../CRUD"; 
 
 const UserCRUD = () => {

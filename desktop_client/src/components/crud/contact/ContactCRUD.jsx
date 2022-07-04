@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import ContactForm from "../../forms/contact/contactForm";
-import ContactService from "../../../services/contact/contactService";
+import ContactService from "../../../services/contactService";
 import CRUD from "../CRUD"; 
 
 const ContactCRUD = () => {

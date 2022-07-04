@@ -12,6 +12,7 @@ const { REACT_APP_MAPS_API_KEY } = process.env;
 Geocode.setApiKey(REACT_APP_MAPS_API_KEY);
 
 const BranchForm = ({ branch, onChange, onCoordsChange }) => {
+
   const initCoords = { lat: -0.1824739406812052, lng: -78.46213540619937 };
   const [mapZoom, setMapZoom] = useState(8);
   const [mapCenter, setMapCoords] = useState({ ...initCoords });

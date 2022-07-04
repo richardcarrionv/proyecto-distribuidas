@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import api from "../../../services/api";
 
 import BranchForm from "../../forms/branch/branchForm";
-import { headers, create, list } from "../../../services/branch/branchService";
+import { headers, create, list } from "../../../services/branchService";
 import CRUD from "../CRUD";
 
 const BranchCRUD = () => {
+
   const voidBranch = {
     id: null,
     name: "",
-    code: "",
     province: "",
     city: "",
     direction: "",
@@ -20,6 +19,7 @@ const BranchCRUD = () => {
     contactList: [],
     coordinates: "",
   };
+
   const tableHeaders = headers();
   const [tableRows, setTableRows] = useState([]);
   const [display, setDisplay] = useState(false);

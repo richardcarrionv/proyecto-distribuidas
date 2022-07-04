@@ -1,4 +1,4 @@
-import api from "../api";
+import api from "./api";
 
 export const create = async (branch) => {
   console.log(branch)
@@ -15,32 +15,11 @@ export const headers = () => {
   return [
     { key: "id", label: "Id" },
     { key: "name", label: "Nombre" },
-    { key: "code", label: "Codigo" },
+    { key: "verificationCode", label: "Codigo" },
     { key: "city", label: "Ciudad" },
     { key: "direction", label: "Direccion" },
-    { key: "coordinates", label: "Coordenadas" },
+    { key: "latitude", label: "latitude" },
+    { key: "longitude", label: "longitude" },
   ];
 };
-//return [
-//{
-//name: "Sucursal 1",
-//code: "2",
-//city: "A",
-//direction: "B",
-//coordinates: "123",
-//},
-//{
-//name: "Sucursal 2",
-//code: "1",
-//city: "A",
-//direction: "B",
-//coordinates: "123",
-//},
-//{
-//name: "Sucursal 3",
-//code: "3",
-//city: "A",
-//direction: "B",
-//coordinates: "123",
-//},
-//];
+
