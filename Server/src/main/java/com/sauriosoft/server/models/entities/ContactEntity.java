@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Builder
 public class ContactEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contact_id", length = 11)
     private Long id;
 
@@ -31,7 +31,7 @@ public class ContactEntity {
     @Column(name = "contact_phone", length = 10, nullable = false)
     private String phone;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     private BranchOfficeEntity branchOffice;
 
     public static ContactEntity from(ContactDTO contactDTO) {

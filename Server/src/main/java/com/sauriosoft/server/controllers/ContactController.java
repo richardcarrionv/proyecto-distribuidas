@@ -1,6 +1,7 @@
 package com.sauriosoft.server.controllers;
 
 import com.sauriosoft.server.models.dtos.ContactDTO;
+import com.sauriosoft.server.models.dtos.ContactNoBranchDTO;
 import com.sauriosoft.server.models.entities.BranchOfficeEntity;
 import com.sauriosoft.server.models.entities.ContactEntity;
 import com.sauriosoft.server.models.exceptions.ContactException;
@@ -84,20 +85,21 @@ public class ContactController {
             @ApiResponse(description = "Server error", responseCode = "503"),
             @ApiResponse(description = "Body with Id", responseCode = "500")
     })
-    @PostMapping
-    public ResponseEntity<?> addContact(@RequestBody final ContactDTO contactDTO) {
+    @PostMapping("/{idBranch}")
+    public ResponseEntity<?> addContact(@RequestBody final ContactNoBranchDTO contactDTO, @PathVariable(name = "idBranch") final Long idBranch) {
         Map<String, Object> response = new HashMap<>();
         try {
             if (Objects.isNull(contactDTO.getId())) {
                 ContactEntity contactToSave = ContactEntity.from(contactDTO);
-                BranchOfficeEntity branchOffice = contactToSave.getBranchOffice();
+                BranchOfficeEntity branchOffice = branchOfficeService.getById(idBranch);
+                contactToSave.setBranchOffice(branchOffice);
                 contactToSave = contactService.addContact(contactToSave);
                 branchOfficeService.saveContact(branchOffice.getId(), contactToSave);
-                ContactDTO contactDTOFromSave = ContactDTO.from(contactToSave);
+                ContactNoBranchDTO contactDTOFromSave = ContactNoBranchDTO.from(contactToSave);
                 response.put("response", contactDTOFromSave);
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             }
-            response.put("error", "Sucursal con ID");
+            response.put("error", "Contacto con ID");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception ex) {
             response.put("error", ex.getCause().getMessage());
@@ -111,11 +113,11 @@ public class ContactController {
             @ApiResponse(description = "Contact not found", responseCode = "500")
     })
     @PutMapping("{id}")
-    public ResponseEntity<?> updateContact(@PathVariable(name = "id") final Long contactId, @RequestBody final ContactDTO contactDTO) {
+    public ResponseEntity<?> updateContact(@PathVariable(name = "id") final Long contactId, @RequestBody final ContactNoBranchDTO contactDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
             ContactEntity contactToUpdate = ContactEntity.from(contactDTO);
-            ContactDTO contactDTOFromUpdate = ContactDTO.from(contactService.updateContact(contactId, contactToUpdate));
+            ContactNoBranchDTO contactDTOFromUpdate = ContactNoBranchDTO.from(contactService.updateContact(contactId, contactToUpdate));
             response.put("response", contactDTOFromUpdate);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (ContactException ex) {

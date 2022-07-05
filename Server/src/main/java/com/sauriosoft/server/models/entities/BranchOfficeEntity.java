@@ -6,6 +6,7 @@ import com.sauriosoft.server.models.dtos.ContactNoBranchDTO;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 @Table(name = "branch_offices")
 public class BranchOfficeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "branch_id", length = 11)
     private Long id;
 
@@ -46,11 +47,11 @@ public class BranchOfficeEntity {
     private String province;
 
     @OneToMany(
+            mappedBy = "branchOffice",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JoinColumn(name = "branch_id")
-    private Set<ContactEntity> contactEntityList;
+    private Set<ContactEntity> contactEntityList = new HashSet<>();
 
     public static BranchOfficeEntity from(BranchOfficeDTO branchOfficeDTO) {
         return BranchOfficeEntity.builder()
@@ -63,6 +64,18 @@ public class BranchOfficeEntity {
                 .province(branchOfficeDTO.getProvince())
                 .contactEntityList(branchOfficeDTO.getContactList().stream()
                         .map(ContactEntity::from).collect(Collectors.toSet()))
+                .build();
+    }
+
+    public static BranchOfficeEntity from(BranchOfficeNoContactDTO branchOfficeDTO) {
+        return BranchOfficeEntity.builder()
+                .name(branchOfficeDTO.getName())
+                .city(branchOfficeDTO.getCity())
+                .latitude(branchOfficeDTO.getLatitude())
+                .longitude(branchOfficeDTO.getLongitude())
+                .phone(branchOfficeDTO.getPhone())
+                .verificationCode(branchOfficeDTO.getVerificationCode())
+                .province(branchOfficeDTO.getProvince())
                 .build();
     }
 
