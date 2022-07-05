@@ -1,6 +1,7 @@
 package com.sauriosoft.server.controllers;
 
 import com.sauriosoft.server.models.dtos.BranchOfficeDTO;
+import com.sauriosoft.server.models.dtos.BranchOfficeNoContactDTO;
 import com.sauriosoft.server.models.entities.BranchOfficeEntity;
 import com.sauriosoft.server.models.exceptions.BranchOfficeException;
 import com.sauriosoft.server.models.services.IBranchOfficeService;
@@ -13,10 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,7 +22,7 @@ import java.util.stream.Collectors;
 public class BranchOfficeController {
     @Autowired
     private IBranchOfficeService branchOfficeService;
-    
+
 
     @Operation(summary = "Get all Branch Offices", responses = {
             @ApiResponse(description = "Succesful Operation", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
@@ -79,12 +77,12 @@ public class BranchOfficeController {
             @ApiResponse(description = "Server error", responseCode = "503")
     })
     @PostMapping
-    public ResponseEntity<?> addBranchOffice(@RequestBody final BranchOfficeDTO branchOfficeDTO) {
+    public ResponseEntity<?> addBranchOffice(@RequestBody final BranchOfficeNoContactDTO branchOfficeDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
             if (Objects.isNull(branchOfficeDTO.getId())) {
                 BranchOfficeEntity branchOfficeToSave = BranchOfficeEntity.from(branchOfficeDTO);
-
+                branchOfficeToSave.setContactEntityList(new HashSet<>());
                 response.put("response", BranchOfficeDTO.from(branchOfficeService.addBranchOffice(branchOfficeToSave)));
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             }

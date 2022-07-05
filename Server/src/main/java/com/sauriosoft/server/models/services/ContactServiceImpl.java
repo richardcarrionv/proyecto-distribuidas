@@ -28,7 +28,7 @@ public class ContactServiceImpl implements IContactService {
 
     @Override
     public ContactEntity addContact(ContactEntity contact) {
-        return contactRepository.saveAndFlush(contact);
+        return contactRepository.save(contact);
     }
 
     @Override
