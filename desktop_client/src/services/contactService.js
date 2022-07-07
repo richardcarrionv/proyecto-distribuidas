@@ -1,43 +1,33 @@
-export default class ContactService {
-  constructor() {}
+import api from "./api";
 
-  list() {
-    return [
-      {
-        name: "Richard",
-        surname: "Carrion",
-        branch: "Sucursal 1",
-        phone: "099495",
-      },
-      {
-        name: "Alex",
-        surname: "Tigselema",
-        branch: "Sucursal 2",
-        phone: "1092392",
-      },
-      {
-        name: "Jose",
-        surname: "Pazmino",
-        branch: "Sucursal 3",
-        phone: "09123",
-      },
-    ];
-  }
+const RESOURCE = "/igniters/"
 
-  edit(branch) {
-    console.log(branch);
-  }
+export const list = async () => {
+  const response = await api.get(RESOURCE);
+  return response;
+};
 
-  delete(id) {
-    console.log(id);
-  }
+export const create = async (igniter) => {
+  const  res  = await api.post(RESOURCE, igniter); 
+  return res; 
+};
 
-  headers() {
-    return [
+export const headers = [
       { key: "name", label: "Nombre" },
       { key: "surname", label: "Apellido" },
-      { key: "branch", label: "Sucursal" },
       { key: "phone", label: "Telefono" },
-    ];
-  }
+      { key: "ci", label: "Cedula" },
+      { key: "password", label: "Contraseña" },
+      { key: "branch_name", label: "Sucursal" },
+];
+
+export const newIgniter = { 
+    id: null,
+    name: "",
+    surname: "",
+    phone: "",
+    password: "default", 
+    ci: "",
+    branchId: 0,
 }
+

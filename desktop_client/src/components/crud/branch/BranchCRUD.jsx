@@ -11,7 +11,7 @@ import {
 import CRUD from "../CRUD";
 
 const BranchCRUD = () => {
-  const tableHeaders = headers();
+  const tableHeaders = headers;
   const [tableRows, setTableRows] = useState([]);
   const [display, setDisplay] = useState(false);
   const [branch, setBranch] = useState({ ...newBranch });
@@ -19,7 +19,7 @@ const BranchCRUD = () => {
   useEffect(() => {
     list().then((response) => {
       console.log("Listado: ", response);
-      if (response.status == 200) {
+      if (response.status === 200) {
         console.log(response.data.data);
         setTableRows(response.data.data);
       }
