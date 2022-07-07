@@ -1,34 +1,28 @@
 import React, { useState, useEffect } from "react";
 
 import BranchForm from "../../forms/branch/branchForm";
-import { headers, create, list } from "../../../services/branchService";
+import {
+  headers,
+  create,
+  list,
+  update,
+  newBranch,
+} from "../../../services/branchService";
 import CRUD from "../CRUD";
 
 const BranchCRUD = () => {
-
-  const voidBranch = {
-    id: null,
-    name: "",
-    province: "",
-    city: "",
-    direction: "",
-    latitude: "",
-    longitude: "",
-    phone: "",
-    verificationCode: "",
-    contactList: [],
-    coordinates: "",
-  };
-
   const tableHeaders = headers();
   const [tableRows, setTableRows] = useState([]);
   const [display, setDisplay] = useState(false);
-  const [branch, setBranch] = useState({ ...voidBranch });
+  const [branch, setBranch] = useState({ ...newBranch });
 
   useEffect(() => {
-    list().then((data) => {
-      console.log("Listado: ", data.response);
-      setTableRows(data.response);
+    list().then((response) => {
+      console.log("Listado: ", response);
+      if (response.status == 200) {
+        console.log(response.data.data);
+        setTableRows(response.data.data);
+      }
     });
   }, []);
 
@@ -47,7 +41,11 @@ const BranchCRUD = () => {
   };
 
   const handleSave = () => {
-    create(branch).then((res) => console.log(res));
+    if (branch.id == null) {
+      create(branch).then((res) => console.log(res));
+    } else {
+      update(branch).then((res) => console.log(res));
+    }
     setDisplay(false);
   };
 
@@ -61,7 +59,7 @@ const BranchCRUD = () => {
   };
 
   const handleCreate = () => {
-    setBranch({ ...voidBranch });
+    setBranch({ ...newBranch });
     setDisplay(true);
   };
 

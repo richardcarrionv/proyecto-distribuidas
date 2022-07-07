@@ -1,5 +1,5 @@
 import { Button, Container, Dialog, TextField } from "@mui/material";
-import React from "react";
+import React, {useEffect} from "react";
 import { useState } from "react";
 import BasicInput from "../../inputs/basic/basicInput";
 import Maps from "../../maps/Maps";
@@ -16,6 +16,17 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
   const initCoords = { lat: -0.1824739406812052, lng: -78.46213540619937 };
   const [mapZoom, setMapZoom] = useState(8);
   const [mapCenter, setMapCoords] = useState({ ...initCoords });
+
+  useEffect( () => { 
+    if(branch.latitude != ""){ 
+      const lat = parseFloat(branch.latitude); 
+      const lng = parseFloat(branch.longitude); 
+      const coords = { lat: lat, lng: lng };
+      onCoordsChange(coords)();
+      setMapCoords(coords)
+      setMapZoom(16)
+    }
+  },[] )
 
   const searchDirection = () => {
     var address = branch.direction + "," + branch.city + "," + branch.province;
@@ -50,9 +61,9 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
         ></BasicInput>
 
         <BasicInput
-          value={branch.code}
+          value={branch.verificationCode}
           name="Codigo"
-          onChange={onChange("code")}
+          onChange={onChange("verificationCode")}
         ></BasicInput>
 
         <BasicInput
@@ -70,10 +81,10 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
         <FormControl sx={{ m: 1, width: "25ch" }}>
           <TextField
             id="outlined-multiline-static"
-            value={branch.direction}
+            value={branch.address}
             label="Direccion"
             multiline
-            onChange={(event) => onChange("direction")(event.target.value)}
+            onChange={(event) => onChange("address")(event.target.value)}
           />
         </FormControl>
 

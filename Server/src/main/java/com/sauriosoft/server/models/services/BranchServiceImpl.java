@@ -35,8 +35,11 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public Branch update(Branch branchOffice, Long idBranchOffice) {
         Branch branchOfficeToUpdate = getById(idBranchOffice);
-        branchOfficeToUpdate.setCity(branchOffice.getCity());
         branchOfficeToUpdate.setName(branchOffice.getName());
+        branchOfficeToUpdate.setVerificationCode(branchOffice.getVerificationCode());
+        branchOfficeToUpdate.setProvince(branchOffice.getProvince());
+        branchOfficeToUpdate.setCity(branchOffice.getCity());
+        branchOfficeToUpdate.setAddress(branchOffice.getAddress());
         branchOfficeToUpdate.setLatitude(branchOffice.getLatitude());
         branchOfficeToUpdate.setLongitude(branchOffice.getLongitude());
         branchOfficeToUpdate.setPhone(branchOffice.getPhone());

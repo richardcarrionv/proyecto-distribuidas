@@ -1,25 +1,43 @@
 import api from "./api";
 
 export const create = async (branch) => {
-  console.log(branch)
-  const  res  = await api.post("/branchOffices/", branch); 
+  const  res  = await api.post("/branches/", branch); 
   return res; 
 };
 
 export const list = async () => {
-  const { data } = await api.get("/branchOffices/");
-  return data;
+  const response = await api.get("/branches/");
+  return response;
 };
+
+export const update = async (branch) => { 
+  console.log("Branch", branch)
+  const response = await api.put(`/branches/${branch.id}`, branch);
+  return response;
+}
 
 export const headers = () => {
   return [
     { key: "id", label: "Id" },
     { key: "name", label: "Nombre" },
     { key: "verificationCode", label: "Codigo" },
+    { key: "province", label: "Provincia" },
     { key: "city", label: "Ciudad" },
-    { key: "direction", label: "Direccion" },
-    { key: "latitude", label: "latitude" },
-    { key: "longitude", label: "longitude" },
+    { key: "address", label: "Direccion" },
+    { key: "latitude", label: "Latitud" },
+    { key: "longitude", label: "Longitud" },
   ];
 };
 
+export const newBranch = { 
+    id: null,
+    name: "",
+    province: "",
+    city: "",
+    address: "",
+    latitude: "",
+    longitude: "",
+    phone: "",
+    verificationCode: "",
+    coordinates: "",
+}
