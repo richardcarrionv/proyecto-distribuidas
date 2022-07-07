@@ -40,20 +40,17 @@ public class IgniterController {
     @GetMapping
     public ResponseEntity<?> getAll() {
         Map<String, Object> response = new HashMap<>();
-        try {
-            List<Igniter> igniters = igniterService.getAll();
-            if (igniters.isEmpty()) {
-                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-            }
-            List<IgniterBranchDetailDTO> igniterDTOS = igniters.stream()
-                    .map(IgniterBranchDetailDTO::from)
-                    .collect(Collectors.toList());
-
-            response.put("data", igniterDTOS);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex);
+        List<Igniter> igniters = igniterService.getAll();
+        if (igniters.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
+        List<IgniterBranchDetailDTO> igniterDTOS = igniters.stream()
+                .map(IgniterBranchDetailDTO::from)
+                .collect(Collectors.toList());
+
+        response.put("data", igniterDTOS);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
     @Operation(summary = "Get one Contact by Id", responses = {
@@ -64,16 +61,10 @@ public class IgniterController {
     @GetMapping("{id}")
     public ResponseEntity<?> getById(@PathVariable(name = "id") final Long igniterId) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            Igniter igniter = igniterService.getById(igniterId);
-            IgniterBranchDetailDTO igniterBranchDetailDTO = IgniterBranchDetailDTO.from(igniter);
-            response.put("data", igniterBranchDetailDTO);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (IgniterException ex) {
-            return internalServerErrorMessage(response, ex.getMessage());
-        } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex);
-        }
+        Igniter igniter = igniterService.getById(igniterId);
+        IgniterBranchDetailDTO igniterBranchDetailDTO = IgniterBranchDetailDTO.from(igniter);
+        response.put("data", igniterBranchDetailDTO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
@@ -85,25 +76,21 @@ public class IgniterController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody final IgniterDTO igniterDTO) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            if (Objects.isNull(igniterDTO.getId())) {
+        if (Objects.isNull(igniterDTO.getId())) {
 
-                Long branchId = igniterDTO.getBranchId();
-                Branch branch = branchService.getById(branchId);
-                Igniter igniter = Igniter.from(igniterDTO, branch);
+            Long branchId = igniterDTO.getBranchId();
+            Branch branch = branchService.getById(branchId);
+            Igniter igniter = Igniter.from(igniterDTO, branch);
 
-                igniter.setBranch(branch);
-                igniter = igniterService.create(igniter);
+            igniter.setBranch(branch);
+            igniter = igniterService.create(igniter);
 
 
-                IgniterDTO igniterDTOFromSave = IgniterDTO.from(igniter);
-                response.put("data", igniterDTOFromSave);
-                return new ResponseEntity<>(response, HttpStatus.CREATED);
-            }
-            return internalServerErrorMessage(response, "Contacto con ID");
-        } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex);
+            IgniterDTO igniterDTOFromSave = IgniterDTO.from(igniter);
+            response.put("data", igniterDTOFromSave);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
+        throw new IgniterException("Ya existe un igniter con el id: ".concat(igniterDTO.getId().toString()));
     }
 
     @Operation(summary = "Update one Contact", responses = {
@@ -114,18 +101,13 @@ public class IgniterController {
     @PutMapping("{id}")
     public ResponseEntity<?> update(@PathVariable(name = "id") final Long igniterId, @RequestBody final IgniterDTO igniterDTO) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            Long branchId = igniterDTO.getBranchId();
-            Branch branch = branchService.getById(branchId);
-            Igniter igniter = Igniter.from(igniterDTO, branch);
-            IgniterDTO igniterDTOFromUpdate = IgniterDTO.from(igniterService.update(igniterId, igniter));
-            response.put("data", igniterDTOFromUpdate);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (IgniterException ex) {
-            return internalServerErrorMessage(response, ex.getMessage());
-        } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex);
-        }
+        Long branchId = igniterDTO.getBranchId();
+        Branch branch = branchService.getById(branchId);
+        Igniter igniter = Igniter.from(igniterDTO, branch);
+        IgniterDTO igniterDTOFromUpdate = IgniterDTO.from(igniterService.update(igniterId, igniter));
+        response.put("data", igniterDTOFromUpdate);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
     }
 
     @Operation(summary = "Delete one Contact", responses = {
@@ -136,23 +118,10 @@ public class IgniterController {
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") final Long igniterId) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            igniterService.delete(igniterId);
-            response.put("success_message", "Contacto eliminado con exito");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (IgniterException ex) {
-            return internalServerErrorMessage(response, ex.getMessage());
-        } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex);
-        }
+        igniterService.delete(igniterId);
+        response.put("success_message", "Contacto eliminado con exito");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
-    private ResponseEntity<?> internalServerErrorMessage(Map<String, Object> response, String message){
-        response.put("error", message);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-    private ResponseEntity<?> serviceUnavailableMessage(Map<String, Object> response, Exception ex){
-        response.put("error", ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
-    }
 }
