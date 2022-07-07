@@ -1,13 +1,12 @@
 package com.sauriosoft.server.controllers;
 
 import com.sauriosoft.server.models.dtos.UserDTO;
-import com.sauriosoft.server.models.entities.UserEntity;
+import com.sauriosoft.server.models.entities.User;
 import com.sauriosoft.server.models.exceptions.UserException;
-import com.sauriosoft.server.models.services.IUserService;
+import com.sauriosoft.server.models.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
 public class UserController {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Operation(summary = "Get all users", responses = {
             @ApiResponse(description = "Successful Operation", responseCode = "200", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true),
@@ -34,19 +33,15 @@ public class UserController {
     @GetMapping()
     public ResponseEntity<?> getAll() {
         Map<String, Object> response = new HashMap<>();
-        try {
-            List<UserEntity> userEntityList = userService.getAll();
-            if (userEntityList.isEmpty()) {
-                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-            } else {
-                List<UserDTO> userDTOS = userEntityList.stream().map(UserDTO::from).collect(Collectors.toList());
-                response.put("response", userDTOS);
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            }
-        } catch (Exception ex) {
-            response.put("error", "Error en el servidor");
-            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+        List<User> userList = userService.getAll();
+        if (userList.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        } else {
+            List<UserDTO> userDTOS = userList.stream().map(UserDTO::from).collect(Collectors.toList());
+            response.put("response", userDTOS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
+
     }
 
     @Operation(summary = "Get one User by Id", responses = {
@@ -57,17 +52,10 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity<?> getById(@PathVariable(name = "id") final Long idUser) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            UserEntity userEntity = userService.getById(idUser);
-            response.put("response", UserDTO.from(userEntity));
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (UserException ex) {
-            response.put("error", ex.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (Exception ex) {
-            response.put("error", "Error en el servidor");
-            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
-        }
+        User user = userService.getById(idUser);
+        response.put("response", UserDTO.from(user));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
     @Operation(summary = "Save one User", responses = {
@@ -78,21 +66,13 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> addUser(@RequestBody final UserDTO userDTO) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            if (Objects.isNull(userDTO.getId())) {
-                UserEntity userEntity = UserEntity.from(userDTO);
-                userEntity = userService.addUser(userEntity);
-                response.put("response", UserDTO.from(userEntity));
-                return new ResponseEntity<>(response, HttpStatus.CREATED);
-            }
-            response.put("error", "Contacto con ID");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-
-        } catch (Exception ex) {
-            response.put("error", "Error en el servidor");
-            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+        if (Objects.isNull(userDTO.getId())) {
+            User user = User.from(userDTO);
+            user = userService.create(user);
+            response.put("response", UserDTO.from(user));
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
-
+        throw new UserException("Ya existe un usuario con el id: ".concat(userDTO.getId().toString()));
     }
 
     @Operation(summary = "Update one User", responses = {
@@ -104,18 +84,11 @@ public class UserController {
     public ResponseEntity<?> updateUser(@PathVariable(name = "id") final Long idUser,
                                         @RequestBody final UserDTO userDTO) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            UserEntity userToUpdate = UserEntity.from(userDTO);
-            UserDTO userDTOFromUpdate = UserDTO.from(userService.updateUser(userToUpdate, idUser));
-            response.put("response", userDTOFromUpdate);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (UserException ex) {
-            response.put("error", ex.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (Exception ex) {
-            response.put("error", "Error en el servidor");
-            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
-        }
+        User userToUpdate = User.from(userDTO);
+        UserDTO userDTOFromUpdate = UserDTO.from(userService.update(userToUpdate, idUser));
+        response.put("response", userDTOFromUpdate);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
     }
 
     @Operation(summary = "Delete one Contact", responses = {
@@ -126,18 +99,9 @@ public class UserController {
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteUser(@PathVariable(name = "id") final Long idUser) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            userService.deleteUser(idUser);
-            response.put("response", "Usuario eliminado");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-        } catch (UserException ex) {
-            response.put("error", ex.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (Exception ex) {
-            response.put("error", "Error en el servidor");
-            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
-        }
+        userService.delete(idUser);
+        response.put("response", "Usuario eliminado");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

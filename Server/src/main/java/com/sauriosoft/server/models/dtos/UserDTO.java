@@ -1,6 +1,6 @@
 package com.sauriosoft.server.models.dtos;
 
-import com.sauriosoft.server.models.entities.UserEntity;
+import com.sauriosoft.server.models.entities.User;
 import com.sauriosoft.server.models.util.Role;
 import lombok.*;
 
@@ -19,11 +19,11 @@ public class UserDTO {
 
     private Role role;
 
-    public static UserDTO from(UserEntity userEntity) {
-        return UserDTO.builder().id(userEntity.getId())
-                .username(userEntity.getUsername())
-                .password(userEntity.getPassword())
-                .role(userEntity.getRole())
+    public static UserDTO from(User user) {
+        return UserDTO.builder().id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .role(user.getRole())
                 .build();
     }
 
