@@ -1,7 +1,7 @@
 package com.sauriosoft.server.controllers;
 
 import com.sauriosoft.server.models.dtos.BranchDTO;
-import com.sauriosoft.server.models.dtos.IgniterDTO;
+import com.sauriosoft.server.models.dtos.igniter.IgniterDTO;
 import com.sauriosoft.server.models.entities.Branch;
 import com.sauriosoft.server.models.entities.Igniter;
 import com.sauriosoft.server.models.exceptions.BranchException;

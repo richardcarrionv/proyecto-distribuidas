@@ -1,6 +1,7 @@
 package com.sauriosoft.server.controllers;
 
-import com.sauriosoft.server.models.dtos.IgniterDTO;
+import com.sauriosoft.server.models.dtos.igniter.IgniterBranchDetailDTO;
+import com.sauriosoft.server.models.dtos.igniter.IgniterDTO;
 import com.sauriosoft.server.models.entities.Branch;
 import com.sauriosoft.server.models.entities.Igniter;
 import com.sauriosoft.server.models.exceptions.IgniterException;
@@ -44,8 +45,8 @@ public class IgniterController {
             if (igniters.isEmpty()) {
                 return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
             }
-            List<IgniterDTO> igniterDTOS = igniters.stream()
-                    .map(IgniterDTO::from)
+            List<IgniterBranchDetailDTO> igniterDTOS = igniters.stream()
+                    .map(IgniterBranchDetailDTO::from)
                     .collect(Collectors.toList());
 
             response.put("data", igniterDTOS);
@@ -65,8 +66,8 @@ public class IgniterController {
         Map<String, Object> response = new HashMap<>();
         try {
             Igniter igniter = igniterService.getById(igniterId);
-            IgniterDTO igniterDTO = IgniterDTO.from(igniter);
-            response.put("data", igniterDTO);
+            IgniterBranchDetailDTO igniterBranchDetailDTO = IgniterBranchDetailDTO.from(igniter);
+            response.put("data", igniterBranchDetailDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IgniterException ex) {
             return internalServerErrorMessage(response, ex.getMessage());

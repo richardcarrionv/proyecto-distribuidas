@@ -1,4 +1,4 @@
-package com.sauriosoft.server.models.dtos;
+package com.sauriosoft.server.models.dtos.igniter;
 
 import com.sauriosoft.server.models.entities.Igniter;
 import lombok.*;

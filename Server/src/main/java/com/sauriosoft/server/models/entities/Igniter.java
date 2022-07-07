@@ -1,6 +1,6 @@
 package com.sauriosoft.server.models.entities;
 
-import com.sauriosoft.server.models.dtos.IgniterDTO;
+import com.sauriosoft.server.models.dtos.igniter.IgniterDTO;
 import lombok.*;
 
 import javax.persistence.*;
