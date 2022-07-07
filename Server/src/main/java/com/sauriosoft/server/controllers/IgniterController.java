@@ -48,7 +48,7 @@ public class IgniterController {
                     .map(IgniterDTO::from)
                     .collect(Collectors.toList());
 
-            response.put("response", igniterDTOS);
+            response.put("data", igniterDTOS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception ex) {
             return serviceUnavailableMessage(response, ex);
@@ -66,7 +66,7 @@ public class IgniterController {
         try {
             Igniter igniter = igniterService.getById(igniterId);
             IgniterDTO igniterDTO = IgniterDTO.from(igniter);
-            response.put("response", igniterDTO);
+            response.put("data", igniterDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IgniterException ex) {
             return internalServerErrorMessage(response, ex.getMessage());
@@ -81,21 +81,22 @@ public class IgniterController {
             @ApiResponse(description = "Server error", responseCode = "503"),
             @ApiResponse(description = "Body with Id", responseCode = "500")
     })
-    @PostMapping("/{idBranch}")
-    public ResponseEntity<?> create(@RequestBody final IgniterDTO igniterDTO, @PathVariable(name = "idBranch") final Long idBranch) {
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody final IgniterDTO igniterDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
             if (Objects.isNull(igniterDTO.getId())) {
 
-                Igniter igniter = Igniter.from(igniterDTO);
-                Branch branchOffice = branchService.getById(idBranch);
+                Long branchId = igniterDTO.getBranchId();
+                Branch branch = branchService.getById(branchId);
+                Igniter igniter = Igniter.from(igniterDTO, branch);
 
-                igniter.setBranch(branchOffice);
+                igniter.setBranch(branch);
                 igniter = igniterService.create(igniter);
 
 
                 IgniterDTO igniterDTOFromSave = IgniterDTO.from(igniter);
-                response.put("response", igniterDTOFromSave);
+                response.put("data", igniterDTOFromSave);
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             }
             return internalServerErrorMessage(response, "Contacto con ID");
@@ -113,9 +114,11 @@ public class IgniterController {
     public ResponseEntity<?> update(@PathVariable(name = "id") final Long igniterId, @RequestBody final IgniterDTO igniterDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
-            Igniter igniterToUpdate = Igniter.from(igniterDTO);
-            IgniterDTO igniterDTOFromUpdate = IgniterDTO.from(igniterService.update(igniterId, igniterToUpdate));
-            response.put("response", igniterDTOFromUpdate);
+            Long branchId = igniterDTO.getBranchId();
+            Branch branch = branchService.getById(branchId);
+            Igniter igniter = Igniter.from(igniterDTO, branch);
+            IgniterDTO igniterDTOFromUpdate = IgniterDTO.from(igniterService.update(igniterId, igniter));
+            response.put("data", igniterDTOFromUpdate);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (IgniterException ex) {
             return internalServerErrorMessage(response, ex.getMessage());
@@ -134,7 +137,7 @@ public class IgniterController {
         Map<String, Object> response = new HashMap<>();
         try {
             igniterService.delete(igniterId);
-            response.put("response", "Contacto eliminado con exito");
+            response.put("message", "Contacto eliminado con exito");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IgniterException ex) {
             return internalServerErrorMessage(response, ex.getMessage());

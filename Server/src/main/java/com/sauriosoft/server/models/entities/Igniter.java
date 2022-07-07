@@ -24,22 +24,26 @@ public class Igniter {
     @Column(name = "surname", length = 50, nullable = false)
     private String surname;
 
+
+    @Column(name = "password", length = 15, nullable = false)
+    private String password;
+
     @Column(name = "ci", length = 10, nullable = false, unique = true)
     private String ci;
 
     @Column(name = "phone", length = 10, nullable = false)
     private String phone;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Branch branch;
 
-    public static Igniter from(IgniterDTO igniterDTO) {
+    public static Igniter from(IgniterDTO igniterDTO, Branch branch) {
         return Igniter.builder()
                 .name(igniterDTO.getName())
                 .surname(igniterDTO.getSurname())
                 .phone(igniterDTO.getPhone())
+                .password(igniterDTO.getPassword())
                 .ci(igniterDTO.getCi())
-                .branch(Branch.from(igniterDTO.getBranch()))
+                .branch(branch)
                 .build();
     }
 

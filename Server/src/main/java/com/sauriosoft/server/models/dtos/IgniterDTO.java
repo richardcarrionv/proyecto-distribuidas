@@ -18,9 +18,10 @@ public class IgniterDTO {
 
     private String phone;
 
+    private String password;
     private String ci;
 
-    private BranchDTO branch;
+    private Long branchId;
 
     public static IgniterDTO from(Igniter igniter) {
         return IgniterDTO.builder()
@@ -29,7 +30,8 @@ public class IgniterDTO {
                 .surname(igniter.getSurname())
                 .phone(igniter.getPhone())
                 .ci(igniter.getCi())
-                .branch(BranchDTO.from(igniter.getBranch()))
+                .password(igniter.getPassword())
+                .branchId(igniter.getBranch().getId())
                 .build();
     }
 }
