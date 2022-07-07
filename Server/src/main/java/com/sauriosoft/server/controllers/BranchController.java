@@ -1,10 +1,9 @@
 package com.sauriosoft.server.controllers;
 
-import com.sauriosoft.server.models.dtos.BranchOfficeDTO;
-import com.sauriosoft.server.models.dtos.BranchOfficeNoContactDTO;
-import com.sauriosoft.server.models.entities.BranchOfficeEntity;
-import com.sauriosoft.server.models.exceptions.BranchOfficeException;
-import com.sauriosoft.server.models.services.IBranchOfficeService;
+import com.sauriosoft.server.models.dtos.BranchDTO;
+import com.sauriosoft.server.models.entities.Branch;
+import com.sauriosoft.server.models.exceptions.BranchException;
+import com.sauriosoft.server.models.services.BranchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,15 +12,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/branchOffices/")
-public class BranchOfficeController {
+@RequestMapping("/branches/")
+public class BranchController {
     @Autowired
-    private IBranchOfficeService branchOfficeService;
+    private BranchService branchService;
 
 
     @Operation(summary = "Get all Branch Offices", responses = {
@@ -33,20 +31,23 @@ public class BranchOfficeController {
     public ResponseEntity<?> getAll() {
         Map<String, Object> response = new HashMap<>();
         try {
-            List<BranchOfficeEntity> listOfBranchOffices = branchOfficeService.getAll();
+
+            List<Branch> listOfBranchOffices = branchService.getAll();
+
             if (listOfBranchOffices.isEmpty()) {
                 response.put("message", "No hay Sucursales para mostrar");
                 return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
             }
-            List<BranchOfficeDTO> listOfBranchOfficeDTOS = listOfBranchOffices
+
+            List<BranchDTO> listOfBranchDTOS = listOfBranchOffices
                     .stream()
-                    .map(BranchOfficeDTO::from)
+                    .map(BranchDTO::from)
                     .collect(Collectors.toList());
-            response.put("response", listOfBranchOfficeDTOS);
+
+            response.put("response", listOfBranchDTOS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception ex) {
-            response.put("error", "Ha ocurrido un error en el servidor");
-            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+            return serviceUnavailableMessage(response, ex);
         }
     }
 
@@ -59,15 +60,13 @@ public class BranchOfficeController {
     public ResponseEntity<?> getById(@PathVariable(name = "id") final Long idBranchOffice) {
         Map<String, Object> response = new HashMap<>();
         try {
-            BranchOfficeEntity branchOffice = branchOfficeService.getById(idBranchOffice);
-            response.put("response", BranchOfficeDTO.from(branchOffice));
+            Branch branchOffice = branchService.getById(idBranchOffice);
+            response.put("response", BranchDTO.from(branchOffice));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (BranchOfficeException ex) {
-            response.put("error", ex.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (BranchException ex) {
+            return internalServerErrorMessage(response, ex.getMessage());
         } catch (Exception ex) {
-            response.put("error", "Ha ocurrido un error en el servidor");
-            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+            return serviceUnavailableMessage(response, ex);
         }
     }
 
@@ -77,20 +76,17 @@ public class BranchOfficeController {
             @ApiResponse(description = "Server error", responseCode = "503")
     })
     @PostMapping
-    public ResponseEntity<?> addBranchOffice(@RequestBody final BranchOfficeNoContactDTO branchOfficeDTO) {
+    public ResponseEntity<?> addBranchOffice(@RequestBody final BranchDTO branchDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
-            if (Objects.isNull(branchOfficeDTO.getId())) {
-                BranchOfficeEntity branchOfficeToSave = BranchOfficeEntity.from(branchOfficeDTO);
-                branchOfficeToSave.setContactEntityList(new HashSet<>());
-                response.put("response", BranchOfficeDTO.from(branchOfficeService.addBranchOffice(branchOfficeToSave)));
+            if (Objects.isNull(branchDTO.getId())) {
+                Branch branchOfficeToSave = Branch.from(branchDTO);
+                response.put("response", BranchDTO.from(branchService.create(branchOfficeToSave)));
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             }
-            response.put("error", "La sucursal posee Identificador");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return internalServerErrorMessage(response, "La sucursal posee identificador");
         } catch (Exception ex) {
-            response.put("error", ex.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+            return serviceUnavailableMessage(response, ex);
         }
     }
 
@@ -101,19 +97,17 @@ public class BranchOfficeController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<?> updateBranchOfficeById(@PathVariable(name = "id") final Long idBranchOffice,
-                                                    @RequestBody final BranchOfficeDTO branchOfficeDTO) {
+                                                    @RequestBody final BranchDTO branchDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
-            BranchOfficeEntity branchOfficeToUpdate = BranchOfficeEntity.from(branchOfficeDTO);
-            branchOfficeToUpdate = branchOfficeService.updateBranchOffice(branchOfficeToUpdate, idBranchOffice);
-            response.put("response", BranchOfficeDTO.from(branchOfficeToUpdate));
+            Branch branchOfficeToUpdate = Branch.from(branchDTO);
+            branchOfficeToUpdate = branchService.update(branchOfficeToUpdate, idBranchOffice);
+            response.put("response", BranchDTO.from(branchOfficeToUpdate));
             return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (BranchOfficeException ex) {
-            response.put("error", ex.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (BranchException ex) {
+            return internalServerErrorMessage(response, ex.getMessage());
         } catch (Exception ex) {
-            response.put("error", ex.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+            return serviceUnavailableMessage(response, ex);
         }
     }
 
@@ -126,17 +120,23 @@ public class BranchOfficeController {
     public ResponseEntity<?> deleteBranchOfficeById(@PathVariable(name = "id") final Long idBranchOffice) {
         Map<String, Object> response = new HashMap<>();
         try {
-            branchOfficeService.deleteBranchOffice(idBranchOffice);
+            branchService.delete(idBranchOffice);
             response.put("response", "Sucursal eliminada éxitosamente.");
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-        } catch (BranchOfficeException ex) {
-            response.put("error", ex.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (BranchException ex) {
+            return internalServerErrorMessage(response, ex.getMessage());
         } catch (Exception ex) {
-            response.put("error", ex.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+            return serviceUnavailableMessage(response, ex);
         }
     }
 
+    private ResponseEntity<?> internalServerErrorMessage(Map<String, Object> response, String message){
+        response.put("error", message);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    private ResponseEntity<?> serviceUnavailableMessage(Map<String, Object> response, Exception ex){
+        response.put("error", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+    }
 
 }
