@@ -22,7 +22,9 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public Branch getById(Long idBranchOffice) {
-        return branchRepository.findById(idBranchOffice).orElseThrow(() -> new BranchException("Not found Branch_Office with id: ".concat(idBranchOffice.toString())));
+        return branchRepository.findById(idBranchOffice)
+                .orElseThrow(() -> new BranchException("Not found Branch_Office with id: "
+                        .concat(idBranchOffice.toString())));
     }
 
     @Override

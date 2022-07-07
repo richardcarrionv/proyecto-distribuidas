@@ -36,25 +36,21 @@ public class BranchController {
     @GetMapping
     public ResponseEntity<?> getAll() {
         Map<String, Object> response = new HashMap<>();
-        try {
 
-            List<Branch> listOfBranchOffices = branchService.getAll();
+        List<Branch> listOfBranchOffices = branchService.getAll();
 
-            if (listOfBranchOffices.isEmpty()) {
-                response.put("message", "No hay Sucursales para mostrar");
-                return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
-            }
-
-            List<BranchDTO> listOfBranchDTOS = listOfBranchOffices
-                    .stream()
-                    .map(BranchDTO::from)
-                    .collect(Collectors.toList());
-
-            response.put("data", listOfBranchDTOS);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex.getMessage());
+        if (listOfBranchOffices.isEmpty()) {
+            response.put("message", "No hay Sucursales para mostrar");
+            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
         }
+
+        List<BranchDTO> listOfBranchDTOS = listOfBranchOffices
+                .stream()
+                .map(BranchDTO::from)
+                .collect(Collectors.toList());
+
+        response.put("data", listOfBranchDTOS);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Operation(summary = "Get one Branch Office by Id", responses = {
@@ -65,32 +61,20 @@ public class BranchController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable(name = "id") final Long idBranchOffice) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            Branch branchOffice = branchService.getById(idBranchOffice);
-            response.put("data", BranchDTO.from(branchOffice));
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (BranchException ex) {
-            return internalServerErrorMessage(response, ex.getMessage());
-        } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex.getMessage());
-        }
+        Branch branchOffice = branchService.getById(idBranchOffice);
+        response.put("data", BranchDTO.from(branchOffice));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/igniters")
     public ResponseEntity<?> getIgniters(@PathVariable(name = "id") final Long idBranchOffice) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            List<Igniter> igniters = igniterService.getAllByBranchId(idBranchOffice);
-            List<IgniterDTO> igniterDTOS = igniters .stream()
-                                    .map(IgniterDTO::from)
-                                    .collect(Collectors.toList());
-            response.put("data", igniterDTOS);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (BranchException ex) {
-            return internalServerErrorMessage(response, ex.getMessage());
-        } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex.getMessage());
-        }
+        List<Igniter> igniters = igniterService.getAllByBranchId(idBranchOffice);
+        List<IgniterDTO> igniterDTOS = igniters.stream()
+                .map(IgniterDTO::from)
+                .collect(Collectors.toList());
+        response.put("data", igniterDTOS);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Operation(summary = "Save one new Branch Office", responses = {
@@ -101,16 +85,12 @@ public class BranchController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody final BranchDTO branchDTO) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            if (Objects.isNull(branchDTO.getId())) {
-                Branch branchOfficeToSave = Branch.from(branchDTO);
-                response.put("data", BranchDTO.from(branchService.create(branchOfficeToSave)));
-                return new ResponseEntity<>(response, HttpStatus.CREATED);
-            }
-            return internalServerErrorMessage(response, "La sucursal posee identificador");
-        } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex.getMessage());
+        if (Objects.isNull(branchDTO.getId())) {
+            Branch branchOfficeToSave = Branch.from(branchDTO);
+            response.put("data", BranchDTO.from(branchService.create(branchOfficeToSave)));
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
+        throw new BranchException("Ya existe una sucursal con la id: ".concat(branchDTO.getId().toString()));
     }
 
     @Operation(summary = "Update one Branch Office by Id and new Body", responses = {
@@ -122,16 +102,10 @@ public class BranchController {
     public ResponseEntity<?> update(@PathVariable(name = "id") final Long idBranchOffice,
                                     @RequestBody final BranchDTO branchDTO) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            Branch branchOfficeToUpdate = Branch.from(branchDTO);
-            branchOfficeToUpdate = branchService.update(branchOfficeToUpdate, idBranchOffice);
-            response.put("data", BranchDTO.from(branchOfficeToUpdate));
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (BranchException ex) {
-            return internalServerErrorMessage(response, ex.getMessage());
-        } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex.getMessage());
-        }
+        Branch branch = Branch.from(branchDTO);
+        branch = branchService.update(branch, idBranchOffice);
+        response.put("data", BranchDTO.from(branch));
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete one Branch Office by Id", responses = {
@@ -142,24 +116,10 @@ public class BranchController {
     @DeleteMapping("/id")
     public ResponseEntity<?> delete(@PathVariable(name = "id") final Long idBranchOffice) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            branchService.delete(idBranchOffice);
-            response.put("success_message", "Sucursal eliminada éxitosamente.");
-            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-        } catch (BranchException ex) {
-            return internalServerErrorMessage(response, ex.getMessage());
-        } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex.getMessage());
-        }
-    }
+        branchService.delete(idBranchOffice);
+        response.put("success_message", "Sucursal eliminada éxitosamente.");
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 
-    private ResponseEntity<?> internalServerErrorMessage(Map<String, Object> response, String message){
-        response.put("error", message);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-    private ResponseEntity<?> serviceUnavailableMessage(Map<String, Object> response, String message){
-        response.put("error", message);
-        return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
 }
