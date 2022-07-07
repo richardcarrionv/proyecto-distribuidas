@@ -9,6 +9,7 @@ public interface IgniterService {
 
     List<Igniter> getAll();
 
+    List<Igniter> getAllByBranchId(Long branchId);
     Igniter getById(Long contactId);
 
     Igniter create(Igniter contact);

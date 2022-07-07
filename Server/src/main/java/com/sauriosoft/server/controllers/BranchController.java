@@ -1,9 +1,12 @@
 package com.sauriosoft.server.controllers;
 
 import com.sauriosoft.server.models.dtos.BranchDTO;
+import com.sauriosoft.server.models.dtos.IgniterDTO;
 import com.sauriosoft.server.models.entities.Branch;
+import com.sauriosoft.server.models.entities.Igniter;
 import com.sauriosoft.server.models.exceptions.BranchException;
 import com.sauriosoft.server.models.services.BranchService;
+import com.sauriosoft.server.models.services.IgniterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,6 +23,9 @@ import java.util.stream.Collectors;
 public class BranchController {
     @Autowired
     private BranchService branchService;
+
+    @Autowired
+    private IgniterService igniterService;
 
 
     @Operation(summary = "Get all Branch Offices", responses = {
@@ -62,6 +68,23 @@ public class BranchController {
         try {
             Branch branchOffice = branchService.getById(idBranchOffice);
             response.put("response", BranchDTO.from(branchOffice));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (BranchException ex) {
+            return internalServerErrorMessage(response, ex.getMessage());
+        } catch (Exception ex) {
+            return serviceUnavailableMessage(response, ex);
+        }
+    }
+
+    @GetMapping("/{id}/igniters")
+    public ResponseEntity<?> getIgniters(@PathVariable(name = "id") final Long idBranchOffice) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            List<Igniter> igniters = igniterService.getAllByBranchId(idBranchOffice);
+            List<IgniterDTO> igniterDTOS = igniters .stream()
+                                    .map(IgniterDTO::from)
+                                    .collect(Collectors.toList());
+            response.put("response", igniterDTOS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (BranchException ex) {
             return internalServerErrorMessage(response, ex.getMessage());
