@@ -138,7 +138,7 @@ public class IgniterController {
         Map<String, Object> response = new HashMap<>();
         try {
             igniterService.delete(igniterId);
-            response.put("message", "Contacto eliminado con exito");
+            response.put("success_message", "Contacto eliminado con exito");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IgniterException ex) {
             return internalServerErrorMessage(response, ex.getMessage());

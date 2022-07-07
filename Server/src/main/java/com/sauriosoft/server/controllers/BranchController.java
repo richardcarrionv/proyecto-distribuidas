@@ -50,10 +50,10 @@ public class BranchController {
                     .map(BranchDTO::from)
                     .collect(Collectors.toList());
 
-            response.put("response", listOfBranchDTOS);
+            response.put("data", listOfBranchDTOS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex);
+            return serviceUnavailableMessage(response, ex.getMessage());
         }
     }
 
@@ -67,12 +67,12 @@ public class BranchController {
         Map<String, Object> response = new HashMap<>();
         try {
             Branch branchOffice = branchService.getById(idBranchOffice);
-            response.put("response", BranchDTO.from(branchOffice));
+            response.put("data", BranchDTO.from(branchOffice));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (BranchException ex) {
             return internalServerErrorMessage(response, ex.getMessage());
         } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex);
+            return serviceUnavailableMessage(response, ex.getMessage());
         }
     }
 
@@ -84,12 +84,12 @@ public class BranchController {
             List<IgniterDTO> igniterDTOS = igniters .stream()
                                     .map(IgniterDTO::from)
                                     .collect(Collectors.toList());
-            response.put("response", igniterDTOS);
+            response.put("data", igniterDTOS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (BranchException ex) {
             return internalServerErrorMessage(response, ex.getMessage());
         } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex);
+            return serviceUnavailableMessage(response, ex.getMessage());
         }
     }
 
@@ -99,17 +99,17 @@ public class BranchController {
             @ApiResponse(description = "Server error", responseCode = "503")
     })
     @PostMapping
-    public ResponseEntity<?> addBranchOffice(@RequestBody final BranchDTO branchDTO) {
+    public ResponseEntity<?> create(@RequestBody final BranchDTO branchDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
             if (Objects.isNull(branchDTO.getId())) {
                 Branch branchOfficeToSave = Branch.from(branchDTO);
-                response.put("response", BranchDTO.from(branchService.create(branchOfficeToSave)));
+                response.put("data", BranchDTO.from(branchService.create(branchOfficeToSave)));
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             }
             return internalServerErrorMessage(response, "La sucursal posee identificador");
         } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex);
+            return serviceUnavailableMessage(response, ex.getMessage());
         }
     }
 
@@ -119,18 +119,18 @@ public class BranchController {
             @ApiResponse(description = "Server error", responseCode = "503")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBranchOfficeById(@PathVariable(name = "id") final Long idBranchOffice,
-                                                    @RequestBody final BranchDTO branchDTO) {
+    public ResponseEntity<?> update(@PathVariable(name = "id") final Long idBranchOffice,
+                                    @RequestBody final BranchDTO branchDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
             Branch branchOfficeToUpdate = Branch.from(branchDTO);
             branchOfficeToUpdate = branchService.update(branchOfficeToUpdate, idBranchOffice);
-            response.put("response", BranchDTO.from(branchOfficeToUpdate));
+            response.put("data", BranchDTO.from(branchOfficeToUpdate));
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (BranchException ex) {
             return internalServerErrorMessage(response, ex.getMessage());
         } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex);
+            return serviceUnavailableMessage(response, ex.getMessage());
         }
     }
 
@@ -140,16 +140,16 @@ public class BranchController {
             @ApiResponse(description = "Server error", responseCode = "503")
     })
     @DeleteMapping("/id")
-    public ResponseEntity<?> deleteBranchOfficeById(@PathVariable(name = "id") final Long idBranchOffice) {
+    public ResponseEntity<?> delete(@PathVariable(name = "id") final Long idBranchOffice) {
         Map<String, Object> response = new HashMap<>();
         try {
             branchService.delete(idBranchOffice);
-            response.put("response", "Sucursal eliminada éxitosamente.");
+            response.put("success_message", "Sucursal eliminada éxitosamente.");
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch (BranchException ex) {
             return internalServerErrorMessage(response, ex.getMessage());
         } catch (Exception ex) {
-            return serviceUnavailableMessage(response, ex);
+            return serviceUnavailableMessage(response, ex.getMessage());
         }
     }
 
@@ -157,8 +157,8 @@ public class BranchController {
         response.put("error", message);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    private ResponseEntity<?> serviceUnavailableMessage(Map<String, Object> response, Exception ex){
-        response.put("error", ex.getMessage());
+    private ResponseEntity<?> serviceUnavailableMessage(Map<String, Object> response, String message){
+        response.put("error", message);
         return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
