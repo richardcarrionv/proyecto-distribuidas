@@ -1,36 +1,42 @@
 import React, { useEffect, useState } from "react";
 
 import ContactForm from "../../forms/contact/contactForm";
-import ContactService from "../../../services/contactService";
-import CRUD from "../CRUD"; 
+import {
+  list,
+  create,
+  headers,
+  newIgniter,
+} from "../../../services/contactService";
+import CRUD from "../CRUD";
 
 const ContactCRUD = () => {
-  let service = new ContactService();
-  const voidContact = { 
-    name: "",
-    surname: "",
-    branch: "",
-    phone: "",
-  }
+
+  const [tableRows, setTableRows] = useState([]);
   const [display, setDisplay] = useState(false);
-  const tableHeaders = service.headers(); 
-  //const [tableRows, setTableRows] = useState([]);
-  const tableRows = service.list(); 
+  const [igniter, setContact] = useState({ ...newIgniter });
+  const tableHeaders = headers;
 
-  //useEffect(() => { 
-    //setTableRows([
-      //{ name: "Richard", surname: "Carrion", branch: "Sucursal 1", phone: "123" }
-    //])
-  //})
-
-  const [contact, setContact] = useState({...voidContact});
+  useEffect(() => {
+    list().then((res) => {
+      if (res.status === 200) {
+        var igniters = res.data.data; 
+        igniters = igniters.map( e => {
+         return {...e, branch_name: e.branch.name, branchId: e.branch.id}
+        })
+        setTableRows(igniters);
+      }
+    });
+  }, []);
 
   const handleChange = (key) => (event) => {
-    setContact({ ...contact, [key]: event });
+    setContact({ ...igniter, [key]: event });
   };
 
   const handleSave = () => {
-    console.log("saving"); 
+    console.log("saving");
+    if (igniter.id == null) {
+      create(igniter).then((res) => console.log(res));
+    }
     setDisplay(false);
   };
 
@@ -40,11 +46,11 @@ const ContactCRUD = () => {
   };
 
   const handleDelete = (id) => () => {
-    console.log("Deleting")
+    console.log("Deleting");
   };
 
   const handleCreate = () => {
-    setContact({...voidContact});
+    setContact({ ...newIgniter });
     setDisplay(true);
   };
 
@@ -54,11 +60,10 @@ const ContactCRUD = () => {
 
   return (
     <CRUD
-      init={contact}
+      init={igniter}
       title="Contactos"
       tableRows={tableRows}
       tableHeaders={tableHeaders}
-
       display={display}
       onToggleDisplay={handleDialogDisplay}
       onSave={handleSave}
@@ -67,7 +72,7 @@ const ContactCRUD = () => {
       onCreate={handleCreate}
     >
       <ContactForm
-        contact={contact}
+        igniter={igniter}
         onSave={handleSave}
         onChange={handleChange}
       />

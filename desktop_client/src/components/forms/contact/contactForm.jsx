@@ -1,32 +1,43 @@
 import React from "react";
 import BasicInput from "../../inputs/basic/basicInput";
 
-const ContactForm = ({ contact, onChange }) => {
-
+const ContactForm = ({ igniter, onChange }) => {
   return (
     <>
       <BasicInput
-        value={contact.name}
+        value={igniter.name}
         name="Nombre"
         onChange={onChange("name")}
       ></BasicInput>
 
       <BasicInput
-        value={contact.surname}
+        value={igniter.surname}
         name="Apellido"
         onChange={onChange("surname")}
       ></BasicInput>
 
       <BasicInput
-        value={contact.branch}
-        name=""
-        onChange={onChange("branch")}
+        value={igniter.ci}
+        name="Cedula"
+        onChange={onChange("ci")}
       ></BasicInput>
 
       <BasicInput
-        value={contact.phone}
+        value={igniter.password}
+        name="Contraseña"
+        onChange={onChange("password")}
+      ></BasicInput>
+
+      <BasicInput
+        value={igniter.phone}
         name="Telefono"
         onChange={onChange("phone")}
+      ></BasicInput>
+
+      <BasicInput
+        value={igniter.branchId}
+        name="Sucursal"
+        onChange={onChange("branchId")}
       ></BasicInput>
     </>
   );
