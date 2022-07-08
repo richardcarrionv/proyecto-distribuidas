@@ -1,5 +1,6 @@
 package com.sauriosoft.server.models.exceptions;
 
+import com.sauriosoft.server.models.entities.Alarm;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,22 +13,31 @@ import java.util.Date;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BranchException.class)
-    public ResponseEntity<?> branchException(BranchException ex, WebRequest request){
+    public ResponseEntity<?> branchException(BranchException ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(IgniterException.class)
-    public ResponseEntity<?> igniterException(IgniterException ex, WebRequest request){
+    public ResponseEntity<?> igniterException(IgniterException ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
-@ExceptionHandler(UserException.class)
-    public ResponseEntity<?> userException(UserException ex, WebRequest request){
+
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<?> userException(UserException ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> exception(Exception ex, WebRequest request){
+    public ResponseEntity<?> exception(Exception ex, WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AlarmException.class)
+    public ResponseEntity<?> alarmException(Exception ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
