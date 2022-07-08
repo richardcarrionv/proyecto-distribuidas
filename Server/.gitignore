@@ -16,4 +16,4 @@ log/
 target/
 
 #ApplicationProperties
-src/main/resources/application.properties
+.src/main/resources/application.properties
