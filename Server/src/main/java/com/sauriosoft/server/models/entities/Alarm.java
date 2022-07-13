@@ -4,7 +4,8 @@ import com.sauriosoft.server.models.dtos.alarm.AlarmDTO;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
+
 
 @Entity
 @Getter
@@ -31,6 +32,11 @@ public class Alarm {
                 .id(alarmDTO.getId())
                 .igniter(igniter)
                 .date(alarmDTO.getDate()).build();
+    }
+
+    @PrePersist
+    public void prePersist(){
+        date = new Date();
     }
 
 }

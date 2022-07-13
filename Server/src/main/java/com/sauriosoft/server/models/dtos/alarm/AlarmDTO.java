@@ -3,7 +3,8 @@ package com.sauriosoft.server.models.dtos.alarm;
 import com.sauriosoft.server.models.entities.Alarm;
 import lombok.*;
 
-import java.sql.Date;
+import java.util.Date;
+
 
 @Getter
 @Setter
