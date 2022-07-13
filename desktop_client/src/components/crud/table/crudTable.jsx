@@ -11,7 +11,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const CRUDTable = ({ rows, headers, onDelete, onEdit }) => {
-    console.log("Tabla: ",rows);
     
     const handleDeleteClick = (id) => (event) => {
         onDelete(id)(event);

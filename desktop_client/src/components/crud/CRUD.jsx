@@ -34,9 +34,8 @@ const CRUD = ({
   };
 
   const handleAgree = (id) => (event) => {
-    onDelete(id)(event);
     setAlert(false);
-    setToast(true);
+    setToast(onDelete(id)(event));
   };
 
   return (
