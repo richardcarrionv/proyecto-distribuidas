@@ -33,7 +33,6 @@ const ContactCRUD = () => {
   };
 
   const handleSave = () => {
-    console.log("saving");
     if (igniter.id == null) {
       create(igniter).then((res) => console.log(res));
     }
@@ -46,7 +45,6 @@ const ContactCRUD = () => {
   };
 
   const handleDelete = (id) => () => {
-    console.log("Deleting");
   };
 
   const handleCreate = () => {

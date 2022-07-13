@@ -1,39 +1,37 @@
-export default class ContactService {
-  constructor() {}
+import api from "./api";
 
-  list() {
-    return [
-      {
-        username: "Username1",
-        password: "099495",
-        role: "admin",
-      },
-      {
-        username: "Username2",
-        password: "1092392",
-        role: "admin",
-      },
-      {
-        username: "Username3",
-        password: "09123",
-        role: "subscriber",
-      },
-    ];
-  }
+export const create = async (user) => {
+  const res = await api.post("/users/", user);
+  return res;
+};
 
-  edit(branch) {
-    console.log(branch);
-  }
+export const list = async () => {
+  const response = await api.get("/users/");
+  return response;
+};
 
-  delete(id) {
-    console.log(id);
-  }
+export const update = async (user) => {
+  console.log("User", user);
+  const response = await api.put(`/users/${user.id}`, user);
+  return response;
+};
 
-  headers() {
-    return [
-      { key: "username", label: "Username" },
-      { key: "password", label: "Password" },
-      { key: "role", label: "Rol" },
-    ];
-  }
-}
+export const del = async (id) => {
+  console.log("Id: ", id);
+  const response = await api.delete(`/users/${id}`);
+  return response;
+};
+
+export const headers = [
+  { key: "id", label: "Id" },
+  { key: "username", label: "Usuario" },
+  { key: "password", label: "Contraseña" },
+  { key: "role", label: "Rol" },
+];
+
+export const newUser = {
+  id: null,
+  username: "",
+  password: "",
+  role: "",
+};

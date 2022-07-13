@@ -16,6 +16,12 @@ export const update = async (branch) => {
   return response;
 };
 
+export const del = async (id) => { 
+  console.log("Id: ", id)
+  const response = await api.delete(`/branches/${id}`);
+  return response;
+}
+
 export const headers = [
   { key: "id", label: "Id" },
   { key: "name", label: "Nombre" },

@@ -5,6 +5,7 @@ import {
   headers,
   create,
   list,
+  del,
   update,
   newBranch,
 } from "../../../services/branchService";
@@ -18,10 +19,8 @@ const BranchCRUD = () => {
 
   useEffect(() => {
     list().then((response) => {
-      console.log("Listado: ", response);
       if (response.status === 200) {
-        console.log(response.data.data);
-        setTableRows(response.data.data);
+        setTableRows(response.data);
       }
     });
   }, []);
@@ -55,7 +54,7 @@ const BranchCRUD = () => {
   };
 
   const handleDelete = (id) => () => {
-    console.log("Deleting");
+    return del(id).then(res => res.status == 200)
   };
 
   const handleCreate = () => {

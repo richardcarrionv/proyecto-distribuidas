@@ -1,37 +1,41 @@
 import React, { useEffect, useState } from "react";
 
+import {
+  list,
+  create,
+  del,
+  update,
+  headers,
+  newUser,
+} from "../../../services/userService";
 import UserForm from "../../forms/user/userForm";
-import UserService from "../../../services/userService";
-import CRUD from "../CRUD"; 
+import CRUD from "../CRUD";
 
 const UserCRUD = () => {
-  let service = new UserService();
-  const voidUser = { 
-    name: "",
-    surname: "",
-    branch: "",
-    phone: "",
-  }
   const [display, setDisplay] = useState(false);
-  const tableHeaders = service.headers(); 
-  //const [tableRows, setTableRows] = useState([]);
-  const tableRows = service.list(); 
+  const [user, setUser] = useState({ ...newUser });
+  const [tableRows, setTableRows] = useState([]);
+  const tableHeaders = headers;
 
-  //useEffect(() => { 
-    //setTableRows([
-      //{ name: "Richard", surname: "Carrion", branch: "Sucursal 1", phone: "123" }
-    //])
-  //})
-
-  const [user, setUser] = useState({...voidUser});
+  useEffect(() => {
+    list().then((res) => {
+      if (res.status === 200) {
+        setTableRows(res.data);
+      }
+    });
+  });
 
   const handleChange = (key) => (event) => {
     setUser({ ...user, [key]: event });
   };
 
   const handleSave = () => {
-    console.log("saving"); 
-    setDisplay(false);
+    if(user.id == null){ 
+      create(user).then(res => console.log(res))
+    }else{ 
+      update(user).then(res => console.log(res))
+    }
+    setDisplay(false)
   };
 
   const handleEdit = (row) => () => {
@@ -39,12 +43,10 @@ const UserCRUD = () => {
     setDisplay(true);
   };
 
-  const handleDelete = (id) => () => {
-    console.log("Deleting")
-  };
+  const handleDelete = (id) => () => {};
 
   const handleCreate = () => {
-    setUser({...voidUser});
+    setUser({ ...newUser });
     setDisplay(true);
   };
 
@@ -58,7 +60,6 @@ const UserCRUD = () => {
       title="Usuarios"
       tableRows={tableRows}
       tableHeaders={tableHeaders}
-
       display={display}
       onToggleDisplay={handleDialogDisplay}
       onSave={handleSave}
@@ -66,14 +67,9 @@ const UserCRUD = () => {
       onDelete={handleDelete}
       onCreate={handleCreate}
     >
-      <UserForm
-        user={user}
-        onSave={handleSave}
-        onChange={handleChange}
-      />
+      <UserForm user={user} onSave={handleSave} onChange={handleChange} />
     </CRUD>
   );
 };
 
 export default UserCRUD;
-

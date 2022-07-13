@@ -9,19 +9,19 @@ const UserForm = ({ user, onChange }) => {
       <BasicInput
         value={user.username}
         name="Usuario"
-        onChange={onChange("branch")}
+        onChange={onChange("username")}
       ></BasicInput>
 
       <BasicInput
         value={user.password}
         name="Contraseña"
-        onChange={onChange("phone")}
+        onChange={onChange("password")}
       ></BasicInput>
 
       <BasicInput
         value={user.role}
         name="Rol"
-        onChange={onChange("phone")}
+        onChange={onChange("role")}
       ></BasicInput>
     </>
   );

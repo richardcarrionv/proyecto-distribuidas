@@ -30,24 +30,20 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
 
   const searchDirection = () => {
     var address = branch.direction + "," + branch.city + "," + branch.province;
-    console.log(address);
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
         const coords = { lat: lat, lng: lng };
-        console.log("Encontrado: ", lat, lng);
         setMapZoom(16);
         setMapCoords(coords);
         onCoordsChange(coords)();
       },
       (error) => {
-        console.log(error);
       }
     );
   };
 
   const handleMapSave = (coords) => () => {
-    console.log("From form", coords);
     onCoordsChange(coords)();
   };
 
