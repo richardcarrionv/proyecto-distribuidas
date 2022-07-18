@@ -18,7 +18,7 @@ export const headers = [
       { key: "phone", label: "Telefono" },
       { key: "ci", label: "Cedula" },
       { key: "password", label: "Contraseña" },
-      { key: "branch_name", label: "Sucursal" },
+      { key: "branchName", label: "Sucursal" },
 ];
 
 export const newIgniter = { 
@@ -29,5 +29,6 @@ export const newIgniter = {
     password: "default", 
     ci: "",
     branchId: 0,
+    branchName: "",
 }
 

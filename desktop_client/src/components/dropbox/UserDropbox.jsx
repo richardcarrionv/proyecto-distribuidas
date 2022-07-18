@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const Dropbox = ({ user, onChange }) => {
+const UserDropbox = ({ user, onChange }) => {
 
   const handleChange = (event) => { 
       onChange("role")(event.target.value)
@@ -27,4 +27,4 @@ const Dropbox = ({ user, onChange }) => {
   );
 };
 
-export default Dropbox; 
+export default UserDropbox; 
