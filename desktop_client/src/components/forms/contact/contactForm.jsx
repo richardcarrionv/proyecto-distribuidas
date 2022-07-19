@@ -1,4 +1,5 @@
 import React from "react";
+import BranchesDropbox from "../../dropbox/BranchesDropbox";
 import BasicInput from "../../inputs/basic/basicInput";
 
 const ContactForm = ({ igniter, onChange }) => {
@@ -34,11 +35,7 @@ const ContactForm = ({ igniter, onChange }) => {
         onChange={onChange("phone")}
       ></BasicInput>
 
-      <BasicInput
-        value={igniter.branchId}
-        name="Sucursal"
-        onChange={onChange("branchId")}
-      ></BasicInput>
+      <BranchesDropbox igniter={igniter} onChange={onChange} />
     </>
   );
 };

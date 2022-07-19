@@ -26,7 +26,7 @@ export const headers = [
   { key: "id", label: "Id" },
   { key: "username", label: "Usuario" },
   { key: "password", label: "Contraseña" },
-  { key: "role", label: "Rol" },
+  { key: "presentable_role", label: "Rol" },
 ];
 
 export const newUser = {

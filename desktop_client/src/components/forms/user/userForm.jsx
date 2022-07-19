@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import React from "react";
 import BasicInput from "../../inputs/basic/basicInput";
+import UserDropbox from "../../dropbox/UserDropbox.jsx";
 
 const UserForm = ({ user, onChange }) => {
 
@@ -18,11 +19,7 @@ const UserForm = ({ user, onChange }) => {
         onChange={onChange("password")}
       ></BasicInput>
 
-      <BasicInput
-        value={user.role}
-        name="Rol"
-        onChange={onChange("role")}
-      ></BasicInput>
+      <UserDropbox user={user} onChange={onChange}/>
     </>
   );
 };

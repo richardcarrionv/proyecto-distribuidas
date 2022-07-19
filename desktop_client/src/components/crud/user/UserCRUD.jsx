@@ -20,10 +20,14 @@ const UserCRUD = () => {
   useEffect(() => {
     list().then((res) => {
       if (res.status === 200) {
-        setTableRows(res.data);
+        var users = res.data;
+        users = users.map(user => { 
+          return {...user, presentable_role: user.role === "ADMIN" ? "Administrador" : "Cliente"}
+        })
+        setTableRows(users);
       }
     });
-  });
+  },[]);
 
   const handleChange = (key) => (event) => {
     setUser({ ...user, [key]: event });
@@ -33,7 +37,7 @@ const UserCRUD = () => {
     if(user.id == null){ 
       create(user).then(res => console.log(res))
     }else{ 
-      update(user).then(res => console.log(res))
+      update(user).then(res => console.log("Actualizado: ",res))
     }
     setDisplay(false)
   };
@@ -43,7 +47,9 @@ const UserCRUD = () => {
     setDisplay(true);
   };
 
-  const handleDelete = (id) => () => {};
+  const handleDelete = (id) => () => {
+    return del(id).then(res => res == 200)
+  };
 
   const handleCreate = () => {
     setUser({ ...newUser });

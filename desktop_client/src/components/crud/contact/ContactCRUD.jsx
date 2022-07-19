@@ -19,9 +19,9 @@ const ContactCRUD = () => {
   useEffect(() => {
     list().then((res) => {
       if (res.status === 200) {
-        var igniters = res.data.data; 
+        var igniters = res.data; 
         igniters = igniters.map( e => {
-         return {...e, branch_name: e.branch.name, branchId: e.branch.id}
+         return {...e, branchName: e.branch.name, branchId: e.branch.id}
         })
         setTableRows(igniters);
       }
@@ -40,6 +40,7 @@ const ContactCRUD = () => {
   };
 
   const handleEdit = (row) => () => {
+    console.log(row)
     setContact(row);
     setDisplay(true);
   };
