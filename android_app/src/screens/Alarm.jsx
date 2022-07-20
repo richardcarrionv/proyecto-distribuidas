@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, TextInput, Image } from "react-native";
 import VerificationForm from "../components/forms/VerificationForm";
 import Logo from "../components/logo";
 
-const Main = () => {
+const Alarm = () => {
   return (
     <View style={styles.container}>
       <View style={styles.mainHeader}></View>
@@ -18,7 +18,7 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default Alarm;
 
 const styles = StyleSheet.create({
   container: {

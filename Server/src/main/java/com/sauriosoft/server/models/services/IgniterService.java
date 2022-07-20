@@ -12,6 +12,8 @@ public interface IgniterService {
     List<Igniter> getAllByBranchId(Long branchId);
     Igniter getById(Long contactId);
 
+    Igniter exists(String ci, String password);
+
     Igniter create(Igniter contact);
 
     Igniter update(Long contactId, Igniter contact);

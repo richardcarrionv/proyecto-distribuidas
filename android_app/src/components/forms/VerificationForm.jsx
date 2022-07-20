@@ -1,17 +1,25 @@
 import { Button, Input } from "native-base";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Text, View, StyleSheet, TextInput, Image } from "react-native";
+import {UserContext} from "../../../App";
 import Dialog from "../Dialog";
+
 
 const VerificationForm = () => {
   const [display, setDisplay] = useState(false);
   const [code, setCode] = useState();
+  const user = useContext(UserContext)
 
   const handleAlarm = () => {
     console.log(code);
   };
 
   const handleCodeChange = (code) => setCode(code);
+
+  const handleVerify = () => { 
+    setDisplay(true)
+    console.log(user)
+  }
 
   return (
     <>
@@ -26,7 +34,7 @@ const VerificationForm = () => {
         mx="3"
         w="75%"
       />
-      <Button style={styles.button} onPress={() => setDisplay(true)}>
+      <Button style={styles.button} onPress={handleVerify}>
         Verificar
       </Button>
       <Dialog code={code} display={display} onClose={() => setDisplay(false)} />
