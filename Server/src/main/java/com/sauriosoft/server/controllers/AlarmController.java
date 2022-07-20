@@ -75,7 +75,7 @@ public class AlarmController {
             JSONObject body = new JSONObject();
             body.put("to", "/topics/news");
           JSONObject data = new JSONObject();
-          data.put("message", "Hola" );
+          data.put("message", "Desde Spring boot" );
           data.put("coords", "0123,12312" );
           data.put("quien", "Usuario 3" );
           JSONObject notification = new JSONObject();

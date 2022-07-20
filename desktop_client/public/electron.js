@@ -1,7 +1,7 @@
 // ./public/electron.js
 const path = require("path");
 
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Notification } = require("electron");
 const isDev = require("electron-is-dev");
 
 const Pushy = require("pushy-electron");
@@ -26,36 +26,40 @@ function createWindow() {
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
 
-  Pushy.listen();
-  Pushy.register({ appId: "62d750445f4e0b0e138a50ee" })
-    .then((deviceToken) => {
-      Pushy.alert(win, "Pushy device token: " + deviceToken);
-    })
-    .catch((err) => {
-      Pushy.alert(win, "Pushy registration error: " + err.message);
-    });
-  Pushy.setNotificationListener((data) => {
-    Pushy.alert(win, "Received notification: " + data.message);
-  });
-  if (Pushy.isRegistered()) {
-    Pushy.subscribe("news")
-      .then(() => {
-        Pushy.alert(win, "Subscribed to topic successfully");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
   // Open the DevTools.
   if (isDev) {
     win.webContents.openDevTools({ mode: "detach" });
   }
 }
 
+function pushySetup(){ 
+  new Notification({title: "init", body:'Nueva Init'}).show();
+  Pushy.listen();
+  Pushy.register({ appId: "62d750445f4e0b0e138a50ee" })
+    .then((deviceToken) => {
+      console.log(deviceToken)
+    })
+    .catch((err) => {
+      console.log(error)
+    });
+  Pushy.setNotificationListener((data) => {
+    new Notification({title: data.message, body:'Nueva alarmaaaaaaaaa'}).show();
+  });
+  if (Pushy.isRegistered()) {
+    Pushy.subscribe("news")
+      .then(() => {
+        console.log("subscrito")
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(createWindow);
+app.whenReady().then(createWindow).then(pushySetup);
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bars to stay active until the user quits
