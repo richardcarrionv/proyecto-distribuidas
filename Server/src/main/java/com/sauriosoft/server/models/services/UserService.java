@@ -16,4 +16,6 @@ public interface UserService {
     User update(User user, Long idUser);
 
     void delete(Long idUser);
+
+    User exists(String username, String password);
 }

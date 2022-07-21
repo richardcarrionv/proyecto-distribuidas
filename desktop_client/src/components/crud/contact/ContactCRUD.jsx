@@ -13,7 +13,7 @@ const ContactCRUD = () => {
 
   const [tableRows, setTableRows] = useState([]);
   const [display, setDisplay] = useState(false);
-  const [igniter, setContact] = useState({ ...newIgniter });
+  const [igniter, setIgniter] = useState({ ...newIgniter });
   const tableHeaders = headers;
 
   useEffect(() => {
@@ -28,8 +28,8 @@ const ContactCRUD = () => {
     });
   }, []);
 
-  const handleChange = (key) => (event) => {
-    setContact({ ...igniter, [key]: event });
+  const handleChange = (key) => (value) => {
+    setIgniter({ ...igniter, [key]: value });
   };
 
   const handleSave = () => {
@@ -41,7 +41,7 @@ const ContactCRUD = () => {
 
   const handleEdit = (row) => () => {
     console.log(row)
-    setContact(row);
+    setIgniter(row);
     setDisplay(true);
   };
 
@@ -49,7 +49,7 @@ const ContactCRUD = () => {
   };
 
   const handleCreate = () => {
-    setContact({ ...newIgniter });
+    setIgniter({ ...newIgniter });
     setDisplay(true);
   };
 

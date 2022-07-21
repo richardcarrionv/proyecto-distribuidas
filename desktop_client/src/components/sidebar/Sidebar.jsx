@@ -31,7 +31,7 @@ const Sidebar = () => {
     { label: "Nodos/Sucursales", icon: <BusinessIcon />, link: "/home/branch" },
     { label: "Contactos", icon: <ConnectWithoutContactIcon /> , link: "/home/contact" },
     { label: "Usuarios", icon: <AccountCircleIcon />, link: "/home/user" },
-    { label: "Historial", icon: <HistoryIcon />, link: "/home/history" },
+    //{ label: "Historial", icon: <HistoryIcon />, link: "/home/history" },
   ];
 
   return (
@@ -48,15 +48,7 @@ const Sidebar = () => {
           {sections.map((section, index) => (
             <ListItem key={section.label} disablePadding>
               <ListItemButton
-                sx={{
-                  "&.Mui-selected": {
-                    backgroundColor: "#dfdfdf"
-                  },
-                  "&.Mui-focusVisible": {
-                  },
-                  ":hover": {
-                  },
-                }}
+                sx={{ "&.Mui-selected": { backgroundColor: "#dfdfdf" }, "&.Mui-focusVisible": { }, ":hover": { }, }}
                 selected={index == selectedIndex}
                 onClick={handleClick(section.link, index)}
               >
