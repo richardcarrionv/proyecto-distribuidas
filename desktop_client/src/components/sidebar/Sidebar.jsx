@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import { Divider, Toolbar } from "@mui/material";
+import { Button, Divider, Toolbar } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
@@ -63,25 +63,28 @@ const Sidebar = () => {
         </Typography>
       </Toolbar>
       <Divider />
-      <Box sx={{ overflow: "auto", width: 220 }}>
-        <List>
-          {sections.map((section, index) => (
-            <ListItem key={section.label} disablePadding>
-              <ListItemButton
-                sx={{
-                  "&.Mui-selected": { backgroundColor: "#dfdfdf" },
-                  "&.Mui-focusVisible": {},
-                  ":hover": {},
-                }}
-                selected={index == selectedIndex}
-                onClick={handleClick(section.link, index)}
-              >
-                <ListItemIcon>{section.icon}</ListItemIcon>
-                <ListItemText primary={section.label} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+      <Box sx={{display: "flex", alignItems: "space-between", flexDirection: "column", }}>
+        <Box sx={{ overflow: "auto", width: 220 }}>
+          <List>
+            {sections.map((section, index) => (
+              <ListItem key={section.label} disablePadding>
+                <ListItemButton
+                  sx={{
+                    "&.Mui-selected": { backgroundColor: "#dfdfdf" },
+                    "&.Mui-focusVisible": {},
+                    ":hover": {},
+                  }}
+                  selected={index == selectedIndex}
+                  onClick={handleClick(section.link, index)}
+                >
+                  <ListItemIcon>{section.icon}</ListItemIcon>
+                  <ListItemText primary={section.label} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+        <Button color="error" onClick={() => navigate("/")}>Cerrar Sesión</Button>
       </Box>
     </Drawer>
   );
