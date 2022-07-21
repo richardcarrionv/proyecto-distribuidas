@@ -1,6 +1,6 @@
 package com.sauriosoft.server.controllers;
 
-import com.sauriosoft.server.models.dtos.BranchDTO;
+import com.sauriosoft.server.models.dtos.branch.BranchDTO;
 import com.sauriosoft.server.models.dtos.igniter.IgniterDTO;
 import com.sauriosoft.server.models.entities.Branch;
 import com.sauriosoft.server.models.entities.Igniter;
@@ -43,6 +43,13 @@ public class BranchController {
     @GetMapping("/{id}")
     public ResponseEntity<BranchDTO> getById(@PathVariable(name = "id") final Long id) {
         Branch branch = branchService.getById(id);
+        return ResponseEntity.ok(BranchDTO.from(branch));
+    }
+
+    @GetMapping("/{username}/{pwd}")
+    public ResponseEntity<BranchDTO> exists(@PathVariable(name = "username") final String username,
+                                            @PathVariable(name = "pwd") final String password) {
+        Branch branch = branchService.exists(username, password);
         return ResponseEntity.ok(BranchDTO.from(branch));
     }
 

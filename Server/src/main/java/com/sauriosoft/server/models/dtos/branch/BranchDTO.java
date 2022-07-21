@@ -1,11 +1,9 @@
-package com.sauriosoft.server.models.dtos;
+package com.sauriosoft.server.models.dtos.branch;
 
 import com.sauriosoft.server.models.entities.Branch;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -17,6 +15,10 @@ public class BranchDTO implements Serializable {
     private Long id;
 
     private String name;
+
+    private String username;
+
+    private String password;
 
     private String province;
 
@@ -36,6 +38,8 @@ public class BranchDTO implements Serializable {
         return BranchDTO.builder()
                 .id(branch.getId())
                 .name(branch.getName())
+                .username(branch.getUsername())
+                .password(branch.getPassword())
                 .city(branch.getCity())
                 .address(branch.getAddress())
                 .latitude(branch.getLatitude())

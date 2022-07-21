@@ -20,8 +20,8 @@ const UserDropbox = ({ user, onChange }) => {
         label="Rol"
         onChange={handleChange}
       >
-        <MenuItem value={"ADMIN"}>Administrador</MenuItem>
         <MenuItem value={"CLIENT"}>Cliente</MenuItem>
+        <MenuItem value={"SUPERADMIN"}>Administrador</MenuItem>
       </Select>
     </FormControl>
   );

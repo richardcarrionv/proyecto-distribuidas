@@ -1,6 +1,6 @@
 package com.sauriosoft.server.models.dtos.igniter;
 
-import com.sauriosoft.server.models.dtos.BranchDTO;
+import com.sauriosoft.server.models.dtos.branch.BranchDTO;
 import com.sauriosoft.server.models.entities.Igniter;
 import lombok.*;
 

@@ -1,12 +1,11 @@
 package com.sauriosoft.server.models.entities;
 
-import com.sauriosoft.server.models.dtos.BranchDTO;
+import com.sauriosoft.server.models.dtos.branch.BranchDTO;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Entity
@@ -23,6 +22,12 @@ public class Branch {
     private Long id;
     @Column(name = "name", length = 50, nullable = false, unique = true)
     private String name;
+
+    @Column(name = "username", length = 50, nullable = false, unique = true)
+    private String username;
+
+    @Column(name = "password", length = 50, nullable = false)
+    private String password;
 
     @Column(name = "province", length = 20, nullable = false)
     private String province;
@@ -55,6 +60,8 @@ public class Branch {
     public static Branch from(BranchDTO branchDTO) {
         return Branch.builder()
                 .name(branchDTO.getName())
+                .username(branchDTO.getUsername())
+                .password(branchDTO.getPassword())
                 .province(branchDTO.getProvince())
                 .city(branchDTO.getCity())
                 .address(branchDTO.getAddress())

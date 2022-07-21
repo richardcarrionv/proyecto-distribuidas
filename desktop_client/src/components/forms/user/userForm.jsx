@@ -19,7 +19,6 @@ const UserForm = ({ user, onChange }) => {
         onChange={onChange("password")}
       ></BasicInput>
 
-      <UserDropbox user={user} onChange={onChange}/>
     </>
   );
 };

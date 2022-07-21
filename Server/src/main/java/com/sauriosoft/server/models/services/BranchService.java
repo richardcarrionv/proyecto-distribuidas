@@ -16,4 +16,5 @@ public interface BranchService {
 
     void delete(Long idBranchOffice);
 
+    Branch exists(String username, String password);
 }
