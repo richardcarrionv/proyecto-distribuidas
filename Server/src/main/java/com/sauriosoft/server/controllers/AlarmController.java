@@ -82,10 +82,10 @@ public class AlarmController {
         data.put("province", branch.getProvince());
         data.put("city", branch.getCity());
         data.put("address", branch.getAddress());
-
+        String bodyMessage =  "Se produjo una nueva alarma en " + branch.getCity();
         JSONObject notification = new JSONObject();
         notification.put("title", "Nueva Alarma");
-        notification.put("body", "Se produjo una nueva alarma en " + branch.getCity());
+        notification.put("body",bodyMessage);
         notification.put("badge", 1);
         notification.put("sound", "ping.aiff");
 

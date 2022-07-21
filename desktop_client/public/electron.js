@@ -42,7 +42,8 @@ function pushySetup(){
       console.log(error)
     });
   Pushy.setNotificationListener((data) => {
-    new Notification({title: data.message, body:'Nueva alarmaaaaaaaaa'}).show();
+    console.log(data)
+    new Notification({title: "Nueva Alarma", body:"Se lanzo una nueva alarma en "+data.city}).show();
   });
   if (Pushy.isRegistered()) {
     Pushy.subscribe("news")
