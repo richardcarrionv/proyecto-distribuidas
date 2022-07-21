@@ -6,6 +6,9 @@ const isDev = require("electron-is-dev");
 
 const Pushy = require("pushy-electron");
 
+
+app.setAppUserModelId(app.name)
+
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({

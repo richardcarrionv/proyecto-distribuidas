@@ -290,6 +290,10 @@ dependencies {
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    // Pushy SDK for Android
+    implementation 'me.pushy:sdk:1.0.84'
+    // Pushy SDK for React Native Android
+    implementation 'me.pushy:sdk-react-native:1.0.17'
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";
