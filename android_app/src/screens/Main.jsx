@@ -16,8 +16,8 @@ import Login from "./Login";
 import { UserContext } from "../../App";
 
 const Main = () => {
-  const userContext = useContext(UserContext);
-  if (userContext.id) {
+  const user = useContext(UserContext);
+  if (user.id) {
     return (
       <SafeAreaView style={styles.container}>
         <Alarm />
