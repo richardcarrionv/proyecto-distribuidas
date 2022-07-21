@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import { Button } from "@mui/material";
+import { Alert, Button, Snackbar } from "@mui/material";
 
 import UsernameInput from "../../inputs/username/UsernameInput";
 import PasswordInput from "../../inputs/password/PasswordInput";
@@ -14,11 +14,12 @@ import { existsBranchUser } from "../../../services/branchService.js";
 
 const LoginForm = () => {
   const user = useContext(UserContext);
-
-  let navigate = useNavigate();
-
+  const [toast, setToast] = useState(false);
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [message, setMessage] = useState();
+  const [rejected, setRejected] = useState(0); 
+  let navigate = useNavigate();
 
   const handlePasswordChange = (event) => {
     setPassword(event);
@@ -28,6 +29,14 @@ const LoginForm = () => {
     setUsername(event);
   };
 
+  useEffect(() => { 
+    if(rejected > 1){ 
+      setMessage("Usuario o contraseña incorrectos")
+      setRejected(0)
+      setToast(true)
+    }
+  }, [rejected]);
+
   const handleLogin = (event) => {
     exists(username, password)
       .then((res) => {
@@ -36,7 +45,7 @@ const LoginForm = () => {
         user.setId(res.data.id);
         user.setRole(res.data.role);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => setRejected((prev) => prev+1));
     existsBranchUser(username, password)
       .then((res) => {
         console.log(res);
@@ -44,7 +53,7 @@ const LoginForm = () => {
         user.setId(res.data.id);
         user.setRole("ADMIN");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => setRejected(prev => prev+1));
   };
 
   return (
@@ -64,6 +73,21 @@ const LoginForm = () => {
           Iniciar Sesión
         </Button>
       </Card>
+
+        <Snackbar
+          open={toast}
+          autoHideDuration={4000}
+          onClose={() => setToast(false)}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert
+            onClose={() => setToast(false)}
+            severity="error"
+            sx={{ width: "100%" }}
+          >
+            {message}
+          </Alert>
+        </Snackbar>
     </Box>
   );
 };

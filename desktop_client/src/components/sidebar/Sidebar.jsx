@@ -52,6 +52,7 @@ const Sidebar = () => {
         icon: <BusinessIcon />,
         link: "/home/branch",
       },
+      { label: "Historial", icon: <HistoryIcon />, link: "/home/history" },
     ];
   }
   return (
