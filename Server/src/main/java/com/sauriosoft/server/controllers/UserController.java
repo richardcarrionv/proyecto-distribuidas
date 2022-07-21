@@ -33,6 +33,14 @@ public class UserController {
 
     }
 
+    @GetMapping("/{username}/{pwd}")
+    public ResponseEntity<UserDTO> exists(@PathVariable(name = "username") final String username,
+                                          @PathVariable(name = "pwd") final String password ){
+        User user = userService.exists(username, password);
+        UserDTO userDTO = UserDTO.from(user);
+        return ResponseEntity.ok(userDTO);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getById(@PathVariable(name = "id") final Long idUser) {
         User user = userService.getById(idUser);

@@ -74,6 +74,18 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
           onChange={onChange("city")}
         ></BasicInput>
 
+        <BasicInput
+          value={branch.username}
+          name="Usuario"
+          onChange={onChange("username")}
+        ></BasicInput>
+
+        <BasicInput
+          value={branch.password}
+          name="Contraseña"
+          onChange={onChange("password")}
+        ></BasicInput>
+
         <FormControl sx={{ m: 1, width: "25ch" }}>
           <TextField
             id="outlined-multiline-static"

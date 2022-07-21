@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import ContactForm from "../../forms/contact/contactForm";
 import {
@@ -8,12 +8,14 @@ import {
   newIgniter,
 } from "../../../services/contactService";
 import CRUD from "../CRUD";
+import { UserContext } from "../../../UserContext";
 
 const ContactCRUD = () => {
 
+  const user = useContext(UserContext);
   const [tableRows, setTableRows] = useState([]);
   const [display, setDisplay] = useState(false);
-  const [igniter, setContact] = useState({ ...newIgniter });
+  const [igniter, setIgniter] = useState({ ...newIgniter });
   const tableHeaders = headers;
 
   useEffect(() => {
@@ -21,15 +23,15 @@ const ContactCRUD = () => {
       if (res.status === 200) {
         var igniters = res.data; 
         igniters = igniters.map( e => {
-         return {...e, branchName: e.branch.name, branchId: e.branch.id}
+         return {...e,  branchId: e.branch.id}
         })
         setTableRows(igniters);
       }
     });
   }, []);
 
-  const handleChange = (key) => (event) => {
-    setContact({ ...igniter, [key]: event });
+  const handleChange = (key) => (value) => {
+    setIgniter({ ...igniter, [key]: value });
   };
 
   const handleSave = () => {
@@ -41,7 +43,7 @@ const ContactCRUD = () => {
 
   const handleEdit = (row) => () => {
     console.log(row)
-    setContact(row);
+    setIgniter(row);
     setDisplay(true);
   };
 
@@ -49,7 +51,9 @@ const ContactCRUD = () => {
   };
 
   const handleCreate = () => {
-    setContact({ ...newIgniter });
+    setIgniter({ ...newIgniter, branchId: user.id });
+    console.log(user.id)
+    console.log(igniter)
     setDisplay(true);
   };
 

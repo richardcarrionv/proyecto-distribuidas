@@ -34,8 +34,6 @@ const ContactForm = ({ igniter, onChange }) => {
         name="Telefono"
         onChange={onChange("phone")}
       ></BasicInput>
-
-      <BranchesDropbox igniter={igniter} onChange={onChange} />
     </>
   );
 };

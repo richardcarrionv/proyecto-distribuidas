@@ -33,7 +33,6 @@ function createWindow() {
 }
 
 function pushySetup(){ 
-  new Notification({title: "init", body:'Nueva Init'}).show();
   Pushy.listen();
   Pushy.register({ appId: "62d750445f4e0b0e138a50ee" })
     .then((deviceToken) => {

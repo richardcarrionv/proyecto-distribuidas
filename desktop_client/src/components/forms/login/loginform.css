@@ -13,9 +13,10 @@
   flex-direction: column; 
   justify-content: center; 
   align-items: center; 
+  padding-bottom: 20px;
 }
 
 .button{ 
-  background-color: var(--primary-red);
+  background-color: var(--primary-red) !important;
   margin: 10px 0 10px 0 ; 
 }

@@ -4,6 +4,7 @@ import {
   list,
   create,
   del,
+  findById, 
   update,
   headers,
   newUser,
@@ -22,24 +23,25 @@ const UserCRUD = () => {
       if (res.status === 200) {
         var users = res.data;
         users = users.map(user => { 
-          return {...user, presentable_role: user.role === "ADMIN" ? "Administrador" : "Cliente"}
+          return {...user, presentable_role: user.role == "CLIENT" ? "Cliente" : "Administrador"}
         })
         setTableRows(users);
+        console.log(tableRows)
       }
     });
-  },[]);
+  }, []);
 
   const handleChange = (key) => (event) => {
     setUser({ ...user, [key]: event });
   };
 
   const handleSave = () => {
-    if(user.id == null){ 
-      create(user).then(res => console.log(res))
-    }else{ 
-      update(user).then(res => console.log("Actualizado: ",res))
+    if (user.id == null) {
+      create(user).then((res) => console.log(res));
+    } else {
+      update(user).then((res) => console.log("Actualizado: ", res));
     }
-    setDisplay(false)
+    setDisplay(false);
   };
 
   const handleEdit = (row) => () => {
@@ -48,11 +50,16 @@ const UserCRUD = () => {
   };
 
   const handleDelete = (id) => () => {
-    return del(id).then(res => res == 200)
+    return findById(id).then(res => { 
+      if(res.data.role != "SUPERADMIN"){ 
+        return del(id).then((res) => res == 200);
+      }
+      return false
+    })
   };
 
   const handleCreate = () => {
-    setUser({ ...newUser });
+    setUser({ ...newUser, role: "CLIENT" });
     setDisplay(true);
   };
 

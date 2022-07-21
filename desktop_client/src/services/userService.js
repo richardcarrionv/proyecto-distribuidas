@@ -5,6 +5,10 @@ export const create = async (user) => {
   return res;
 };
 
+export const findById = async (id) => {
+  const res = await api.get("/users/"+id);
+  return res;
+};
 export const list = async () => {
   const response = await api.get("/users/");
   return response;
@@ -22,6 +26,11 @@ export const del = async (id) => {
   return response;
 };
 
+export const exists = async (username, password) => { 
+  const response = await api.get(`/users/${username}/${password}`);
+  return response;
+}
+
 export const headers = [
   { key: "id", label: "Id" },
   { key: "username", label: "Usuario" },
@@ -33,5 +42,4 @@ export const newUser = {
   id: null,
   username: "",
   password: "",
-  role: "",
 };
