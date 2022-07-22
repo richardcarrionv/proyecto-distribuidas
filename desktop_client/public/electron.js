@@ -3,9 +3,22 @@ const fs = require("fs");
 const { app, BrowserWindow, Notification, ipcMain } = require("electron");
 const isDev = require("electron-is-dev");
 const { setupPushy } = require("./pushy");
-const { autoUpdater } = require('electron-updater')
+const { autoUpdater } = require("electron-updater");
 
 let window;
+
+Object.defineProperty(app, "isPackaged", {
+  get() {
+    return true;
+  },
+});
+
+autoUpdater.setFeedURL({ 
+  owner: "noesrichard", 
+  repo: "proyecto-distribuidas",
+  provider: "github",
+  updaterCacheDirName: "onealarm-updater"
+})
 
 function createWindow() {
   window = new BrowserWindow({
@@ -31,9 +44,10 @@ function createWindow() {
 
   setupPushy(window);
 
-  window.once('ready-to-show', () => { 
-    autoUpdater.checkForUpdatesAndNotify(); 
-  })
+  window.once("ready-to-show", () => {
+    console.log("Buscando auctua");
+    autoUpdater.checkForUpdatesAndNotify();
+  });
 }
 
 app.on("ready", () => {
@@ -52,17 +66,16 @@ app.on("activate", () => {
   }
 });
 
-autoUpdater.on('update-available', () => {
-  console.log("updates availables")
-  window.webContents.send('update_available');
-  
+autoUpdater.on("update-available", () => {
+  console.log("updates availables");
+  window.webContents.send("update_available");
 });
 
-autoUpdater.on('update-downloaded', () => {
-  console.log("updates downloaded")
-  window.webContents.send('update_downloaded');
+autoUpdater.on("update-downloaded", () => {
+  console.log("updates downloaded");
+  window.webContents.send("update_downloaded");
 });
 
-ipcMain.on("restart_app", () => { 
-  autoUpdater.quitAndInstall(); 
-})
+ipcMain.on("restart_app", () => {
+  autoUpdater.quitAndInstall();
+});
