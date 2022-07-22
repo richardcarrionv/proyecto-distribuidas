@@ -19,7 +19,6 @@ function App() {
   const [role, setRole] = useState(null);
   const [display, setDisplay] = useState(false);
   const [updateAlert, setUpdateAlert] = useState(false);
-  const [updateText, setUpdateText] = useState("");
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -32,12 +31,9 @@ function App() {
       setUpdateAlert(true);
     });
 
-    window.api.receive("update_downloaded", () => {
-      //setUpdateAlert(true);
-    });
   });
 
-  const handleUpdate = () => { 
+  const handleAgree = () => { 
     window.api.send("restart_app", ""); 
   }
 
@@ -69,8 +65,7 @@ function App() {
       />
       <UpdateAlert
         display={updateAlert}
-        text={updateText}
-        onAgree={handleUpdate}
+        onAgree={handleAgree}
       />
     </>
   );

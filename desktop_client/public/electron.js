@@ -7,19 +7,6 @@ const { autoUpdater } = require("electron-updater");
 
 let window;
 
-Object.defineProperty(app, "isPackaged", {
-  get() {
-    return true;
-  },
-});
-
-autoUpdater.setFeedURL({ 
-  owner: "noesrichard", 
-  repo: "proyecto-distribuidas",
-  provider: "github",
-  updaterCacheDirName: "onealarm-updater"
-})
-
 function createWindow() {
   window = new BrowserWindow({
     width: 800,
@@ -77,5 +64,6 @@ autoUpdater.on("update-downloaded", () => {
 });
 
 ipcMain.on("restart_app", () => {
+  console.log("reiniciar y actualizar")
   autoUpdater.quitAndInstall();
 });
