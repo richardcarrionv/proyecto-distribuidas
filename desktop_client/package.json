@@ -1,10 +1,14 @@
 {
   "name": "OneAlarm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "author": "SaurioSoftware",
   "description": "Proyecto de aplicaciones distribuidas",
   "main": "public/electron.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/noesrichard/proyecto-distribuidas"
+  },
   "homepage": "./",
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -20,6 +24,7 @@
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "electron-is-dev": "^2.0.0",
+    "electron-updater": "^5.0.5",
     "pushy-electron": "^1.0.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -35,7 +40,8 @@
     "eject": "react-scripts eject",
     "dev": "concurrently -k \"SET BROWSER=none&&yarn start\" \"yarn:electron\"",
     "electron": "wait-on tcp:3000 && electron .",
-    "build:win": "yarn build && electron-builder -w -c.extraMetadata.main=build/electron.js"
+    "build:win": "yarn build && electron-builder -w -c.extraMetadata.main=build/electron.js --publish never",
+    "deploy": "electron-builder build -w --publish always"
   },
   "eslintConfig": {
     "extends": [

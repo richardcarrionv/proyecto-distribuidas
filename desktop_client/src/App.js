@@ -11,12 +11,14 @@ import AllHistory from "./views/history/allHistory";
 import AlarmView from "./views/AlarmView";
 import { UserContext } from "./UserContext";
 import AlarmDialog from "./components/dialog/AlarmDialog";
+import UpdateAlert from "./components/alerts/UpdateAlert";
 import { Container } from "@mui/material";
 
 function App() {
   const [id, setId] = useState(null);
   const [role, setRole] = useState(null);
   const [display, setDisplay] = useState(false);
+  const [updateAlert, setUpdateAlert] = useState(false);
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -24,7 +26,16 @@ function App() {
       setData({ ...data });
       setDisplay(true);
     });
+
+    window.api.receive("update_available", () => {
+      setUpdateAlert(true);
+    });
+
   });
+
+  const handleAgree = () => { 
+    window.api.send("restart_app", ""); 
+  }
 
   return (
     <>
@@ -45,13 +56,17 @@ function App() {
           </Routes>
         </HashRouter>
       </UserContext.Provider>
-        <AlarmDialog
-          data={data}
-          open={display}
-          onClose={() => {
-            setDisplay(false);
-          }}
-        />
+      <AlarmDialog
+        data={data}
+        open={display}
+        onClose={() => {
+          setDisplay(false);
+        }}
+      />
+      <UpdateAlert
+        display={updateAlert}
+        onAgree={handleAgree}
+      />
     </>
   );
 }
