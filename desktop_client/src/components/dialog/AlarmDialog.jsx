@@ -12,8 +12,6 @@ const AlarmDialog = ({data, open, onClose}) => {
   const [mapZoom, setMapZoom] = useState(8);
   const [mapCenter, setMapCoords] = useState({ ...initCoords });
 
-
-
   useEffect(() => {
     const lat = parseFloat(data.latitude);
     const lng = parseFloat(data.longitude);
