@@ -13,10 +13,13 @@ import { UserContext } from "./UserContext";
 import AlarmDialog from "./components/dialog/AlarmDialog";
 import UpdateAlert from "./components/alerts/UpdateAlert";
 import { Container } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 function App() {
   const [id, setId] = useState(null);
   const [role, setRole] = useState(null);
+  const [toast, setToast] = useState(false);
   const [display, setDisplay] = useState(false);
   const [updateAlert, setUpdateAlert] = useState(false);
   const [data, setData] = useState({});
@@ -34,6 +37,10 @@ function App() {
     window.api.receive("notification", (data) => {
       setData({ ...data });
       setDisplay(true);
+    });
+
+    window.api.receive("update_available", () => {
+      setToast(true);
     });
 
     window.api.receive("update_downloaded", () => {
@@ -72,7 +79,22 @@ function App() {
         onAgree={handleAgree}
         onDecline={handleDecline}
       />
+      <Snackbar
+          open={toast}
+          autoHideDuration={10000}
+          onClose={() => setToast(false)}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        >
+          <Alert
+            onClose={() => setToast(false)}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            !Descargando nueva actualizacion!
+          </Alert>
+        </Snackbar>
     </>
+
   );
 }
 

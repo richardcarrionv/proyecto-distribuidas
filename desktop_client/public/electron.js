@@ -7,18 +7,18 @@ const { autoUpdater } = require("electron-updater");
 
 let window;
 
-Object.defineProperty(app, "isPackaged", {
-  get() {
-    return true;
-  },
-});
+//Object.defineProperty(app, "isPackaged", {
+  //get() {
+    //return true;
+  //},
+//});
 
-autoUpdater.setFeedURL({ 
-  owner: "noesrichard", 
-  repo: "proyecto-distribuidas",
-  provider: "github",
-  updaterCacheDirName: "onealarm-updater"
-})
+//autoUpdater.setFeedURL({ 
+  //owner: "noesrichard", 
+  //repo: "proyecto-distribuidas",
+  //provider: "github",
+  //updaterCacheDirName: "onealarm-updater"
+//})
 
 function createWindow() {
   window = new BrowserWindow({
