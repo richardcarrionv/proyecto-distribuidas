@@ -30,7 +30,6 @@ export const existsBranchUser = async (username, password) => {
 export const headers = [
   { key: "id", label: "Id" },
   { key: "name", label: "Nombre" },
-  { key: "verificationCode", label: "Codigo" },
   { key: "province", label: "Provincia" },
   { key: "city", label: "Ciudad" },
   { key: "address", label: "Direccion" },
