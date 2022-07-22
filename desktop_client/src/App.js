@@ -26,7 +26,7 @@ function App() {
 
   const handleAgree = () => {
     setUpdateAlert(false);
-    window.api.send("restart_app");
+    window.api.send("restart_app", "");
   };
 
   const handleDecline = () => { 

@@ -45,8 +45,9 @@ function createWindow() {
   setupPushy(window);
 
   window.once("ready-to-show", () => {
-    console.log("Buscando auctua");
+    console.log("Buscando auctualizacion");
     autoUpdater.checkForUpdatesAndNotify();
+    window.webContents.send("app_version", { version: app.getVersion() })
   });
 }
 
@@ -78,3 +79,4 @@ ipcMain.on("restart_app", () => {
   console.log("reiniciar")
   autoUpdater.quitAndInstall();
 });
+
