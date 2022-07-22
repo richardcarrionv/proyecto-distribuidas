@@ -17,7 +17,7 @@ function App() {
   const [id, setId] = useState(null);
   const [role, setRole] = useState(null);
   const [display, setDisplay] = useState(false);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState({});
 
   useEffect(() => {
     window.api.receive("notification", (data) => {
