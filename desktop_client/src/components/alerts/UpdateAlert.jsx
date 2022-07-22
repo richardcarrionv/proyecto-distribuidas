@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function UpdateAlert({ display, onAgree }) {
+export default function UpdateAlert({ text, display, onAgree }) {
   const handleAgree = (event) => {
     onAgree();
   };
@@ -21,8 +21,7 @@ export default function UpdateAlert({ display, onAgree }) {
         <DialogTitle id="alert-dialog-title">Actualizador</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Existe una nueva actualizacion, es necesario reiniciar para
-            actualizar
+            {text}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

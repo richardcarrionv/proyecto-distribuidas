@@ -19,22 +19,32 @@ function App() {
   const [role, setRole] = useState(null);
   const [display, setDisplay] = useState(false);
   const [updateAlert, setUpdateAlert] = useState(false);
+  const [updateText, setUpdateText] = useState("Existe una nueva actualizacion, es necesario reiniciar para actualizar")
   const [data, setData] = useState({});
+
+  var handleAgree = () => { }
 
   useEffect(() => {
     window.api.receive("notification", (data) => {
       setData({ ...data });
       setDisplay(true);
     });
-    window.api.receive("update_downloaded", () => {
+    window.api.receive("update_available", () => {
+      handleAgree = () => { 
+        window.api.send("restart_app", ""); 
+      }
       setUpdateAlert(true);
     });
 
+    window.api.receive("update_downloaded", () => { 
+      handleAgree = () => { 
+        setUpdateAlert(false)
+      }
+      setUpdateAlert(true);
+    })
+
   });
 
-  const handleAgree = () => { 
-    window.api.send("restart_app", ""); 
-  }
 
   return (
     <>
@@ -63,6 +73,7 @@ function App() {
         }}
       />
       <UpdateAlert
+        text={updateText}
         display={updateAlert}
         onAgree={handleAgree}
       />
