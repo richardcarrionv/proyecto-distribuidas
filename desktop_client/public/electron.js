@@ -54,16 +54,13 @@ app.on("activate", () => {
 });
 
 autoUpdater.on("update-available", () => {
-  console.log("updates availables");
   window.webContents.send("update_available");
 });
 
 autoUpdater.on("update-downloaded", () => {
-  console.log("updates downloaded");
   window.webContents.send("update_downloaded");
 });
 
 ipcMain.on("restart_app", () => {
-  console.log("reiniciar y actualizar")
   autoUpdater.quitAndInstall();
 });
