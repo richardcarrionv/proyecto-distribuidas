@@ -27,7 +27,7 @@ function App() {
       setDisplay(true);
     });
     window.api.receive("update_available", () => {
-      setUpdateAlert(true);
+      //setUpdateAlert(true);
     });
 
   });
