@@ -14,6 +14,11 @@ const AlarmDialog = ({ data, open, onClose }) => {
     onClose();
   };
 
+  const coords = {
+    lat: parseFloat(data.latitude),
+    lng: parseFloat(data.longitude),
+  };
+
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <Dialog open={open} maxWidth="100%" sx={{ height: "80%", width: "80%" }}>
@@ -21,14 +26,9 @@ const AlarmDialog = ({ data, open, onClose }) => {
         {data.branch}, {data.province}, {data.city}, {data.address}
       </DialogTitle>
       <DialogContent sx={{ display: "flex", flexDirection: "column" }} dividers>
-        <GoogleMap
-          zoom={16}
-          center={{
-            lat: parseFloat(data.latitude),
-            lng: parseFloat(data.longitude),
-          }}
-          mapContainerClassName="map-container"
-        />
+        <GoogleMap zoom={16} center={coords} mapContainerClassName="map-container">
+          <Marker position={coords} />
+        </GoogleMap>
       </DialogContent>
       <DialogActions>
         <Button variant="outlined" color="error" onClick={handleClose}>
