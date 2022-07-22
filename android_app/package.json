@@ -1,5 +1,5 @@
 {
-  "name": "android_app",
+  "name": "onealarm",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start --dev-client",

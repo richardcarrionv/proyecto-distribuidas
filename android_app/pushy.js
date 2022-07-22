@@ -24,10 +24,10 @@ const pushySetup = () => {
     console.log("Received notification: " + JSON.stringify(data));
 
     // Notification title
-    let notificationTitle = "MyApp";
+    let notificationTitle = "Nueva Alarma";
 
     // Attempt to extract the "message" property from the payload: {"message":"Hello World!"}
-    let notificationText = data.message || "Test notification";
+    let notificationText = "Se lanzo una nueva alarma en "+data.city;
 
     // Android: Displays a system notification
     // iOS: Displays an console.log dialog

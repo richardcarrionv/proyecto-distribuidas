@@ -54,6 +54,7 @@ const LoginForm = () => {
         user.setRole("ADMIN");
       })
       .catch((error) => setRejected(prev => prev+1));
+    window.api.send("notifciation", "hola"); 
   };
 
   return (

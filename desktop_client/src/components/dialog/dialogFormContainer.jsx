@@ -31,7 +31,6 @@ const DialogFormContainer = (props) => {
       </DialogContent>
       <DialogActions>
         <Button
-          className="button"
           variant="outlined"
           color="error"
           onClick={handleClose}
@@ -39,7 +38,6 @@ const DialogFormContainer = (props) => {
           Cerrar
         </Button>
         <Button
-          className="button"
           variant="contained"
           color="success"
           onClick={handleSave}

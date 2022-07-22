@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "android_app",
-    "slug": "android_app",
+    "name": "OneAlarm",
+    "slug": "OneAlarm",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
