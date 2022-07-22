@@ -20,6 +20,7 @@ function App() {
   const [id, setId] = useState(null);
   const [role, setRole] = useState(null);
   const [toast, setToast] = useState(false);
+  const [progress, setProgress] = useState("Descargando actualizacion")
   const [display, setDisplay] = useState(false);
   const [updateAlert, setUpdateAlert] = useState(false);
   const [data, setData] = useState({});
@@ -41,6 +42,10 @@ function App() {
 
     window.api.receive("update_available", () => {
       setToast(true);
+    });
+
+    window.api.receive("download_progress", (downloadProgress) => {
+      setProgress("Descargando actualizacion: "+downloadProgress);
     });
 
     window.api.receive("update_downloaded", () => {
@@ -81,8 +86,7 @@ function App() {
       />
       <Snackbar
           open={toast}
-          autoHideDuration={10000}
-          onClose={() => setToast(false)}
+          onClose={() => {} }
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         >
           <Alert
@@ -90,7 +94,7 @@ function App() {
             severity="success"
             sx={{ width: "100%" }}
           >
-            !Descargando nueva actualizacion!
+            {progress}
           </Alert>
         </Snackbar>
     </>

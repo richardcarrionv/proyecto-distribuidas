@@ -13,7 +13,6 @@ const Login = () => {
   return (
     <>
       <LoginForm />
-      <p>{version.version}</p>
     </>
   );
 };

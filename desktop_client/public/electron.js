@@ -75,6 +75,15 @@ autoUpdater.on("update-downloaded", () => {
   window.webContents.send("update_downloaded");
 });
 
+autoUpdater.on("download-progress", (data) => { 
+  let transferred = parseFloat(data.transferred);
+  let total = parseFloat(data.total);
+  let percentage = transferred/total*100
+  percentage = Math.round(percentage * 10)/10
+  let progress = percentage+"%"; 
+  window.webContents.send("download_progress", progress);
+})
+
 ipcMain.on("restart_app", () => {
   console.log("reiniciar")
   autoUpdater.quitAndInstall();
