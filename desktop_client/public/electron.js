@@ -41,14 +41,14 @@ function createWindow() {
   window.loadURL(url);
 
   window.webContents.openDevTools({ mode: "detach" });
-
-  setupPushy(window);
-
-  window.once("ready-to-show", () => {
-    console.log("Buscando auctualizacion");
-    autoUpdater.checkForUpdatesAndNotify();
-    window.webContents.send("app_version", { version: app.getVersion() })
-  });
+//
+//  setupPushy(window);
+//
+//  window.once("ready-to-show", () => {
+//    console.log("Buscando auctualizacion");
+//    autoUpdater.checkForUpdatesAndNotify();
+//    window.webContents.send("app_version", { version: app.getVersion() })
+//  });
 }
 
 app.on("ready", () => {

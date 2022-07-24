@@ -2,7 +2,7 @@ import React from "react";
 import BranchesDropbox from "../dropbox/BranchesDropbox";
 import BasicInput from "../inputs/BasicInput";
 
-const ContactForm = ({ igniter, onChange }) => {
+const IgniterForm = ({ igniter, onChange }) => {
   return (
     <>
       <BasicInput
@@ -38,4 +38,4 @@ const ContactForm = ({ igniter, onChange }) => {
   );
 };
 
-export default ContactForm;
+export default IgniterForm;

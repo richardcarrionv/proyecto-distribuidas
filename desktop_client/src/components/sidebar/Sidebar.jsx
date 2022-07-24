@@ -46,7 +46,7 @@ const Sidebar = () => {
     ];
   } else if (user.role === "SUPERADMIN") {
     sections = [
-      { label: "Usuarios", icon: <AccountCircleIcon />, link: "/home/user" },
+      { label: "Clientes", icon: <AccountCircleIcon />, link: "/home/user" },
       {
         label: "Nodos/Sucursales",
         icon: <BusinessIcon />,

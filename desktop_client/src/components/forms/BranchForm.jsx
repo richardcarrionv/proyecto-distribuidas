@@ -17,7 +17,7 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
   const [mapCenter, setMapCoords] = useState({ ...initCoords });
 
   useEffect(() => {
-    if (branch.latitude != "") {
+    if (branch.longitude !== "" && branch.latitude !== "") {
       const lat = parseFloat(branch.latitude);
       const lng = parseFloat(branch.longitude);
       const coords = { lat: lat, lng: lng };
@@ -28,7 +28,7 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
   }, []);
 
   const searchDirection = () => {
-    var address = branch.direction + "," + branch.city + "," + branch.province;
+    const address = branch.direction + "," + branch.city + "," + branch.province;
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
@@ -41,7 +41,7 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
     );
   };
 
-  const handleMapSave = (coords) => () => {
+  const handleMarkerCoordsChange = (coords) => () => {
     onCoordsChange(coords)();
   };
 
@@ -77,6 +77,7 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
           name="Ciudad"
           onChange={onChange("city")}
         ></BasicInput>
+
         <FormControl sx={{ m: 1, width: "25ch" }}>
           <TextField
             id="outlined-multiline-static"
@@ -90,15 +91,18 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
         <FormControl sx={{ m: 1, width: "25ch" }}>
           <TextField
             id="outlined-multiline-static"
-            value={branch.coordinates}
-            label="Coordenadas"
-            multiline
-            fullWidth
-            rows={2}
-            onChange={onChange("coordinates")}
-            InputProps={{
-              readOnly: true,
-            }}
+            value={branch.latitude}
+            label="Latitud"
+            onChange={(event) => onChange("latitude")(event.target.value)}
+          />
+        </FormControl>
+
+        <FormControl sx={{ m: 1, width: "25ch" }}>
+          <TextField
+            id="outlined-multiline-static"
+            value={branch.longitude}
+            label="Longitud"
+            onChange={(event) => onChange("longitude")(event.target.value)}
           />
         </FormControl>
 
@@ -112,7 +116,7 @@ const BranchForm = ({ branch, onChange, onCoordsChange }) => {
         </Button>
       </Container>
       <Box sx={{ width: "80%" }}>
-        <Maps zoom={mapZoom} center={mapCenter} onSave={handleMapSave} />
+        <Maps zoom={mapZoom} center={mapCenter} onMarkerCoordsChange={handleMarkerCoordsChange} />
       </Box>
     </Box>
   );

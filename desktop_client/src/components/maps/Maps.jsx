@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 const { REACT_APP_MAPS_API_KEY } = process.env;
 Geocode.setApiKey(REACT_APP_MAPS_API_KEY);
 
-export default function Maps({ zoom, center,  onSave }) {
+export default function Maps({ zoom, center,  onMarkerCoordsChange }) {
 
   const [marker, setMarker] = useState(center);
 
@@ -22,7 +22,7 @@ export default function Maps({ zoom, center,  onSave }) {
     const lat = latLng.lat();
     const lng = latLng.lng();
     setMarker({ lat: lat, lng: lng, });
-    onSave(marker)(); 
+    onMarkerCoordsChange(marker)();
   };
  
   if (!isLoaded) return <div>Loading...</div>;

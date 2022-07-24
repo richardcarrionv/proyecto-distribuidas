@@ -5,7 +5,7 @@ import HomeView from "./views/HomeView";
 import LoginView from "./views/LoginView";
 import Sidebar from "./components/sidebar/Sidebar";
 import BranchesView from "./views/BranchesView";
-import ContactsView from "./views/ContactsView";
+import IgnitersView from "./views/IgnitersView";
 import UsersView from "./views/UserView";
 import AlarmHistoryView from "./views/AlarmHistoryView";
 import AlarmsView from "./views/AlarmsView";
@@ -61,7 +61,7 @@ function App() {
             <Route index element={<LoginView />} />
             <Route path="home" element={<HomeView />}>
               <Route path="branch" element={<BranchesView />} />
-              <Route path="contact" element={<ContactsView />} />
+              <Route path="contact" element={<IgnitersView />} />
               <Route path="user" element={<UsersView />} />
               <Route path="history" element={<AlarmHistoryView />} />
               <Route path="history/node" element={"Hola Historial por Nodo"} />

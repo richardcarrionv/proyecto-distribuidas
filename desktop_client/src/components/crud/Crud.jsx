@@ -10,16 +10,17 @@ import AlertDialog from "../alerts/DeleteAlert";
 import CrudTopBar from "./CrudTopBar";
 
 const Crud = ({
-  display,
   title,
+
   tableHeaders,
   tableRows,
 
+  display,
   onToggleDisplay,
+
   onEdit,
   onCreate,
   onSave,
-
   onDelete,
 
   children,
@@ -56,7 +57,7 @@ const Crud = ({
         <DialogFormContainer
           title={title}
           open={display}
-          onClose={onToggleDisplay(false)}
+          onClose={onToggleDisplay}
           onSave={onSave}
         >
           {children}

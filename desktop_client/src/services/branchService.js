@@ -44,6 +44,8 @@ export const newBranch = {
   name: "",
   province: "",
   city: "",
+  username: "",
+  password: "",
   address: "",
   latitude: "",
   longitude: "",

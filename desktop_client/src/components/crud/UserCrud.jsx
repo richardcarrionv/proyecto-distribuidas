@@ -1,86 +1,47 @@
 import React, { useEffect, useState } from "react";
-
 import {
-  list,
-  create,
-  del,
-  findById, 
-  update,
   headers,
   newUser,
 } from "../../services/userService";
 import UserForm from "../forms/UserForm";
 import Crud from "./Crud";
+import useApi from "../../hooks/useApi";
+import useDisplay from "../../hooks/useDisplay";
+import useForm from "../../hooks/useForm";
 
 const UserCrud = () => {
-  const [display, setDisplay] = useState(false);
-  const [user, setUser] = useState({ ...newUser });
-  const [tableRows, setTableRows] = useState([]);
+  const API_URL = "/users"
   const tableHeaders = headers;
 
-  useEffect(() => {
-    list().then((res) => {
-      if (res.status === 200) {
-        var users = res.data;
-        users = users.map(user => { 
-          return {...user, presentable_role: user.role == "CLIENT" ? "Cliente" : "Administrador"}
-        })
-        setTableRows(users);
-        console.log(tableRows)
-      }
-    });
-  }, []);
+  const formatter = (data) => {
+    return data.map(d => {
+      return {...d, presentable_role: d.role == "CLIENT" ? "Cliente" : "Administrador"}
+    }).filter( d => d.role === "CLIENT");
+  }
 
-  const handleChange = (key) => (event) => {
-    setUser({ ...user, [key]: event });
-  };
+  const api = useApi(API_URL, formatter);
 
-  const handleSave = () => {
-    if (user.id == null) {
-      create(user).then((res) => console.log(res));
-    } else {
-      update(user).then((res) => console.log("Actualizado: ", res));
-    }
-    setDisplay(false);
-  };
+  const displayForm = useDisplay(false)
 
-  const handleEdit = (row) => () => {
-    setUser(row);
-    setDisplay(true);
-  };
-
-  const handleDelete = (id) => () => {
-    return findById(id).then(res => { 
-      if(res.data.role != "SUPERADMIN"){ 
-        return del(id).then((res) => res == 200);
-      }
-      return false
-    })
-  };
-
-  const handleCreate = () => {
-    setUser({ ...newUser, role: "CLIENT" });
-    setDisplay(true);
-  };
-
-  const handleDialogDisplay = (value) => () => {
-    setDisplay(value);
-  };
+  const form = useForm({...newUser}, displayForm, api)
 
   return (
     <Crud
-      init={user}
-      title="Usuarios"
-      tableRows={tableRows}
+      title="Clientes"
+
+      tableRows={api.data}
       tableHeaders={tableHeaders}
-      display={display}
-      onToggleDisplay={handleDialogDisplay}
-      onSave={handleSave}
-      onEdit={handleEdit}
-      onDelete={handleDelete}
-      onCreate={handleCreate}
+
+      display={displayForm.display}
+      onToggleDisplay={displayForm.hide}
+
+      init={form.entity}
+      onSave={form.save}
+      onEdit={form.edit}
+      onDelete={form.del}
+      onCreate={form.createNew}
     >
-      <UserForm user={user} onSave={handleSave} onChange={handleChange} />
+      <UserForm user={form.entity} onSave={form.save} onChange={form.handleChange} />
     </Crud>
   );
 };

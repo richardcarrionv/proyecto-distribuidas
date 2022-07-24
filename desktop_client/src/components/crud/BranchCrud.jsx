@@ -10,79 +10,45 @@ import {
   newBranch,
 } from "../../services/branchService";
 import Crud from "./Crud";
+import useApi from "../../hooks/useApi";
+import useDisplay from "../../hooks/useDisplay";
+import useForm from "../../hooks/useForm";
 
 const BranchCrud = () => {
+
+  const API_URL = "/branches"
   const tableHeaders = headers;
-  const [tableRows, setTableRows] = useState([]);
-  const [display, setDisplay] = useState(false);
+
+  const displayForm = useDisplay(false)
   const [branch, setBranch] = useState({ ...newBranch });
+  const api = useApi(API_URL);
 
-  useEffect(() => {
-    list().then((response) => {
-      if (response.status === 200) {
-        setTableRows(response.data);
-      }
-    });
-  }, []);
-
-  const handleChange = (key) => (event) => {
-    setBranch({ ...branch, [key]: event });
-  };
+  const form = useForm({...newBranch}, displayForm, api)
 
   const handleCoordsChange = (coords) => () => {
-    let coordinates = coords.lat + ",\n" + coords.lng;
-    setBranch({
-      ...branch,
-      coordinates: coordinates,
-      latitude: coords.lat,
-      longitude: coords.lng,
-    });
-  };
-
-  const handleSave = () => {
-    if (branch.id == null) {
-      create(branch).then((res) => console.log(res));
-    } else {
-      update(branch).then((res) => console.log(res));
-    }
-    setDisplay(false);
-  };
-
-  const handleEdit = (row) => () => {
-    setBranch(row);
-    setDisplay(true);
-  };
-
-  const handleDelete = (id) => () => {
-    return del(id).then(res => res.status == 200)
-  };
-
-  const handleCreate = () => {
-    setBranch({ ...newBranch });
-    setDisplay(true);
-  };
-
-  const handleDialogDisplay = (value) => () => {
-    setDisplay(value);
+    form.setEntity({...form.entity, latitude: coords.lat, longitude:coords.lng})
   };
 
   return (
     <Crud
-      init={branch}
       title="Sucursales"
-      tableRows={tableRows}
+
+      tableRows={api.data}
       tableHeaders={tableHeaders}
-      display={display}
-      onToggleDisplay={handleDialogDisplay}
-      onSave={handleSave}
-      onEdit={handleEdit}
-      onDelete={handleDelete}
-      onCreate={handleCreate}
+
+      display={displayForm.display}
+      onToggleDisplay={displayForm.hide}
+
+      init={form.entity}
+      onSave={form.save}
+      onEdit={form.edit}
+      onDelete={form.del}
+      onCreate={form.createNew}
     >
       <BranchForm
-        branch={branch}
-        onSave={handleSave}
-        onChange={handleChange}
+        branch={form.entity}
+        onSave={form.save}
+        onChange={form.handleChange}
         onCoordsChange={handleCoordsChange}
       />
     </Crud>

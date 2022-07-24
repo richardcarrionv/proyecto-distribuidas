@@ -42,4 +42,5 @@ export const newUser = {
   id: null,
   username: "",
   password: "",
+  role: "CLIENT",
 };
