@@ -8,11 +8,13 @@ export const list = async () => {
 export const flat = (alarms) => {
   return alarms.map((alarm) => {
 
-    const formattedDate = new Date(alarm.date).toLocaleString();
+    const date = new Date(alarm.date);
+    const formattedDate = date.toLocaleString();
     const ig = alarm.igniter;
     const br = alarm.igniter.branch;
     return {
       ...alarm,
+      comparableDate: date,
       igniterName: ig.name+" "+ig.surname,
       igniterCi: ig.ci,
       igniterLastName: ig.surname,
