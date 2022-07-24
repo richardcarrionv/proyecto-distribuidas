@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import BranchForm from "../../forms/branch/branchForm";
+import BranchForm from "../forms/BranchForm";
 import {
   headers,
   create,
@@ -8,10 +8,10 @@ import {
   del,
   update,
   newBranch,
-} from "../../../services/branchService";
-import CRUD from "../CRUD";
+} from "../../services/branchService";
+import Crud from "./Crud";
 
-const BranchCRUD = () => {
+const BranchCrud = () => {
   const tableHeaders = headers;
   const [tableRows, setTableRows] = useState([]);
   const [display, setDisplay] = useState(false);
@@ -67,7 +67,7 @@ const BranchCRUD = () => {
   };
 
   return (
-    <CRUD
+    <Crud
       init={branch}
       title="Sucursales"
       tableRows={tableRows}
@@ -85,8 +85,8 @@ const BranchCRUD = () => {
         onChange={handleChange}
         onCoordsChange={handleCoordsChange}
       />
-    </CRUD>
+    </Crud>
   );
 };
 
-export default BranchCRUD;
+export default BranchCrud;

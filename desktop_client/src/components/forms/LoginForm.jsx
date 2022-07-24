@@ -5,12 +5,12 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import { Alert, Button, Snackbar } from "@mui/material";
 
-import UsernameInput from "../../inputs/username/UsernameInput";
-import PasswordInput from "../../inputs/password/PasswordInput";
+import UsernameInput from "../inputs/UsernameInput";
+import PasswordInput from "../inputs/PasswordInput";
 import "./loginform.css";
-import { UserContext } from "../../../UserContext";
-import { exists } from "../../../services/userService";
-import { existsBranchUser } from "../../../services/branchService.js";
+import { UserContext } from "../../UserContext";
+import { exists } from "../../services/userService";
+import { existsBranchUser } from "../../services/branchService.js";
 
 const LoginForm = () => {
   const user = useContext(UserContext);

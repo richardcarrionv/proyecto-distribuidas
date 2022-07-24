@@ -1,6 +1,6 @@
 import React from "react";
-import BranchesDropbox from "../../dropbox/BranchesDropbox";
-import BasicInput from "../../inputs/basic/basicInput";
+import BranchesDropbox from "../dropbox/BranchesDropbox";
+import BasicInput from "../inputs/BasicInput";
 
 const ContactForm = ({ igniter, onChange }) => {
   return (

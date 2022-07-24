@@ -1,15 +1,15 @@
 import { Box, Button } from "@mui/material";
 import React, { useState, useEffect, useContext } from "react";
-import BasicTable from "../../components/table/basic/basicTable";
+import BasicTable from "../components/table/BasicTable";
 
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-import { list, flat, headers, headersWithIgniterData} from "../../services/alarmsHistoryService.js"
-import {UserContext} from "../../UserContext";
+import { list, flat, headers, headersWithIgniterData} from "../services/alarmsHistoryService.js"
+import {UserContext} from "../UserContext";
 
-const AllHistory = () => {
+const AlarmHistoryView = () => {
   const user = useContext(UserContext); 
   const [rows, setRows] = useState([]);
 
@@ -49,4 +49,4 @@ const AllHistory = () => {
   );
 };
 
-export default AllHistory;
+export default AlarmHistoryView;

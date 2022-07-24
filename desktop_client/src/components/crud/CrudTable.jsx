@@ -10,7 +10,7 @@ import { Box, Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const CRUDTable = ({ rows, headers, onDelete, onEdit }) => {
+const CrudTable = ({ rows, headers, onDelete, onEdit }) => {
     
     const handleDeleteClick = (id) => (event) => {
         onDelete(id)(event);
@@ -74,4 +74,4 @@ const CRUDTable = ({ rows, headers, onDelete, onEdit }) => {
     );
 };
 
-export default CRUDTable;
+export default CrudTable;

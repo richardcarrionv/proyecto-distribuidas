@@ -1,14 +1,14 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { HashRouter, Link, Route, Routes, useNavigate } from "react-router-dom";
-import Home from "./views/home/Home";
-import Login from "./views/login/Login";
+import HomeView from "./views/HomeView";
+import LoginView from "./views/LoginView";
 import Sidebar from "./components/sidebar/Sidebar";
-import BranchCRUDView from "./views/branch/Branch";
-import ContactCRUDView from "./views/contact/Contact";
-import UserCRUDView from "./views/user/User";
-import AllHistory from "./views/history/allHistory";
-import AlarmView from "./views/AlarmView";
+import BranchesView from "./views/BranchesView";
+import ContactsView from "./views/ContactsView";
+import UsersView from "./views/UserView";
+import AlarmHistoryView from "./views/AlarmHistoryView";
+import AlarmsView from "./views/AlarmsView";
 import { UserContext } from "./UserContext";
 import AlarmDialog from "./components/dialog/AlarmDialog";
 import UpdateAlert from "./components/alerts/UpdateAlert";
@@ -60,15 +60,15 @@ function App() {
       >
         <HashRouter>
           <Routes>
-            <Route index element={<Login />} />
-            <Route path="home" element={<Home />}>
-              <Route path="branch" element={<BranchCRUDView />} />
-              <Route path="contact" element={<ContactCRUDView />} />
-              <Route path="user" element={<UserCRUDView />} />
-              <Route path="history" element={<AllHistory />} />
+            <Route index element={<LoginView />} />
+            <Route path="home" element={<HomeView />}>
+              <Route path="branch" element={<BranchesView />} />
+              <Route path="contact" element={<ContactsView />} />
+              <Route path="user" element={<UsersView />} />
+              <Route path="history" element={<AlarmHistoryView />} />
               <Route path="history/node" element={"Hola Historial por Nodo"} />
             </Route>
-            <Route path="alarm" element={<AlarmView />} />
+            <Route path="alarm" element={<AlarmsView />} />
           </Routes>
         </HashRouter>
       </UserContext.Provider>

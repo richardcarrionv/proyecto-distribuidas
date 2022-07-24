@@ -4,12 +4,12 @@ import { Box, Button } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-import CRUDTable from "./table/crudTable";
-import DialogFormContainer from "../dialog/dialogFormContainer";
-import AlertDialog from "../alerts/delete/deleteAlert";
-import TopBar from "./topbar/TopBar";
+import CrudTable from "./CrudTable";
+import DialogFormContainer from "../dialog/DialogFormContainer";
+import AlertDialog from "../alerts/DeleteAlert";
+import CrudTopBar from "./CrudTopBar";
 
-const CRUD = ({
+const Crud = ({
   display,
   title,
   tableHeaders,
@@ -43,11 +43,11 @@ const CRUD = ({
   return (
     <>
       <Box sx={{}}>
-        <TopBar title={title} onCreate={onCreate}></TopBar>
+        <CrudTopBar title={title} onCreate={onCreate}></CrudTopBar>
       </Box>
 
       <Box sx={{ margin: 2 }}>
-        <CRUDTable
+        <CrudTable
           rows={tableRows}
           headers={tableHeaders}
           onDelete={handleDelete}
@@ -90,4 +90,4 @@ const CRUD = ({
   );
 };
 
-export default CRUD;
+export default Crud;

@@ -1,8 +1,8 @@
 import { Button, Container, Dialog, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import BasicInput from "../../inputs/basic/basicInput";
-import Maps from "../../maps/Maps";
+import BasicInput from "../inputs/BasicInput";
+import Maps from "../maps/Maps";
 import FormControl from "@mui/material/FormControl";
 
 import Geocode from "react-geocode";

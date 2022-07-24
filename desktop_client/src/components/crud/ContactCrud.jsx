@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
 
-import ContactForm from "../../forms/contact/contactForm";
+import ContactForm from "../forms/ContactForm";
 import {
   list,
   create,
   headers,
   newIgniter,
-} from "../../../services/contactService";
-import CRUD from "../CRUD";
-import { UserContext } from "../../../UserContext";
+} from "../../services/contactService";
+import Crud from "./Crud";
+import { UserContext } from "../../UserContext";
 
-const ContactCRUD = () => {
+const ContactCrud = () => {
 
   const user = useContext(UserContext);
   const [tableRows, setTableRows] = useState([]);
@@ -62,7 +62,7 @@ const ContactCRUD = () => {
   };
 
   return (
-    <CRUD
+    <Crud
       init={igniter}
       title="Contactos"
       tableRows={tableRows}
@@ -79,8 +79,8 @@ const ContactCRUD = () => {
         onSave={handleSave}
         onChange={handleChange}
       />
-    </CRUD>
+    </Crud>
   );
 };
 
-export default ContactCRUD;
+export default ContactCrud;

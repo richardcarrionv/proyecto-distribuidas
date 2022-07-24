@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import LoginForm from "../../components/forms/login/loginForm";
+import LoginForm from "../components/forms/LoginForm";
 
-const Login = () => {
+const LoginView = () => {
   const [version, setVersion] = useState({ version: "0.0.0" });
 
   useEffect(() => {
@@ -17,4 +17,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginView;

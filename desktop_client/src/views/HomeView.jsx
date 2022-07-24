@@ -1,10 +1,10 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Sidebar from "../../components/sidebar/Sidebar";
+import Sidebar from "../components/sidebar/Sidebar";
 import "./home.css";
 
-const Home = () => {
+const HomeView = () => {
   let navigate = useNavigate();
 
   const handleClick = (event) => {
@@ -21,4 +21,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeView;

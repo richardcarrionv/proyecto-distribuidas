@@ -8,11 +8,11 @@ import {
   update,
   headers,
   newUser,
-} from "../../../services/userService";
-import UserForm from "../../forms/user/userForm";
-import CRUD from "../CRUD";
+} from "../../services/userService";
+import UserForm from "../forms/UserForm";
+import Crud from "./Crud";
 
-const UserCRUD = () => {
+const UserCrud = () => {
   const [display, setDisplay] = useState(false);
   const [user, setUser] = useState({ ...newUser });
   const [tableRows, setTableRows] = useState([]);
@@ -68,7 +68,7 @@ const UserCRUD = () => {
   };
 
   return (
-    <CRUD
+    <Crud
       init={user}
       title="Usuarios"
       tableRows={tableRows}
@@ -81,8 +81,8 @@ const UserCRUD = () => {
       onCreate={handleCreate}
     >
       <UserForm user={user} onSave={handleSave} onChange={handleChange} />
-    </CRUD>
+    </Crud>
   );
 };
 
-export default UserCRUD;
+export default UserCrud;

@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const UserDropbox = ({ user, onChange }) => {
+const RoleDropBox = ({ user, onChange }) => {
 
   const handleChange = (event) => { 
       onChange("role")(event.target.value)
@@ -27,4 +27,4 @@ const UserDropbox = ({ user, onChange }) => {
   );
 };
 
-export default UserDropbox; 
+export default RoleDropBox;
