@@ -45,6 +45,14 @@ public class IgniterController {
         return ResponseEntity.ok(igniterBranchDetailDTO);
     }
 
+    @GetMapping("/{ci}/{pwd}")
+    public ResponseEntity<IgniterDTO> exists(@PathVariable(name = "ci") final String ci,
+                                                         @PathVariable(name = "pwd") final String password) {
+        Igniter igniter = igniterService.exists(ci, password);
+        IgniterDTO igniterDTO = IgniterDTO.from(igniter);
+        return ResponseEntity.ok(igniterDTO);
+    }
+
     @PostMapping
     public ResponseEntity<IgniterDTO> create(@RequestBody final IgniterDTO igniterDTO) {
         if (!Objects.isNull(igniterDTO.getId())) {

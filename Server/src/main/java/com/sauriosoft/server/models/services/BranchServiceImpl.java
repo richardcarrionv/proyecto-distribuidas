@@ -51,4 +51,9 @@ public class BranchServiceImpl implements BranchService {
         branchRepository.deleteById(idBranchOffice);
     }
 
+    @Override
+    public Branch exists(String username, String password) {
+       return branchRepository.findByUsernameAndPassword(username, password);
+    }
+
 }

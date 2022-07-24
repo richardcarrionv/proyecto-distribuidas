@@ -29,6 +29,11 @@ public class IgniterServiceImpl implements IgniterService {
         );
     }
 
+    @Override
+    public Igniter exists(String ci, String password) {
+        return igniterRepository.findByCiAndPassword(ci, password);
+    }
+
     public List<Igniter> getAllByBranchId(Long branchId){
         List<Igniter> igniters = this.getAll();
         return  igniters

@@ -10,12 +10,16 @@
     "preview": {
       "distribution": "internal"
     },
-    "dev": { 
-      "android": { 
+    "dev": {
+      "android": {
         "buildType": "apk"
       }
     },
-    "production": {}
+    "production": {
+      "android": {
+        "buildType": "apk"
+      }
+    }
   },
   "submit": {
     "production": {}

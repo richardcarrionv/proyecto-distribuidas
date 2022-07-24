@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IgniterRepository extends JpaRepository<Igniter, Long> {
+
+    Igniter findByCiAndPassword(String ci, String password);
 }
