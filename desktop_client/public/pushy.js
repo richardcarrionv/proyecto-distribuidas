@@ -8,7 +8,6 @@ const setupPushy = (window) => {
   Pushy.listen();
   Pushy.register({ appId: "62d750445f4e0b0e138a50ee" });
   Pushy.setNotificationListener((data) => {
-    console.log(data);
     var notification = Notification({
       title: "Nueva Alarma",
       body: "Se lanzo una nueva alarma en " + data.city,

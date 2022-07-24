@@ -2,7 +2,7 @@ import { Box, Button } from "@mui/material";
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
-import "./home.css";
+import "./css/home.css";
 
 const HomeView = () => {
   let navigate = useNavigate();

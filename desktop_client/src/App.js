@@ -15,33 +15,31 @@ import UpdateAlert from "./components/alerts/UpdateAlert";
 import { Container } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import useDisplay from "./hooks/useDisplay";
 
 function App() {
   const [id, setId] = useState(null);
   const [role, setRole] = useState(null);
-  const [toast, setToast] = useState(false);
   const [progress, setProgress] = useState("Descargando actualizacion")
-  const [display, setDisplay] = useState(false);
-  const [updateAlert, setUpdateAlert] = useState(false);
   const [data, setData] = useState({});
 
-  const handleAgree = () => {
-    setUpdateAlert(false);
-    window.api.send("restart_app", "");
-  };
+  const displayUpdateAlert = useDisplay(false);
+  const displayToast = useDisplay(false)
+  const displayAlarmDialog = useDisplay(false);
 
-  const handleDecline = () => { 
-    setUpdateAlert(false);
-  }
+  const handleAgree = () => {
+    window.api.send("restart_app", "");
+    displayUpdateAlert.hide();
+  };
 
   useEffect(() => {
     window.api.receive("notification", (data) => {
       setData({ ...data });
-      setDisplay(true);
+      displayAlarmDialog.show();
     });
 
     window.api.receive("update_available", () => {
-      setToast(true);
+      displayToast.show();
     });
 
     window.api.receive("download_progress", (downloadProgress) => {
@@ -49,7 +47,7 @@ function App() {
     });
 
     window.api.receive("update_downloaded", () => {
-      setUpdateAlert(true);
+      displayUpdateAlert.show()
     });
   });
 
@@ -74,23 +72,21 @@ function App() {
       </UserContext.Provider>
       <AlarmDialog
         data={data}
-        open={display}
-        onClose={() => {
-          setDisplay(false);
-        }}
+        display={displayAlarmDialog.display}
+        onClose={displayAlarmDialog.hide}
       />
       <UpdateAlert
-        display={updateAlert}
+        display={displayUpdateAlert.display}
         onAgree={handleAgree}
-        onDecline={handleDecline}
+        onDecline={displayUpdateAlert.hide}
       />
       <Snackbar
-          open={toast}
+          open={displayToast.display}
           onClose={() => {} }
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         >
           <Alert
-            onClose={() => setToast(false)}
+            onClose={displayToast.hide}
             severity="success"
             sx={{ width: "100%" }}
           >
