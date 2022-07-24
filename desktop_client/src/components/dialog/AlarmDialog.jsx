@@ -3,6 +3,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Button, DialogActions, DialogContent } from "@mui/material";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import './alarmdialog.css'
 
 const { REACT_APP_MAPS_API_KEY } = process.env;
 

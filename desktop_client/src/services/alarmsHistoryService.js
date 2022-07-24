@@ -7,6 +7,8 @@ export const list = async () => {
 
 export const flat = (alarms) => {
   return alarms.map((alarm) => {
+
+    const formattedDate = new Date(alarm.date).toLocaleString();
     const ig = alarm.igniter;
     const br = alarm.igniter.branch;
     return {
@@ -14,6 +16,8 @@ export const flat = (alarms) => {
       igniterName: ig.name+" "+ig.surname,
       igniterCi: ig.ci,
       igniterLastName: ig.surname,
+      branchId: br.id,
+      pres_date: formattedDate,
       branch: br.name,
       province: br.province,
       city: br.city,
@@ -36,11 +40,12 @@ export const headers = [
 ];
 export const headersWithIgniterData = [
   { key: "id", label: "Id" },
+  {key: "branchId", label: "Id Sucursal"},
   { key: "branch", label: "Sucursal" },
   { key: "province", label: "Provincia" },
   { key: "city", label: "Ciudad" },
   { key: "address", label: "Direccion" },
-  { key: "date", label: "Fecha" },
+  { key: "pres_date", label: "Fecha" },
   { key: "igniterName", label: "Contacto" },
   { key: "igniterCi", label: "Cedula" },
   { key: "latitude", label: "Latitud" },

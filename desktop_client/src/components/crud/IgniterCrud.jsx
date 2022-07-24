@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 
 import IgniterForm from "../forms/IgniterForm";
-import {headers, newIgniter,} from "../../services/igniterService";
+import {headers, newIgniter} from "../../services/igniterService";
 import Crud from "./Crud";
 import {UserContext} from "../../UserContext";
 import useApi from "../../hooks/useApi";

@@ -1,5 +1,4 @@
 import React from "react";
-import BranchesDropbox from "../dropbox/BranchesDropbox";
 import BasicInput from "../inputs/BasicInput";
 
 const IgniterForm = ({ igniter, onChange }) => {
