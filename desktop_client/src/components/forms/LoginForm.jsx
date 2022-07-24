@@ -18,8 +18,9 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState();
-  const [rejected, setRejected] = useState(0); 
+  const [rejected, setRejected] = useState(0);
   let navigate = useNavigate();
+  const [version, setVersion] = useState({ version: "0.0.0" });
 
   const handlePasswordChange = (event) => {
     setPassword(event);
@@ -29,12 +30,15 @@ const LoginForm = () => {
     setUsername(event);
   };
 
-  useEffect(() => { 
-    if(rejected > 1){ 
+  useEffect(() => {
+    if(rejected > 1){
       setMessage("Usuario o contraseña incorrectos")
       setRejected(0)
       setToast(true)
     }
+    window.api.receive("app_version", (app_version) => {
+      setVersion(app_version)
+    });
   }, [rejected]);
 
   const handleLogin = (event) => {
@@ -54,7 +58,7 @@ const LoginForm = () => {
         user.setRole("ADMIN");
       })
       .catch((error) => setRejected(prev => prev+1));
-    window.api.send("notifciation", "hola"); 
+    window.api.send("notifciation", "hola");
   };
 
   return (
@@ -73,6 +77,10 @@ const LoginForm = () => {
         <Button className="button" variant="contained" onClick={handleLogin}>
           Iniciar Sesión
         </Button>
+
+        <Box sx={{marginTop: 2, marginRight: 1, marginBottom: 1, display: 'flex', justifyContent: 'end',  width: '100%'}}>
+          v{version.version}
+        </Box>
       </Card>
 
         <Snackbar
