@@ -39,10 +39,12 @@ const Sidebar = () => {
         link: "/home/contact",
       },
       { label: "Historial", icon: <HistoryIcon />, link: "/home/history" },
+      { label: "Mapa", icon: <HistoryIcon />, link: "/home/map" },
     ];
   } else if (user.role === "CLIENT") {
     sections = [
       { label: "Historial", icon: <HistoryIcon />, link: "/home/history" },
+      { label: "Mapa", icon: <HistoryIcon />, link: "/home/map" },
     ];
   } else if (user.role === "SUPERADMIN") {
     sections = [
@@ -53,6 +55,7 @@ const Sidebar = () => {
         link: "/home/branch",
       },
       { label: "Historial", icon: <HistoryIcon />, link: "/home/history" },
+      { label: "Mapa", icon: <HistoryIcon />, link: "/home/map" },
     ];
   }
   return (

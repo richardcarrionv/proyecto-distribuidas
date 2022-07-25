@@ -16,6 +16,7 @@ import { Container } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import useDisplay from "./hooks/useDisplay";
+import MapView from "./views/MapView"
 
 function App() {
   const [id, setId] = useState(null);
@@ -64,6 +65,7 @@ function App() {
               <Route path="contact" element={<IgnitersView />} />
               <Route path="user" element={<UsersView />} />
               <Route path="history" element={<AlarmHistoryView />} />
+              <Route path="map" element={<MapView />} />
               <Route path="history/node" element={"Hola Historial por Nodo"} />
             </Route>
             <Route path="alarm" element={<AlarmsView />} />
