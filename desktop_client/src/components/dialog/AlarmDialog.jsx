@@ -27,7 +27,7 @@ const AlarmDialog = ({ data, display, onClose }) => {
         {data.branch}, {data.province}, {data.city}, {data.address}
       </DialogTitle>
       <DialogContent sx={{ display: "flex", flexDirection: "column" }} dividers>
-        <GoogleMap zoom={16} center={coords} mapContainerClassName="map-container">
+        <GoogleMap zoom={16} center={coords} mapContainerClassName="map-dialog-container">
           <Marker position={coords} />
         </GoogleMap>
       </DialogContent>

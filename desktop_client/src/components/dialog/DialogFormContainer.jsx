@@ -1,18 +1,23 @@
-import React from "react";
+import React, {useState} from "react";
 import Dialog from "@mui/material/Dialog";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Button, DialogActions, DialogContent } from "@mui/material";
 import Container from "@mui/material/Container";
 
 const DialogFormContainer = (props) => {
   const { title, open, onClose, onSave } = props;
+  const [toast, setToast] = useState(false)
 
   const handleClose = () => {
     onClose();
   };
 
   const handleSave = () => {
-    onSave();
+    if(!onSave()){
+        setToast(true)
+    }
   };
 
   return (
@@ -45,6 +50,20 @@ const DialogFormContainer = (props) => {
           Guardar
         </Button>
       </DialogActions>
+        <Snackbar
+          open={toast}
+          autoHideDuration={4000}
+          onClose={() => setToast(false)}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        >
+          <Alert
+            onClose={() => setToast(false)}
+            severity="error"
+            sx={{ width: "100%" }}
+          >
+              Todos los campos deben estar completos
+          </Alert>
+        </Snackbar>
     </Dialog>
   );
 };

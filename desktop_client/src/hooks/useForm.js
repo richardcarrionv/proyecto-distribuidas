@@ -14,12 +14,17 @@ const useForm = (initEntity, displayForm, api) => {
     };
 
     const save = () => {
+        if(Object.values(entity).indexOf("") > -1 ){
+            console.log(entity)
+            return false;
+        }
         if (entity.id == null) {
             api.create(entity);
         } else {
             api.update(entity);
         }
         displayForm.hide()
+        return true;
     };
 
     const edit = (row) => () => {
