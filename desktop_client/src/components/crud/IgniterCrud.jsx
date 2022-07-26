@@ -41,6 +41,7 @@ const IgniterCrud = () => {
       init={form.entity}
       onSave={form.save}
       onEdit={form.edit}
+      onSearch={api.filter}
       onDelete={form.del}
       onCreate={handleCreate}
     >
