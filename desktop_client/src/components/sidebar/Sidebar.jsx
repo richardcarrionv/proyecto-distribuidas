@@ -17,6 +17,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HistoryIcon from "@mui/icons-material/History";
 import EmergencyShareIcon from "@mui/icons-material/EmergencyShare";
 import { UserContext } from "../../UserContext";
+import MapIcon from '@mui/icons-material/Map';
 
 const Sidebar = () => {
   const user = useContext(UserContext);
@@ -39,12 +40,12 @@ const Sidebar = () => {
         link: "/home/contact",
       },
       { label: "Historial", icon: <HistoryIcon />, link: "/home/history" },
-      { label: "Mapa", icon: <HistoryIcon />, link: "/home/map" },
+      { label: "Mapa", icon: <MapIcon />, link: "/home/map" },
     ];
   } else if (user.role === "CLIENT") {
     sections = [
       { label: "Historial", icon: <HistoryIcon />, link: "/home/history" },
-      { label: "Mapa", icon: <HistoryIcon />, link: "/home/map" },
+      { label: "Mapa", icon: <MapIcon />, link: "/home/map" },
     ];
   } else if (user.role === "SUPERADMIN") {
     sections = [
@@ -55,7 +56,7 @@ const Sidebar = () => {
         link: "/home/branch",
       },
       { label: "Historial", icon: <HistoryIcon />, link: "/home/history" },
-      { label: "Mapa", icon: <HistoryIcon />, link: "/home/map" },
+      { label: "Mapa", icon: <MapIcon />, link: "/home/map" },
     ];
   }
   return (
