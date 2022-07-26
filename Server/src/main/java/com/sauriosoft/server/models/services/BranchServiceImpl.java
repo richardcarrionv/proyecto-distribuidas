@@ -36,6 +36,8 @@ public class BranchServiceImpl implements BranchService {
     public Branch update(Branch branchOffice, Long idBranchOffice) {
         Branch branchOfficeToUpdate = getById(idBranchOffice);
         branchOfficeToUpdate.setName(branchOffice.getName());
+        branchOfficeToUpdate.setUsername(branchOffice.getUsername());
+        branchOfficeToUpdate.setPassword(branchOffice.getPassword());
         branchOfficeToUpdate.setVerificationCode(branchOffice.getVerificationCode());
         branchOfficeToUpdate.setProvince(branchOffice.getProvince());
         branchOfficeToUpdate.setCity(branchOffice.getCity());
