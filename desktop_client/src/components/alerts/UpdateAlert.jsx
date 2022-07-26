@@ -15,18 +15,18 @@ export default function UpdateAlert({  display, onAgree, onDecline }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Nueva Actualizacion Disponible</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Nueva Actualización Disponible</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-              Es necesario reiniciar para actualizar de version.
-              Si no reinicia ahora se instalara la nueva version al cerra la aplicacion. 
-              ¿Reinicar ahora?
+              Es necesario reiniciar para actualizar de versión.
+              Si no reinicia ahora se instalará la nueva versión al cerrar la aplicación. 
+              ¿Reiniciar ahora?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button color="error" onClick={onDecline}>No</Button>
           <Button onClick={onAgree} autoFocus>
-            Si
+            Sí
           </Button>
         </DialogActions>
       </Dialog>
