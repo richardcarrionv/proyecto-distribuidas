@@ -58,7 +58,7 @@ const Crud = ({
         <CrudTopBar title={title} onCreate={onCreate}></CrudTopBar>
       </Box>
       <Box sx={{margin: 2}}>
-        <FormControl sx={{width: "25ch", marginBottom: 2}}>
+        <FormControl sx={{width: "100%", marginBottom: 2}}>
           <TextField
             id="search"
             label="Búsqueda"
