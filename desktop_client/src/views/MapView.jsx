@@ -79,7 +79,7 @@ export default function Maps() {
   return (
     <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
       <GoogleMap
-        zoom={9}
+        zoom={7}
         center={center}
         mapContainerStyle={mapStyle}
       >
