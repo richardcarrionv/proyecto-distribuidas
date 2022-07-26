@@ -18,34 +18,6 @@ const AlarmHistoryView = () => {
 
     const API_ENDPOINT = "/alarms"
     const api = useApi(API_ENDPOINT, flat);
-
-//    const [alarms, setAlarms] = useState([])
-//    const [date, setDate] = React.useState(new Date());
-//    const [clean, setClean] = useState(false)
-//    useEffect(() => {
-//        setAlarms(api.data);
-//    }, [clean])
-//
-//    const byDate = (alarm) => {
-//        return alarm.comparableDate.toLocaleDateString() === date.toLocaleDateString()
-//    }
-//
-//    const handleChange = (newValue) => {
-//        setDate(newValue);
-//        console.log("elegido: ",newValue.toLocaleDateString())
-//        alarms.forEach(d => {
-//            console.log(d.comparableDate.toLocaleDateString());
-//        })
-//        const alarmsByDate = api.data.filter(byDate);
-//        console.log(alarmsByDate)
-//        setAlarms(alarmsByDate);
-//    };
-//    <LocalizationProvider dateAdapter={AdapterDateFns}>
-//        <DesktopDatePicker onChange={handleChange} value={date}
-//                           renderInput={(params) => <TextField {...params}/>}/>
-//    </LocalizationProvider>
-//    <Button onClick={() => { setClean(prevState => !prevState)}}>Limpiar</Button>
-
     return (
         <>
             <Box sx={{flexGrow: 1}}>
@@ -58,7 +30,8 @@ const AlarmHistoryView = () => {
                 </AppBar>
             </Box>
             <Box sx={{padding: 2}}>
-                <AlarmsTable rows={api.data} headers={headersWithIgniterData}></AlarmsTable>
+                <AlarmsTable rows={api.data} headers={headersWithIgniterData}
+                onSearch={api.filter}></AlarmsTable>
             </Box>
         </>
     );

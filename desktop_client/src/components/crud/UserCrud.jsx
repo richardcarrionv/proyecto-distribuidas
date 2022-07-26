@@ -36,6 +36,7 @@ const UserCrud = () => {
       onToggleDisplay={displayForm.hide}
 
       init={form.entity}
+      onSearch={api.filter}
       onSave={form.save}
       onEdit={form.edit}
       onDelete={form.del}
