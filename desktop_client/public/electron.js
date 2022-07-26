@@ -1,9 +1,9 @@
 const path = require("path");
 const fs = require("fs");
-const { app, BrowserWindow, Notification, ipcMain } = require("electron");
+const {app, BrowserWindow, Notification, ipcMain} = require("electron");
 const isDev = require("electron-is-dev");
-const { setupPushy } = require("./pushy");
-const { autoUpdater } = require("electron-updater");
+const {setupPushy} = require("./pushy");
+const {autoUpdater} = require("electron-updater");
 
 let window;
 //
@@ -40,15 +40,20 @@ function createWindow() {
 
   window.loadURL(url);
 
-  window.webContents.openDevTools({ mode: "detach" });
 
-  setupPushy(window);
+  if (!isDev) {
+    setupPushy(window);
 
-  window.once("ready-to-show", () => {
-    console.log("Buscando auctualizacion");
-    autoUpdater.checkForUpdatesAndNotify();
-    window.webContents.send("app_version", { version: app.getVersion() })
-  });
+    window.once("ready-to-show", () => {
+      console.log("Buscando auctualizacion");
+      autoUpdater.checkForUpdatesAndNotify();
+      window.webContents.send("app_version", {version: app.getVersion()})
+    });
+  }else{
+    window.webContents.openDevTools({mode: "detach"});
+  }
+
+
 }
 
 app.on("ready", () => {
@@ -75,12 +80,12 @@ autoUpdater.on("update-downloaded", () => {
   window.webContents.send("update_downloaded");
 });
 
-autoUpdater.on("download-progress", (data) => { 
+autoUpdater.on("download-progress", (data) => {
   let transferred = parseFloat(data.transferred);
   let total = parseFloat(data.total);
-  let percentage = transferred/total*100
-  percentage = Math.round(percentage * 10)/10
-  let progress = percentage+"%"; 
+  let percentage = transferred / total * 100
+  percentage = Math.round(percentage * 10) / 10
+  let progress = percentage + "%";
   window.webContents.send("download_progress", progress);
 })
 
