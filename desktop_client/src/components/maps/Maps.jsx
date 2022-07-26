@@ -1,28 +1,27 @@
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import TextField from "@mui/material/TextField";
 import { Box, Button } from "@mui/material";
-import Geocode from "react-geocode";
 
 import "./maps.css";
 import { useEffect, useState } from "react";
 
 const { REACT_APP_MAPS_API_KEY } = process.env;
-Geocode.setApiKey(REACT_APP_MAPS_API_KEY);
 
-export default function Maps({ zoom, center,  onMarkerCoordsChange }) {
+export default function Maps({ zoom, center,  onMarkerCoordsChange, children }) {
 
-  const [marker, setMarker] = useState(center);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: REACT_APP_MAPS_API_KEY,
   });
 
+  useEffect( () => {
+  }, [center])
+
   const handleMapClick = (t) => {
     const { latLng } = t;
     const lat = latLng.lat();
     const lng = latLng.lng();
-    setMarker({ lat: lat, lng: lng, });
-    onMarkerCoordsChange(marker)();
+    onMarkerCoordsChange({ lat: lat, lng: lng, })();
   };
  
   if (!isLoaded) return <div>Loading...</div>;
@@ -36,7 +35,7 @@ export default function Maps({ zoom, center,  onMarkerCoordsChange }) {
           onClick={handleMapClick}
           mapContainerClassName="map-container"
         >
-          <Marker position={marker} />
+          {children}
         </GoogleMap>
       </Box>
     </>

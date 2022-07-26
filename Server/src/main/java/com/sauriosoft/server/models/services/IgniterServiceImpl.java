@@ -54,6 +54,7 @@ public class IgniterServiceImpl implements IgniterService {
         contactToUpdate.setSurname(contact.getSurname());
         contactToUpdate.setCi(contact.getCi());
         contactToUpdate.setPhone(contact.getPhone());
+        contactToUpdate.setPassword(contact.getPassword());
         return igniterRepository.save(contactToUpdate);
     }
 
