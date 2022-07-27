@@ -29,7 +29,7 @@ const BranchForm = ({branch, onChange, onCoordsChange}) => {
     }
   }, []);
 
-  useEffect( () => {
+  useEffect(() => {
   }, [center])
 
   const searchDirection = () => {
@@ -78,6 +78,8 @@ const BranchForm = ({branch, onChange, onCoordsChange}) => {
           value={branch.phone}
           name="Telefono"
           onChange={onChange("phone")}
+          type="number"
+          limit={10}
         ></BasicInput>
 
         <BasicInput
@@ -98,6 +100,7 @@ const BranchForm = ({branch, onChange, onCoordsChange}) => {
             value={branch.address}
             label="Direccion"
             multiline
+
             onChange={(event) => onChange("address")(event.target.value)}
           />
         </FormControl>
@@ -107,6 +110,9 @@ const BranchForm = ({branch, onChange, onCoordsChange}) => {
             id="outlined-multiline-static"
             value={branch.latitude}
             label="Latitud"
+            InputProps={{
+              readOnly: true,
+            }}
             onChange={(event) => onChange("latitude")(event.target.value)}
           />
         </FormControl>
@@ -116,6 +122,9 @@ const BranchForm = ({branch, onChange, onCoordsChange}) => {
             id="outlined-multiline-static"
             value={branch.longitude}
             label="Longitud"
+            InputProps={{
+              readOnly: true,
+            }}
             onChange={(event) => onChange("longitude")(event.target.value)}
           />
         </FormControl>

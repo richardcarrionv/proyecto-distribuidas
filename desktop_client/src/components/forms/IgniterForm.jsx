@@ -20,6 +20,8 @@ const IgniterForm = ({ igniter, onChange }) => {
         value={igniter.ci}
         name="Cedula"
         onChange={onChange("ci")}
+        type="number"
+        limit={10}
       ></BasicInput>
 
       <BasicInput
@@ -32,6 +34,8 @@ const IgniterForm = ({ igniter, onChange }) => {
         value={igniter.phone}
         name="Telefono"
         onChange={onChange("phone")}
+        type="number"
+        limit={10}
       ></BasicInput>
     </>
   );
